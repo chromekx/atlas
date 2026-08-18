@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/07/2026 às 20:32
+-- Tempo de geração: 18/08/2026 às 21:15
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -200,11 +200,21 @@ CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
-  `hash_senha` varchar(255) NOT NULL,
+  `senha` varchar(255) NOT NULL,
   `preferencia` varchar(100) DEFAULT NULL,
+  `nivel` enum('1','2','3','') NOT NULL DEFAULT '3',
   `data_criacao` datetime DEFAULT current_timestamp(),
   `data_delete` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `preferencia`, `nivel`, `data_criacao`, `data_delete`) VALUES
+(1, 'Paola Carosella', 'victorhsouza001@gmail.com', '$2y$10$i8ZxaRqgb9Ql8sR9Viltv.btL6Ktj38eYKmPVFxUty42frd4Z2xq.', 'esportes', '1', '2026-07-15 16:45:43', NULL),
+(2, 'Victor', 'victor.souza1@alunos.sc.senac.br', '$2y$10$7s5/cD5e4pbu22LLbeoz5ukaJDpCsoFbULggp3wanBDikmlQA4UB.', 'esportes', '1', '2026-08-10 09:25:53', NULL),
+(3, 'Victor', '123@gmail.com', '$2y$10$mpFinRWGEv5YeRqGoMNgKexv2UK6ksJSIaQPDNqRJc14sBG9QqZie', 'música', '1', '2026-08-14 10:39:11', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -372,7 +382,7 @@ ALTER TABLE `moderacao_conteudo`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas
