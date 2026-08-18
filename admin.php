@@ -121,23 +121,23 @@ if (isset($_SESSION['id'])) {
             } = await Swal.fire({
                 title: "Atualizar Usuário",
                 html: `
-                    <input type = 'text' id="swal-input1" placeholder="Nome" class="swal2-input">
-                    <input type = 'email' id="swal-input2" placeholder="Email" class="swal2-input">
-                    <input type = 'password' id="swal-input3" placeholder="Senha" class="swal2-input">
-                    <input type = 'password' id="swal-input4" placeholder="Confirmar Senha" class="swal2-input">
-                    <select id="swal-input5" placeholder="Preferência" class="swal2-select" value>
+                        <input type='text' id="swal-input1" placeholder="Nome" class="swal2-input" name="nome" value="">
+                        <input type='email' id="swal-input2" placeholder="Email" class="swal2-input" name="email" value="">
+                        <input type='password' id="swal-input3" placeholder="Senha" class="swal2-input" name="senha" value="">
+                        <input type='password' id="swal-input4" placeholder="Confirmar Senha" class="swal2-input" name="confirmarSenha" value="">
+                        <select id="swal-input5" placeholder="Preferência" class="swal2-select" name="preferencias" value="">
                         <option value="esportes">Esportes</option>
                         <option value="música">Música</option>
                         <option value="cinema">Cinema</option>
                         <option value="livros">Livros</option>
-                    </select>
+                        </select>
+                        <input type= 'number' id="swal-input6" placeholder="Nível" class="swal2-input" name="nivel" value="">
                     `,
                 focusConfirm: false,
                 preConfirm: () => {
-                    return [document.getElementById("swal-input1").value, document.getElementById("swal-input2").value];
+                    let novoNome = document.getElementById('')
                 }
             });
-            if (formValues) Swal.fire(JSON.stringify(formValues));
         }
     </script>
 </body>
