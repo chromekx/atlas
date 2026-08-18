@@ -1,0 +1,266 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Google Sans';
+    margin: 0;
+    padding: 0;
+    transition: 0.3s ease;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f3f3f3;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 40px 50px;
+    width: 100%;
+    gap: 100px;
+}
+
+.nav-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: 100%;
+    gap: 100px;
+    text-wrap: none;
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50px;
+}
+
+.logo img {
+    position: absolute;
+    background-color: transparent;
+    height: 40px;
+    width: auto;
+    color: #000;
+    text-decoration: none;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.item p {
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.item:hover {
+    color: #2318b9;
+    filter: drop-shadow(0px 0px 20px #2318b9);
+}
+
+.item {
+    display: flex;
+    position: relative;
+    padding: 12px 24px;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: 100%;
+    text-wrap: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.item:hover {
+    color: #2318b9;
+    font-weight: bold;
+    filter: drop-shadow(0px 0px 10px #2318b9);
+}
+
+.item:hover>.item p {
+    font-weight: bold;
+}
+
+.item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 100px;
+    width: 0%;
+    height: 2px;
+    background-color: #2318b9;
+    transition: width 0.3s ease;
+}
+
+.item:hover::after {
+    width: 100%;
+}
+
+.nav-btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    height: 100%;
+    gap: 30px;
+}
+
+.nav-btns a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-btns a:hover {
+    filter: drop-shadow(0px 0px 10px #000000);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 1000px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 50px;
+    margin: 40px;
+    margin-top: 0px;
+    border-radius: 20px;
+    box-shadow: -10px 10px 0px #0000003f;
+    gap: 30px;
+    background-color: #fff;
+}
+
+.login-form h2 {
+    font-size: 35px;
+    width: 100%;
+    text-wrap: none;
+    text-align: center;
+}
+
+
+.login-form input,
+select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #f3f3f3;
+    outline: none;
+}
+
+.login-form input:focus {
+    outline: 2px solid #000;
+}
+
+.login-form button {
+    font-size: 20px;
+    padding: 15px;
+    width: 200px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #ffcb3d;
+    color: #000;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: #dda200;
+}
+
+.logar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.logar h1 {
+    font-size: 100%;
+    width: 100%;
+    text-wrap: none;
+}
+
+.logar a {
+    font-size: 18px;
+    border-radius: 10px;
+    text-align: center;
+    text-wrap: none;
+    color: #006eff;
+}
+
+.logar a:hover {
+    filter: drop-shadow(0px 0px 5px #9bbbf7);
+}
+
+.cadastro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 0px;
+    border-radius: 2px;
+    background-color: #fff;
+    gap: 30px;
+    filter: drop-shadow(0px 0px 0px #9bbbf7);
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.division {
+    display: flex;
+    flex-direction: column;
+}
+
+.erro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    margin: 20px;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #f13030;
+    padding: 10px 20px;
+    border-radius: 2px;
+}
