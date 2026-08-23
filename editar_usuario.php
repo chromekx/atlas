@@ -7,12 +7,33 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
     exit();
 }
 
-$id_usuario = $_GET['id'];
-$sql = "SELECT id_usuario, nome, email, preferencia, nivel FROM usuarios WHERE id_usuario = '$id_usuario'";
+$id_editar = $_GET['id'];
+$sql = "SELECT id_usuario, nome, email, preferencia, nivel FROM usuarios WHERE id_usuario = '$id_editar'";
 $resultado = $conn->query($sql);
 $usuario = $resultado->fetch_assoc();
 
-if (isset($_POST['']))
+if (isset($_POST['editar'])) {
+    $novoNome = $_POST['nome'];
+    $novoEmail = $_POST['email'];
+    $novaSenha = $_POST['senha'];
+    $novoNivel = $_POST['nivel'];
+    $erro = '';
+
+    if (!empty($novaSenha) && strlen($novaSenha) < 8) {
+        $erro = "A senha precisa ter pelo menos 8 caracteres.";
+    } else {
+        if (!empty($novaSenha) && strlen($novaSenha) >= 8) {
+            $senhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
+            $sql = "UPDATE usuarios SET nome = '$novoNome', email = '$novoEmail', senha = '$senhaHash', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+        } else {
+            $sql = "UPDATE usuarios SET nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+        }
+
+        $query = $conn->query($sql);
+        header('Location: admin.php#id:' . $id_editar);
+        exit();
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -36,75 +57,61 @@ if (isset($_POST['']))
 
         <nav class="nav-btns">
             <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <div class="perfil" id="perfil">
+                <p>Olá, <?= $_SESSION['nome']; ?></p>
+                <i class="fa-solid fa-caret-up" id="seta"></i>
 
-            <?php if (isset($_SESSION['id'])): ?>
-                <div class="perfil" id="perfil">
-                    <p>Olá, <?= $_SESSION['nome']; ?></p>
-                    <i class="fa-solid fa-caret-up" id="seta"></i>
-
-                    <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meuperfil.php">Meu Perfil</a>
-                        <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
-                        <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
-                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
-                            <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
-                        <?php endif; ?>
-                    </div>
+                <div class="perfil-options" id="perfil-options">
+                    <a class="perfil-option meu-perfil" id="perfil-option" href="meuperfil.php">Meu Perfil</a>
+                    <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
+                    <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
+                    <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
                 </div>
-
-            <?php else: ?>
-                <button class="login-btn entrar" onclick="window.location.href='login.php'">Entrar</button>
-                <button class="login-btn cadastro" onclick="window.location.href='cadastro.php'">Cadastrar</button>
-            <?php endif; ?>
-
+            </div>
             <a class="icon" onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
         </nav>
     </header>
 
     <form class="login-form" method="POST">
-        <div class="text">
-            <div class="division">
-                <label for="nome">Nome de Usuário:</label>
-                <input type="text" id="nome" name="nome" minlength="3" maxlength="100" required value="<?= $usuario['nome']; ?>">
-            </div>
+        <div class="cadastro">
+            <div class="text">
+                <div class="division">
+                    <label for="nome">Nome de Usuário:</label>
+                    <input type="text" id="nome" name="nome" minlength="3" maxlength="100" required value="<?= $usuario['nome']; ?>">
+                </div>
 
-            <div class="division">
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" maxlength="150" name="email" required value="<?= $usuario['email']; ?>">
-            </div>
+                <div class="division">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" maxlength="150" name="email" required value="<?= $usuario['email']; ?>">
+                </div>
 
-            <div class="division">
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" minlength="8" maxlength="255" required>
-            </div>
+                <div class="division">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" maxlength="255">
+                </div>
 
-            <div class="division">
-                <label for="confirmar_senha">Confirmar Senha:</label>
-                <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+                <div class="division">
+                    <label for="nivel">Nivel:</label>
+                    <input type="number" id="nivel" name="nivel" required value="<?= $usuario['nivel']; ?>">
+                </div>
             </div>
-
-
-            <div class="division">
-                <label for="preferencias">Preferência:</label>
-                <select id="preferencias" name="preferencias" value="<?= $usuario['preferencia']; ?>">
-                    <option value="esportes">Esportes</option>
-                    <option value="música">Música</option>
-                    <option value="cinema">Cinema</option>
-                    <option value="livros">Livros</option>
-                </select>
-            </div>
+            <button type="submit" name="editar">Atualizar Usuário</button>
         </div>
-
-        <div class="division">
-            <label for="nivel">Nivel:</label>
-        </div>
-            <input type="number" id="nivel" name="nivel" required value="<?=$usuario['nivel'];?>">
-        </div>
-
-        <button type="submit" name="editar">Editar</button>
     </form>
 
     <script src="js/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if (!empty($erro)): ?>
+        <script>
+            Swal.fire({
+                title: "<?= $erro ?>",
+                confirmButtonColor: "#006eff",
+                padding: '25px',
+                confirmButtonText: "Ok",
+            })
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>

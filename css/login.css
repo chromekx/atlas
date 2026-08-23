@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f3f3f3;
+    background-color: #e9e9e9;
     width: 100%;
     overflow-x: hidden;
 }
@@ -64,7 +64,7 @@ main {
     border-radius: 10px;
     border: none;
     outline: none;
-    background-color: #f3f3f3;
+    background-color: #e9e9e9;
 }
 
 .login-form input:focus {
@@ -78,13 +78,13 @@ main {
     border-radius: 10px;
     border: none;
     outline: none;
-    background-color: #ffcb3d;
+    background-color: #e6b120;
     color: #000;
     cursor: pointer;
 }
 
 .login-form button:hover {
-    background-color: #dda200;
+    background-color: #c59102;
 }
 
 .cadastrar {

@@ -1,39 +1,33 @@
-function confirmarExclusao(id) {
+function inativarUsuario(id) {
     Swal.fire({
-        title: "Tem certeza que deseja excluir este usuário?",
+        title: "Tem certeza que deseja inativar este usuário?",
         padding: "25px",
+        color: '#000',
         showCancelButton: true,
         confirmButtonColor: "#1bb155",
-        cancelButtonColor: "#dc3545",
-        confirmButtonText: "Sim, excluir",
+        cancelButtonColor: "#cc2828",
+        confirmButtonText: "Sim, inativar",
         cancelButtonText: "Cancelar"
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = 'excluir_usuario.php?id=' + id;
+            window.location.href = 'inativar_usuario.php?id=' + id;
         }
     });
 }
 
-async function editarUsuario(id) {
-    const {
-        value: formValues
-    } = await Swal.fire({
-        title: "Atualizar Usuário",
-        html: `
-                        <input type='text' id="swal-input1" placeholder="Nome" class="swal2-input" name="nome" value="">
-                        <input type='email' id="swal-input2" placeholder="Email" class="swal2-input" name="email" value="">
-                        <input type='password' id="swal-input3" placeholder="Senha" class="swal2-input" name="senha" value="">
-                        <input type='password' id="swal-input4" placeholder="Confirmar Senha" class="swal2-input" name="confirmarSenha" value="">
-                        <select id="swal-input5" placeholder="Preferência" class="swal2-select" name="preferencias" value="">
-                            <option value="esportes">Esportes</option>
-                            <option value="música">Música</option>
-                            <option value="cinema">Cinema</option>
-                            <option value="livros">Livros</option>
-                        </select>
-                        <input type= 'number' id="swal-input6" placeholder="Nível" class="swal2-input" name="nivel" value="">
-                    `,
-        focusConfirm: false,
-        preConfirm: () => {
+function reativarUsuario(id) {
+    Swal.fire({
+        title: "Tem certeza que deseja reativar este usuário?",
+        padding: "25px",
+        color: '#000',
+        showCancelButton: true,
+        confirmButtonColor: "#1bb155",
+        cancelButtonColor: "#cc2828",
+        confirmButtonText: "Sim, reativar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = 'reativar_usuario.php?id=' + id;
         }
-    })
+    });
 }

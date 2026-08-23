@@ -11,17 +11,17 @@
 body {
     display: flex;
     flex-direction: column;
-    background-color: #f3f3f3;
+    align-items: center;
+    background-color: #e9e9e9;
     width: 100%;
     overflow-x: hidden;
 }
-
 
 .login-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
+    width: 1000px;
     padding: 50px;
     margin: 40px;
     margin-top: 0px;
@@ -45,7 +45,7 @@ select {
     border-radius: 10px;
     border: none;
     outline: none;
-    background-color: #f3f3f3;
+    background-color: #e2e0e0;
     outline: none;
 }
 
@@ -60,13 +60,13 @@ select {
     border-radius: 10px;
     border: none;
     outline: none;
-    background-color: #ffcb3d;
-    color: #000;
+    background-color: #1bb155;
+    color: #ffffff;
     cursor: pointer;
 }
 
 .login-form button:hover {
-    background-color: #dda200;
+    background-color: #119247;
 }
 
 .logar {

@@ -12,11 +12,11 @@ if (isset($_POST['cadastrar'])) {
     $buscarEmails = $conn->query($sql);
 
     if (strlen($senha) < 8) {
-        $erro = "<p class='erro'>A senha deve ter pelo menos 8 caracteres.</p>";
+        $erro = "A senha deve ter pelo menos 8 caracteres.";
     } else if ($senha !== $confirmarSenha) {
-        $erro = "<p class='erro'>As senhas não são iguais.</p>";
+        $erro = "As senhas não são iguais.";
     } else if ($buscarEmails->num_rows > 0) {
-        $erro = "<p class='erro'>Esse email já está cadastrado.</p>";
+        $erro = "Esse email já está cadastrado.";
     } else {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
@@ -26,7 +26,7 @@ if (isset($_POST['cadastrar'])) {
         if ($cadastro) {
             header('Location: login.php');
         } else {
-            $erro = "<p class='erro'>Houve um erro ao cadastrar sua conta.</p>";
+            $erro = "Houve um erro ao cadastrar sua conta.";
         }
     }
 }

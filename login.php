@@ -7,18 +7,21 @@ if (isset($_POST['entrar'])) {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    $sql = "SELECT id_usuario, email, senha, nivel, nome FROM usuarios WHERE email = '$email'";
+    $sql = "SELECT id_usuario, nome, email, senha, nivel, estado FROM usuarios WHERE email = '$email'";
     $resultado = $conn->query($sql);
     $usuario = $resultado->fetch_assoc();
     $erro = '';
-
-    if ($email !== $usuario['email'] || !password_verify($senha, $usuario['senha'])) {
-        $erro = "<p class='erro'>Email ou senha incorretos.</p>";
+    
+    if ($usuario['estado'] == 'inativo') {
+        $erro = "Este usuário está inativo.";
+    } else if ($email !== $usuario['email'] || !password_verify($senha, $usuario['senha'])) {
+        $erro = "Email ou senha incorretos.";
     } else {
         $_SESSION['id'] = $usuario['id_usuario'];
+        $_SESSION['nome'] = $usuario['nome'];
         $_SESSION['email'] = $usuario['email'];
         $_SESSION['nivel'] = $usuario['nivel'];
-        $_SESSION['nome'] = $usuario['nome'];
+        $_SESSION['estado'] = $usuario['estado'];
         header('Location: index.php');
         exit();
     }
@@ -82,6 +85,7 @@ if (isset($_POST['entrar'])) {
 
     <script src="js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <?php if (!empty($erro)): ?>
         <script>
             Swal.fire({
@@ -90,10 +94,10 @@ if (isset($_POST['entrar'])) {
                 padding: '25px',
                 confirmButtonText: "Ok",
             })
-    </script>
+        </script>
     <?php endif; ?>
 
-    <script src="js/header.js"></script> 
+    <script src="js/header.js"></script>
 </body>
 
 </html>

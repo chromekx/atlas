@@ -197,6 +197,7 @@ header {
 
 .perfil p {
     font-size: 16px;
+    text-wrap: none;
 }
 
 .perfil-options {
@@ -245,7 +246,7 @@ header {
 
 .perfil-option:hover {
     translate: -10px 0px;
-    background-color: #d0d7db;
+    background-color: #e0e7eb;
 }
 
 #seta.active {

@@ -44,10 +44,8 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                         <?php endif; ?>
                     </div>
                 </div>
-
             <?php else: ?>
-                <button class="login-btn entrar" onclick="window.location.href='login.php'">Entrar</button>
-                <button class="login-btn cadastro" onclick="window.location.href='cadastro.php'">Cadastrar</button>
+                <button class="entrar" onclick="window.location.href='login.php'">Entrar</button>
             <?php endif; ?>
 
             <a class="icon" onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
@@ -56,53 +54,70 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
 
     <h1 class="titulo"> Painel dos Administradores </h1>
 
-    <form method="POST">
-        <p>Pesquisar por ID:</p>
-        <input type="number" min="1" id="barraPesquisa" name="barraPesquisa" placeholder="Digite o ID do usuário">
-        <button id="btnPesquisar" name="pesquisar">Pesquisar</button>
-        <button id="btnResetar" name="resetar">Resetar</button>
-    </form>
+    <div class="forms">
+        <form class="form-pesquisar" method="POST">
+            <p>Pesquisar por ID:</p>
+            <div class="division">
+                <input class="barra-pesquisa" type="number" min="1" id="barraPesquisa" name="barraPesquisa" placeholder="Digite o ID do usuário">
+                <div class="botoes">
+                    <button class="btn-pesquisar" id="btnPesquisar" name="pesquisar">Pesquisar</button>
+                    <button class="btn-resetar" id="btnResetar" name="resetar">Resetar</button>
+                </div>
+            </div>
+        </form>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Senha</th>
-            <th>Preferência</th>
-            <th>Nível</th>
-            <th>Data de Criação</th>
-            <th>Data Delete</th>
-            <th>Editar</th>
-            <th>Deletar</th>
-        </tr>
-
-        <?php
-        if (!isset($_POST['pesquisar'])) {
-            $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, data_criacao, data_delete FROM usuarios";
-        } 
-        
-        else {
-            $pesquisa = $_POST['barraPesquisa'];
-            $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, data_criacao, data_delete FROM usuarios WHERE id_usuario = '$pesquisa'";
-        }
-
-        $resultado = $conn->query($sql);
-        while ($linha = $resultado->fetch_assoc()) { ?>
+        <table>
             <tr>
-                <td><?= $linha['id_usuario'] ?></td>
-                <td><?= $linha['nome'] ?></td>
-                <td><?= $linha['email'] ?></td>
-                <td><?= $linha['senha'] ?></td>
-                <td><?= $linha['preferencia'] ?></td>
-                <td><?= $linha['nivel'] ?></td>
-                <td><?= $linha['data_criacao'] ?></td>
-                <td><?= $linha['data_delete'] ?></td>
-                <td><button class="editar" onclick="window.location.href='editar_usuario.php?id=' + <?= $linha['id_usuario'] ?>">Editar</button></td>
-                <td><button class="excluir" onclick="confirmarExclusao(<?= $linha['id_usuario'] ?>)">Excluir</button></td>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Senha</th>
+                <th>Preferência</th>
+                <th>Nível</th>
+                <th>Estado</th>
+                <th>Data de Criação</th>
+                <th>Editar</th>
+                <th>Ativação</th>
             </tr>
-        <?php } ?>
-    </table>
+
+            <?php
+            if (!isset($_POST['pesquisar'])) {
+                $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios";
+            } else {
+                $pesquisa = $_POST['barraPesquisa'];
+                $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios WHERE id_usuario = '$pesquisa'";
+            }
+
+            $resultado = $conn->query($sql);
+
+            if ($resultado->num_rows <= 0) {
+                $erro = 'Não há usuários cadastrados.';
+            } else {
+                while ($linha = $resultado->fetch_assoc()) { ?>
+                    <tr>
+                        <td id="id:<?= $linha['id_usuario'] ?>"><?= $linha['id_usuario'] ?></td>
+                        <td><?= $linha['nome'] ?></td>
+                        <td><?= $linha['email'] ?></td>
+                        <td><?= $linha['senha'] ?></td>
+                        <td><?= $linha['preferencia'] ?></td>
+                        <td><?= $linha['nivel'] ?></td>
+                        <td><?= $linha['estado'] ?></td>
+                        <td><?= $linha['data_criacao'] ?></td>
+                        <td><button class="editar" onclick="window.location.href='editar_usuario.php?id=' + <?= $linha['id_usuario'] ?>">Editar</button></td>
+                        <?php if ($linha['estado'] == "ativo") { ?>
+                            <td><button class='inativar' onclick="inativarUsuario(<?= $linha['id_usuario'] ?>)">Inativar</button></td>
+                        <?php } else if ($linha['estado'] == 'inativo') { ?>
+                            <td><button class='reativar' onclick="reativarUsuario(<?= $linha['id_usuario'] ?>)">Reativar</button></td>
+                        <?php } ?>
+                    </tr>
+            <?php }
+            } ?>
+        </table>
+
+        <?php if (!empty($erro)) {
+            echo $erro;
+        } ?>
+    </div>
 
     <script src="js/header.js"></script>
     <script src="js/admin.js"></script>
