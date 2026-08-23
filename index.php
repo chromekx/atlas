@@ -189,16 +189,57 @@ session_start();
         </div>
     </section>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Sobre</h3>
-                <p>Informações sobre a empresa.</p>
+    <footer class="site-footer">
+        <div class="footer-wave"></div>
+
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="imgs/logoatlas.png" alt="Logo Atlas">
+                    <span>ATLAS</span>
+                </div>
+                <p>Conectando oportunidades, ideias e crescimento em um só lugar.</p>
+
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
             </div>
 
-            <div class="footer-section">
-                <h3>Contato</h3>
-                <p>Email: contato@atlas.com</p>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <a href="#">Categorias</a>
+                <a href="#">Novidades</a>
+                <a href="#">Destaques</a>
+                <a href="#">Para você</a>
+            </div>
+
+            <div class="footer-links">
+                <h4>Empresa</h4>
+                <a href="#">Sobre nós</a>
+                <a href="#">Contato</a>
+                <a href="#">Carreiras</a>
+                <a href="#">Parcerias</a>
+            </div>
+
+            <div class="footer-newsletter">
+                <h4>Receba novidades</h4>
+                <p>Fique por dentro das melhores oportunidades e lançamentos.</p>
+
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Seu e-mail" aria-label="Seu e-mail">
+                    <button type="submit">Inscrever</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Atlas. Todos os direitos reservados.</p>
+            <div class="legal-links">
+                <a href="#">Termos</a>
+                <a href="#">Privacidade</a>
             </div>
         </div>
     </footer>
