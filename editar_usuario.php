@@ -92,7 +92,7 @@ if (isset($_POST['editar'])) {
 
                 <div class="division">
                     <label for="nivel">Nivel:</label>
-                    <input type="number" id="nivel" name="nivel" required value="<?= $usuario['nivel']; ?>">
+                    <input type="number" id="nivel" name="nivel" min="1" max="3" required value="<?= $usuario['nivel']; ?>">
                 </div>
             </div>
             <button type="submit" name="editar">Atualizar Usuário</button>
