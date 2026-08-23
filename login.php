@@ -14,8 +14,6 @@ if (isset($_POST['entrar'])) {
 
     if ($email !== $usuario['email'] || !password_verify($senha, $usuario['senha'])) {
         $erro = "<p class='erro'>Email ou senha incorretos.</p>";
-        echo $erro;
-        //exit();
     } else {
         $_SESSION['id'] = $usuario['id_usuario'];
         $_SESSION['email'] = $usuario['email'];
@@ -78,14 +76,24 @@ if (isset($_POST['entrar'])) {
                 </div>
                 <button type="submit" name="entrar">Entrar</button>
 
-                <?php if (!empty($erro)): ?>
-                    <p class="erro"><?php echo $erro; ?></p>
-                <?php endif; ?>
             </div>
         </form>
     </main>
 
-    <script src="js/index.js"></script>
+    <script src="js/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (!empty($erro)): ?>
+        <script>
+            Swal.fire({
+                title: "<?= $erro ?>",
+                confirmButtonColor: "#006eff",
+                padding: '25px',
+                confirmButtonText: "Ok",
+            })
+    </script>
+    <?php endif; ?>
+
+    <script src="js/header.js"></script> 
 </body>
 
 </html>

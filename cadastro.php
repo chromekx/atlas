@@ -11,15 +11,13 @@ if (isset($_POST['cadastrar'])) {
     $sql = "SELECT email FROM usuarios WHERE email = '$email'";
     $buscarEmails = $conn->query($sql);
 
-    if ($senha !== $confirmarSenha) {
+    if (strlen($senha) < 8) {
+        $erro = "<p class='erro'>A senha deve ter pelo menos 8 caracteres.</p>";
+    } else if ($senha !== $confirmarSenha) {
         $erro = "<p class='erro'>As senhas não são iguais.</p>";
-    }
-
-    if ($buscarEmails->num_rows > 0) {
-        $erro = "<p class='erro'>Esse email já está cadastrado.";
-    }
-
-    if (empty($erro)) {
+    } else if ($buscarEmails->num_rows > 0) {
+        $erro = "<p class='erro'>Esse email já está cadastrado.</p>";
+    } else {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO usuarios (nome, email, senha, preferencia) VALUES ('$nome', '$email', '$senhaHash', '$preferencia')";
@@ -28,11 +26,8 @@ if (isset($_POST['cadastrar'])) {
         if ($cadastro) {
             header('Location: login.php');
         } else {
-            $erro = "<p class='erro'>Houve um erro ao cadastrar sua conta.";
-            echo $erro;
+            $erro = "<p class='erro'>Houve um erro ao cadastrar sua conta.</p>";
         }
-    } else {
-        echo $erro;
     }
 }
 ?>
@@ -78,18 +73,18 @@ if (isset($_POST['cadastrar'])) {
 
                 <div class="text">
                     <div class="division">
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" required>
+                        <label for="nome">Nome de Usuário:</label>
+                        <input type="text" id="nome" name="nome" minlength="3" maxlength="100" required>
                     </div>
 
                     <div class="division">
                         <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" maxlength="150" name="email" required>
                     </div>
 
                     <div class="division">
                         <label for="senha">Senha:</label>
-                        <input type="password" id="senha" name="senha" required>
+                        <input type="password" id="senha" name="senha" minlength="8" maxlength="255" required>
                     </div>
 
                     <div class="division">
@@ -98,7 +93,7 @@ if (isset($_POST['cadastrar'])) {
                     </div>
 
                     <div class="division">
-                        <label for="preferencias">Preferências:</label>
+                        <label for="preferencias">Preferência:</label>
                         <select id="preferencias" name="preferencias">
                             <option value="esportes">Esportes</option>
                             <option value="música">Música</option>
@@ -113,25 +108,18 @@ if (isset($_POST['cadastrar'])) {
         </form>
     </main>
 
-    <script>
-        import Swal from 'sweetalert2'
-
-        if (<?php empty($erro) == false ?>) {
+    <script src="js/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (!empty($erro)): ?>
+        <script>
             Swal.fire({
-                title: "<?php echo $erro ?>",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff url(/images/trees.png)",
-                backdrop: `
-                #00007a66
-                left top
-                no-repeat
-                `
-            });
-        }
+                title: "<?= $erro ?>",
+                confirmButtonColor: "#006eff",
+                padding: '25px',
+                confirmButtonText: "Ok",
+            })
     </script>
-
+    <?php endif; ?>
 </body>
 
 </html>

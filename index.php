@@ -44,7 +44,7 @@ session_start();
 
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
-                    <p>Olá, <?php echo $_SESSION['nome']; ?></p>
+                    <p>Olá, <?= $_SESSION['nome']; ?></p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
@@ -189,7 +189,22 @@ session_start();
         </div>
     </section>
 
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sobre</h3>
+                <p>Informações sobre a empresa.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contato</h3>
+                <p>Email: contato@atlas.com</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="js/index.js"></script>
+    <script src="js/header.js"></script>
 </body>
 
 </html>

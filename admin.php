@@ -1,16 +1,10 @@
 <?php
 session_start();
 include('conexao.php');
-$sql = "SELECT id_usuario, nivel FROM usuarios WHERE id_usuario = " . $_SESSION['id'];
 
-if (isset($_SESSION['id'])) {
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
-
-    if ($row['nivel'] != 1) {
-        header("Location: index.php");
-        exit();
-    }
+if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
+    header("Location: index.php");
+    exit();
 }
 ?>
 
@@ -38,7 +32,7 @@ if (isset($_SESSION['id'])) {
 
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
-                    <p>Olá, <?php echo $_SESSION['nome']; ?></p>
+                    <p>Olá, <?= $_SESSION['nome']; ?></p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
@@ -62,6 +56,13 @@ if (isset($_SESSION['id'])) {
 
     <h1 class="titulo"> Painel dos Administradores </h1>
 
+    <form method="POST">
+        <p>Pesquisar por ID:</p>
+        <input type="number" min="1" id="barraPesquisa" name="barraPesquisa" placeholder="Digite o ID do usuário">
+        <button id="btnPesquisar" name="pesquisar">Pesquisar</button>
+        <button id="btnResetar" name="resetar">Resetar</button>
+    </form>
+
     <table>
         <tr>
             <th>ID</th>
@@ -77,69 +78,36 @@ if (isset($_SESSION['id'])) {
         </tr>
 
         <?php
-        $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, data_criacao, data_delete FROM usuarios";
-        $result = $conn->query($sql);
-        while ($row = $result->fetch_assoc()) { ?>
+        if (!isset($_POST['pesquisar'])) {
+            $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, data_criacao, data_delete FROM usuarios";
+        } 
+        
+        else {
+            $pesquisa = $_POST['barraPesquisa'];
+            $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, data_criacao, data_delete FROM usuarios WHERE id_usuario = '$pesquisa'";
+        }
+
+        $resultado = $conn->query($sql);
+        while ($linha = $resultado->fetch_assoc()) { ?>
             <tr>
-                <td><?= $row['id_usuario'] ?></td>
-                <td><?= $row['nome'] ?></td>
-                <td><?= $row['email'] ?></td>
-                <td><?= $row['senha'] ?></td>
-                <td><?= $row['preferencia'] ?></td>
-                <td><?= $row['nivel'] ?></td>
-                <td><?= $row['data_criacao'] ?></td>
-                <td><?= $row['data_delete'] ?></td>
-                <td><button class="editar" onclick="editarUsuario(<?= $row['id_usuario'] ?>)">Editar</button></td>
-                <td><button class="excluir" onclick="confirmarExclusao(<?= $row['id_usuario'] ?>)">Excluir</button></td>
+                <td><?= $linha['id_usuario'] ?></td>
+                <td><?= $linha['nome'] ?></td>
+                <td><?= $linha['email'] ?></td>
+                <td><?= $linha['senha'] ?></td>
+                <td><?= $linha['preferencia'] ?></td>
+                <td><?= $linha['nivel'] ?></td>
+                <td><?= $linha['data_criacao'] ?></td>
+                <td><?= $linha['data_delete'] ?></td>
+                <td><button class="editar" onclick="window.location.href='editar_usuario.php?id=' + <?= $linha['id_usuario'] ?>">Editar</button></td>
+                <td><button class="excluir" onclick="confirmarExclusao(<?= $linha['id_usuario'] ?>)">Excluir</button></td>
             </tr>
         <?php } ?>
     </table>
 
+    <script src="js/header.js"></script>
     <script src="js/admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function confirmarExclusao(id) {
-            Swal.fire({
-                title: "Excluir Usuário",
-                text: "Tem certeza que deseja excluir este usuário?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#0a46a0",
-                cancelButtonColor: "#dc3545",
-                confirmButtonText: "Sim, excluir",
-                cancelButtonText: "Cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = 'excluir_usuario.php?id=' + id;
-                }
-            });
-        }
 
-        async function editarUsuario(id) {
-            const {
-                value: formValues
-            } = await Swal.fire({
-                title: "Atualizar Usuário",
-                html: `
-                        <input type='text' id="swal-input1" placeholder="Nome" class="swal2-input" name="nome" value="">
-                        <input type='email' id="swal-input2" placeholder="Email" class="swal2-input" name="email" value="">
-                        <input type='password' id="swal-input3" placeholder="Senha" class="swal2-input" name="senha" value="">
-                        <input type='password' id="swal-input4" placeholder="Confirmar Senha" class="swal2-input" name="confirmarSenha" value="">
-                        <select id="swal-input5" placeholder="Preferência" class="swal2-select" name="preferencias" value="">
-                        <option value="esportes">Esportes</option>
-                        <option value="música">Música</option>
-                        <option value="cinema">Cinema</option>
-                        <option value="livros">Livros</option>
-                        </select>
-                        <input type= 'number' id="swal-input6" placeholder="Nível" class="swal2-input" name="nivel" value="">
-                    `,
-                focusConfirm: false,
-                preConfirm: () => {
-                    let novoNome = document.getElementById('')
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

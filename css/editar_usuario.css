@@ -1,4 +1,4 @@
-@import "header.css";
+@import 'header.css';
 
 * {
     box-sizing: border-box;
@@ -11,19 +11,11 @@
 body {
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color: #f3f3f3;
     width: 100%;
     overflow-x: hidden;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 1000px;
-}
 
 .login-form {
     display: flex;
