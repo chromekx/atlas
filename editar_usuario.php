@@ -68,7 +68,7 @@ if (isset($_POST['editar'])) {
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logoatlas.png"></a>
+        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-btns">
             <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>

@@ -48,10 +48,7 @@ if (isset($_POST['entrar'])) {
 <body>
     <header>
         <nav class="nav-options">
-            <a href="index.php"><img class="logo" src="imgs_website/logoatlas.png"></a>
-            <div class="item">
-                <p>Início</p>
-            </div>
+            <a href="index.php"><img class="logo" src="imgs_website/logotipoatlas.png"></a>
         </nav>
 
         <nav class="nav-btns">

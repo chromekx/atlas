@@ -19,7 +19,7 @@ session_start();
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logoatlas.png"></a>
+        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
             <div class="item">
