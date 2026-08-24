@@ -20,19 +20,22 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>ATLAS</title>
     <link rel="stylesheet" href="css/admin.css">
-    <link rel="favicon" href="imgs/logoatlas.png" type="image/x-icon">
+    <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs/logoatlas.png"></a>
+        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-btns">
             <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
 
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
-                    <p>Olá, <?= $_SESSION['nome']; ?></p>
+                    <p>
+                        <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= $_SESSION['nome'] ?>
+                    </p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
@@ -69,6 +72,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
         <table>
             <tr>
                 <th>ID</th>
+                <th>Foto</th>
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Senha</th>
@@ -82,10 +86,10 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
 
             <?php
             if (!isset($_POST['pesquisar'])) {
-                $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios";
+                $sql = "SELECT id_usuario, foto, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios";
             } else {
                 $pesquisa = $_POST['barraPesquisa'];
-                $sql = "SELECT id_usuario, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios WHERE id_usuario = '$pesquisa'";
+                $sql = "SELECT id_usuario, foto, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios WHERE id_usuario = '$pesquisa'";
             }
 
             $resultado = $conn->query($sql);
@@ -96,6 +100,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                 while ($linha = $resultado->fetch_assoc()) { ?>
                     <tr>
                         <td id="id:<?= $linha['id_usuario'] ?>"><?= $linha['id_usuario'] ?></td>
+                        <td><img class="foto-bd" src="imgs_banco/<?= $linha['foto'] ?>"></td>
                         <td><?= $linha['nome'] ?></td>
                         <td><?= $linha['email'] ?></td>
                         <td><?= $linha['senha'] ?></td>

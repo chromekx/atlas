@@ -152,7 +152,7 @@ header {
 }
 
 .entrar::before {
-    content: 'Cadastrar-se';
+    content: 'Entrar';
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,9 +177,10 @@ header {
 
 .perfil {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 150px;
+    min-width: 150px;
     background-color: transparent;
     height: 30px;
     padding: 15px;
@@ -195,9 +196,24 @@ header {
     text-wrap: none;
 }
 
+.foto {
+    object-fit: cover;
+    object-position: 50% 50%;
+    aspect-ratio: 1;
+    border-radius: 100% !important;
+    width: 30px !important;
+    box-shadow: 3px 3px 0px #00000059;
+}
+
 .perfil p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     font-size: 16px;
     text-wrap: none;
+    min-width: 100px;
+    gap: 20px;
 }
 
 .perfil-options {
@@ -222,7 +238,7 @@ header {
     translate: 0px 100px;
 }
 
-.perfil-options.active > .perfil-option {
+.perfil-options.active>.perfil-option {
     pointer-events: auto;
     cursor: pointer;
 }

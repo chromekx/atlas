@@ -5,10 +5,13 @@ include('conexao.php');
 if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
     header("Location: index.php");
     exit();
+} else if (!isset($_GET['id'])) {
+    header('Location: admin.php');
+    exit();
 }
 
 $id_editar = $_GET['id'];
-$sql = "SELECT id_usuario, nome, email, preferencia, nivel FROM usuarios WHERE id_usuario = '$id_editar'";
+$sql = "SELECT id_usuario, foto, nome, email, preferencia, nivel FROM usuarios WHERE id_usuario = '$id_editar'";
 $resultado = $conn->query($sql);
 $usuario = $resultado->fetch_assoc();
 
@@ -17,21 +20,33 @@ if (isset($_POST['editar'])) {
     $novoEmail = $_POST['email'];
     $novaSenha = $_POST['senha'];
     $novoNivel = $_POST['nivel'];
+    $novaFoto = $usuario['foto'];
     $erro = '';
+
+    // Verifica se uma nova foto foi enviada
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        $novaFoto = time() . '_' . $_FILES['foto']['name'];
+        move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_banco/' . $novaFoto);
+    }
 
     if (!empty($novaSenha) && strlen($novaSenha) < 8) {
         $erro = "A senha precisa ter pelo menos 8 caracteres.";
     } else {
-        if (!empty($novaSenha) && strlen($novaSenha) >= 8) {
+        if (!empty($novaSenha)) {
             $senhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
-            $sql = "UPDATE usuarios SET nome = '$novoNome', email = '$novoEmail', senha = '$senhaHash', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+            $sql = "UPDATE usuarios SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', senha = '$senhaHash', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
         } else {
-            $sql = "UPDATE usuarios SET nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+            $sql = "UPDATE usuarios SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
         }
 
         $query = $conn->query($sql);
-        header('Location: admin.php#id:' . $id_editar);
-        exit();
+
+        if ($query) {
+            header('Location: admin.php#id:' . $id_editar);
+            exit();
+        } else {
+            $erro = "Houve um erro ao atualizar o usuário.";
+        }
     }
 }
 
@@ -48,17 +63,20 @@ if (isset($_POST['editar'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>ATLAS</title>
     <link rel="stylesheet" href="css/editar_usuario.css">
-    <link rel="favicon" href="imgs/logoatlas.png" type="image/x-icon">
+    <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs/logoatlas.png"></a>
+        <a class="logo" href="index.php"><img src="imgs_website/logoatlas.png"></a>
 
         <nav class="nav-btns">
             <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
             <div class="perfil" id="perfil">
-                <p>Olá, <?= $_SESSION['nome']; ?></p>
+                <p>
+                        <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= $_SESSION['nome'] ?>
+                    </p>
                 <i class="fa-solid fa-caret-up" id="seta"></i>
 
                 <div class="perfil-options" id="perfil-options">
@@ -72,7 +90,7 @@ if (isset($_POST['editar'])) {
         </nav>
     </header>
 
-    <form class="login-form" method="POST">
+    <form class="login-form" method="POST" enctype="multipart/form-data">
         <div class="cadastro">
             <div class="text">
                 <div class="division">
@@ -93,6 +111,11 @@ if (isset($_POST['editar'])) {
                 <div class="division">
                     <label for="nivel">Nivel:</label>
                     <input type="number" id="nivel" name="nivel" min="1" max="3" required value="<?= $usuario['nivel']; ?>">
+                </div>
+
+                <div class="division">
+                    <label for="foto">Foto</label>
+                    <input type="file" id="foto" name="foto" value="<?= $usuario['foto']; ?>">
                 </div>
             </div>
             <button type="submit" name="editar">Atualizar Usuário</button>

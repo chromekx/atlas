@@ -7,6 +7,12 @@ if (isset($_POST['cadastrar'])) {
     $senha = $_POST['senha'];
     $confirmarSenha = $_POST['confirmarSenha'];
     $preferencia = $_POST['preferencias'];
+    $foto = $_FILES['foto'];
+
+    if (isset($_FILES['foto']) && $_FILES['foto']['name'] != '') {
+        $foto = time() . '_' . $_FILES['foto']['name'];
+        move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_banco/' . $foto);
+    }
 
     $sql = "SELECT email FROM usuarios WHERE email = '$email'";
     $buscarEmails = $conn->query($sql);
@@ -20,7 +26,7 @@ if (isset($_POST['cadastrar'])) {
     } else {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO usuarios (nome, email, senha, preferencia) VALUES ('$nome', '$email', '$senhaHash', '$preferencia')";
+        $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES ('$foto', '$nome', '$email', '$senhaHash', '$preferencia')";
         $cadastro = $conn->query($sql);
 
         if ($cadastro) {
@@ -49,7 +55,7 @@ if (isset($_POST['cadastrar'])) {
 <body>
     <header>
         <nav class="nav-options">
-            <a href="index.php"><img class="logo" src="imgs/logoatlas.png"></a>
+            <a href="index.php"><img class="logo" src="imgs_website/logoatlas.png"></a>
             <div class="item">
                 <p>Início</p>
             </div>
@@ -61,7 +67,7 @@ if (isset($_POST['cadastrar'])) {
     </header>
 
     <main>
-        <form class="login-form" method="POST">
+        <form class="login-form" method="POST" enctype="multipart/form-data">
             <h2>Cadastro de Usuário</h2>
 
             <div class="logar">
@@ -101,6 +107,11 @@ if (isset($_POST['cadastrar'])) {
                             <option value="livros">Livros</option>
                         </select>
                     </div>
+
+                    <div class="division">
+                        <label for="foto">Foto</label>
+                        <input type="file" id="foto" name="foto">
+                    </div>
                 </div>
 
                 <button type="submit" name="cadastrar">Cadastrar-se</button>
@@ -118,7 +129,7 @@ if (isset($_POST['cadastrar'])) {
                 padding: '25px',
                 confirmButtonText: "Ok",
             })
-    </script>
+        </script>
     <?php endif; ?>
 </body>
 

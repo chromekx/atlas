@@ -6,18 +6,21 @@ if (isset($_POST['entrar'])) {
 
     $email = $_POST['email'];
     $senha = $_POST['senha'];
+    $erro = '';
 
-    $sql = "SELECT id_usuario, nome, email, senha, nivel, estado FROM usuarios WHERE email = '$email'";
+    $sql = "SELECT id_usuario, foto, nome, email, senha, nivel, estado FROM usuarios WHERE email = '$email'";
     $resultado = $conn->query($sql);
     $usuario = $resultado->fetch_assoc();
-    $erro = '';
-    
-    if ($usuario['estado'] == 'inativo') {
-        $erro = "Este usuário está inativo.";
-    } else if ($email !== $usuario['email'] || !password_verify($senha, $usuario['senha'])) {
+
+    if (!$usuario) {
         $erro = "Email ou senha incorretos.";
+    } else if (!password_verify($senha, $usuario['senha'])) {
+        $erro = "Email ou senha incorretos.";
+    } else if ($usuario['estado'] == 'inativo') {
+        $erro = "Este usuário está inativo.";
     } else {
         $_SESSION['id'] = $usuario['id_usuario'];
+        $_SESSION['foto'] = $usuario['foto'];
         $_SESSION['nome'] = $usuario['nome'];
         $_SESSION['email'] = $usuario['email'];
         $_SESSION['nivel'] = $usuario['nivel'];
@@ -45,7 +48,7 @@ if (isset($_POST['entrar'])) {
 <body>
     <header>
         <nav class="nav-options">
-            <a href="index.php"><img class="logo" src="imgs/logoatlas.png"></a>
+            <a href="index.php"><img class="logo" src="imgs_website/logoatlas.png"></a>
             <div class="item">
                 <p>Início</p>
             </div>
