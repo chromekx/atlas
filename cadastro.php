@@ -9,9 +9,11 @@ if (isset($_POST['cadastrar'])) {
     $preferencia = $_POST['preferencias'];
     $foto = $_FILES['foto'];
 
-    if (isset($_FILES['foto']) && $_FILES['foto']['name'] != '') {
+    if (!empty($_FILES['foto']) && $_FILES['foto']['name'] != '') {
         $foto = time() . '_' . $_FILES['foto']['name'];
         move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_banco/' . $foto);
+    } else {
+        $foto = null;
     }
 
     $sql = "SELECT email FROM usuarios WHERE email = '$email'";
@@ -25,10 +27,12 @@ if (isset($_POST['cadastrar'])) {
         $erro = "Esse email já está cadastrado.";
     } else {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-
-        $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES ('$foto', '$nome', '$email', '$senhaHash', '$preferencia')";
+        if ($foto != null) {
+            $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES ('$foto', '$nome', '$email', '$senhaHash', '$preferencia')";
+        } else {
+            $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES (null, '$nome', '$email', '$senhaHash', '$preferencia')";
+        }
         $cadastro = $conn->query($sql);
-
         if ($cadastro) {
             header('Location: login.php');
         } else {

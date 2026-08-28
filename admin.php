@@ -100,18 +100,18 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                 while ($linha = $resultado->fetch_assoc()) { ?>
                     <tr>
                         <td id="id:<?= $linha['id_usuario'] ?>"><?= $linha['id_usuario'] ?></td>
-                        <td><img class="foto-bd" src="imgs_banco/<?= $linha['foto'] ?>"></td>
-                        <td><?= $linha['nome'] ?></td>
-                        <td><?= $linha['email'] ?></td>
-                        <td><?= $linha['senha'] ?></td>
-                        <td><?= $linha['preferencia'] ?></td>
-                        <td><?= $linha['nivel'] ?></td>
-                        <td><?= $linha['estado'] ?></td>
-                        <td><?= $linha['data_criacao'] ?></td>
+                        <td><img class="foto-bd" src="imgs_banco/<?= !empty($linha['foto']) ? htmlspecialchars($linha['foto']) : 'foto_padrao.png' ?>"></td>
+                        <td><?= htmlspecialchars($linha['nome']) ?></td>
+                        <td><?= htmlspecialchars($linha['email']) ?></td>
+                        <td><?= htmlspecialchars($linha['senha']) ?></td>
+                        <td><?= htmlspecialchars($linha['preferencia']) ?></td>
+                        <td><?= htmlspecialchars($linha['nivel']) ?></td>
+                        <td><?= htmlspecialchars($linha['estado']) ?></td>
+                        <td><?= htmlspecialchars($linha['data_criacao']) ?></td>
                         <td><button class="editar" onclick="window.location.href='editar_usuario.php?id=' + <?= $linha['id_usuario'] ?>">Editar</button></td>
                         <?php if ($linha['estado'] == "ativo") { ?>
                             <td><button class='inativar' onclick="inativarUsuario(<?= $linha['id_usuario'] ?>)">Inativar</button></td>
-                        <?php } else if ($linha['estado'] == 'inativo') { ?>
+                        <?php } else { ?>
                             <td><button class='reativar' onclick="reativarUsuario(<?= $linha['id_usuario'] ?>)">Reativar</button></td>
                         <?php } ?>
                     </tr>
