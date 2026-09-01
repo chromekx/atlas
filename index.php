@@ -80,60 +80,17 @@ session_start();
 
         <div class="carrossel">
             <div class="categorias" id="categorias">
-                <div class="categoria">
-                    <i class="fa-solid fa-baby"></i>
-                    <p>Categoria 1</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-hammer"></i>
-                    <p>Categoria 2</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-car"></i>
-                    <p>Categoria 3</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-leaf"></i>
-                    <p>Categoria 4</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-computer"></i>
-                    <p>Categoria 5</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-broom"></i>
-                    <p>Categoria 6</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-book"></i>
-                    <p>Categoria 7</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-bowl-food"></i>
-                    <p>Categoria 8</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-shirt"></i>
-                    <p>Categoria 9</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    <p>Categoria 10</p>
-                </div>
-
-                <div class="categoria">
-                    <i class="fa-solid fa-bus"></i>
-                    <p>Categoria 11</p>
-                </div>
+                <button class="categoria" onclick="window.location.href='tarefas_culinaria/tarefas.php'"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
+                <button class="categoria"><i class="fa-solid fa-hammer"></i>Categoria 2</button>
+                <button class="categoria"><i class="fa-solid fa-car"></i>Categoria 3</button>
+                <button class="categoria"><i class="fa-solid fa-leaf"></i>Categoria 4</button>
+                <button class="categoria"><i class="fa-solid fa-computer"></i>Categoria 5</button>
+                <button class="categoria"><i class="fa-solid fa-broom"></i>Categoria 6</button>
+                <button class="categoria"><i class="fa-solid fa-book"></i>Categoria 7</button>
+                <button class="categoria"><i class="fa-solid fa-baby"></i>Categoria 8</button>
+                <button class="categoria"><i class="fa-solid fa-shirt"></i>Categoria 9</button>
+                <button class="categoria"><i class="fa-solid fa-floppy-disk"></i>Categoria 10</button>
+                <button class="categoria"><i class="fa-solid fa-bus"></i>Categoria 11</button>
             </div>
         </div>
     </section>
