@@ -23,7 +23,7 @@ session_start();
 
         <nav class="nav-options">
             <div class="item">
-                <p>Item 1</p>
+                <a href="cadastro_tarefas.php">Cadastrar Tarefa</a>
             </div>
 
             <div class="item">

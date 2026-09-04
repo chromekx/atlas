@@ -19,7 +19,7 @@ session_start();
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="../imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="../index.php"><img src="../imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
             <div class="item">
@@ -77,8 +77,12 @@ session_start();
             </section>
         </div>
         <section class="lado-tarefas">
-            <div class="breadcrumbs"></div>
-            <button class="add-tarefa" onclick="window.location.href='adicionar_tarefa.php'">Adicionar Tarefa</button>
+            <div class="breadcrumbs">
+                <a href="../index.php">Início</a>
+                <i class="fa-solid fa-arrow-right"></i>
+                <a href="../tarefas_culinaria/tarefas.php">Culinária</a>
+            </div>
+            <button class="add-tarefa" onclick="window.location.href='../cadastro_tarefas.php'">Adicionar Tarefa</button>
             <div class="tarefas">
 
             </div>
