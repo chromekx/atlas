@@ -1,0 +1,235 @@
+@import 'header.css';
+@import 'variables.css';
+
+* {
+    box-sizing: border-box;
+    font-family: 'Google Sans';
+    margin: 0;
+    padding: 0;
+    transition: 0.3s ease;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-bg);
+    width: 100%;
+    overflow-x: hidden;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    height: fit-content;
+}
+
+.cadastro-tarefa {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    padding: 45px 50px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-drop);
+    gap: 32px;
+}
+
+.cabecalho-pagina {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-bottom: 2px solid var(--color-bg);
+    padding-bottom: 24px;
+}
+
+.pagina-label {
+    color: var(--color-primary-light);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.cabecalho-pagina h1 {
+    color: var(--color-text);
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.descricao-pagina {
+    color: #666;
+    font-size: 16px;
+}
+
+.formulario-tarefa {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.secao-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.secao-formulario h2 {
+    color: var(--color-text);
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.texto-secao {
+    color: #666;
+    font-size: 14px;
+    margin-top: -10px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.campo label {
+    color: var(--color-text);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-size: 15px;
+}
+
+.campo input,
+.campo select {
+    height: 50px;
+    padding: 0 16px;
+}
+
+.campo textarea {
+    min-height: 140px;
+    padding: 16px;
+    resize: vertical;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    outline: 2px solid var(--color-primary);
+    background-color: #fff;
+}
+
+.campos-duplos {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+}
+
+.campos-duplos .campo {
+    width: 50%;
+}
+
+.campo select {
+    cursor: pointer;
+}
+
+.acoes-formulario {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.btn-cancelar,
+.btn-cadastrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    padding: 0 24px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    border: 2px solid var(--color-primary);
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.btn-cancelar:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+}
+
+.btn-cadastrar {
+    gap: 8px;
+    border: none;
+    background-color: var(--color-accent);
+    color: var(--color-text);
+}
+
+.btn-cadastrar:hover {
+    filter: brightness(0.9);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 1050px) {
+    main {
+        width: calc(100% - 40px);
+    }
+}
+
+@media (max-width: 700px) {
+    main {
+        width: calc(100% - 24px);
+        margin: 24px 0 40px;
+    }
+
+    .cadastro-tarefa {
+        padding: 30px 24px;
+    }
+
+    .campos-duplos {
+        flex-direction: column;
+    }
+
+    .campos-duplos .campo {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .cadastro-tarefa {
+        padding: 25px 18px;
+    }
+
+    .cabecalho-pagina h1 {
+        font-size: 28px;
+    }
+
+    .acoes-formulario {
+        flex-direction: column-reverse;
+    }
+
+    .btn-cancelar,
+    .btn-cadastrar {
+        width: 100%;
+    }
+}

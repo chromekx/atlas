@@ -79,6 +79,10 @@ session_start();
         <h1 class="titulo">Categorias</h1>
 
         <div class="carrossel">
+            <button class="carrossel-seta carrossel-seta-esquerda" id="setaEsquerda" type="button" aria-label="Categorias anteriores">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
             <div class="categorias" id="categorias">
                 <button class="categoria" onclick="window.location.href='tarefas_culinaria/tarefas.php'"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
                 <button class="categoria"><i class="fa-solid fa-hammer"></i>Categoria 2</button>
@@ -92,6 +96,10 @@ session_start();
                 <button class="categoria"><i class="fa-solid fa-floppy-disk"></i>Categoria 10</button>
                 <button class="categoria"><i class="fa-solid fa-bus"></i>Categoria 11</button>
             </div>
+
+            <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
     </section>
 
