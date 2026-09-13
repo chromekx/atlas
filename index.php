@@ -23,19 +23,19 @@ session_start();
 
         <nav class="nav-options">
             <div class="item">
-                <a href="cadastro_tarefas.php">Cadastrar Tarefa</a>
+                <a href="cadastro_tarefas.php"><p>Cadastrar Tarefa</p></a>
             </div>
 
             <div class="item">
-                <p>Item 2</p>
+                <a href="item2.php"><p>Item 2</p></a>
             </div>
 
             <div class="item">
-                <p>Item 3</p>
+                <a href="item3.php"><p>Item 3</p></a>
             </div>
 
             <div class="item">
-                <p>Item 4</p>
+                <a href="item4.php"><p>Item 4</p></a>
             </div>
         </nav>
 
