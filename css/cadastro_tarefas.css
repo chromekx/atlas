@@ -1,235 +1,260 @@
-@import 'header.css';
-@import 'variables.css';
+@import "header.css";
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-    font-family: 'Google Sans';
     margin: 0;
     padding: 0;
-    transition: 0.3s ease;
 }
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: var(--color-bg);
     width: 100%;
     overflow-x: hidden;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Google Sans', sans-serif;
 }
 
 main {
     display: flex;
     flex-direction: column;
-    width: 1000px;
-    height: fit-content;
-}
-
-.cadastro-tarefa {
-    display: flex;
-    flex-direction: column;
-    width: 1000px;
-    padding: 45px 50px;
-    border-radius: var(--radius-md);
-    background-color: var(--color-surface);
-    box-shadow: var(--shadow-drop);
-    gap: 32px;
+    align-items: center;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 var(--space-3) var(--space-7);
 }
 
 .cabecalho-pagina {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    border-bottom: 2px solid var(--color-bg);
-    padding-bottom: 24px;
-}
-
-.pagina-label {
-    color: var(--color-primary-light);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    align-items: center;
+    gap: var(--space-1);
+    margin: var(--space-5) 0 var(--space-5);
+    text-align: center;
 }
 
 .cabecalho-pagina h1 {
-    color: var(--color-text);
-    font-size: 34px;
-    font-weight: 600;
+    font-size: 2rem;
 }
 
-.descricao-pagina {
-    color: #666;
-    font-size: 16px;
+.cabecalho-pagina p {
+    color: #555555;
 }
+
+/* Formulário */
 
 .formulario-tarefa {
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    width: 100%;
+    gap: var(--space-4);
 }
 
-.secao-formulario {
+.cartao-formulario {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--space-3);
     width: 100%;
+    padding: var(--space-4);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
 }
 
-.secao-formulario h2 {
-    color: var(--color-text);
-    font-size: 23px;
-    font-weight: 600;
+.cartao-formulario h2 {
+    font-size: 1.25rem;
 }
 
-.texto-secao {
-    color: #666;
-    font-size: 14px;
-    margin-top: -10px;
+.dica-campo {
+    margin-top: calc(var(--space-1) * -1);
+    color: #777777;
+    font-size: 0.875rem;
 }
 
 .campo {
     display: flex;
     flex-direction: column;
+    gap: var(--space-1);
     width: 100%;
-    gap: 10px;
 }
 
 .campo label {
-    color: var(--color-text);
-    font-size: 15px;
+    font-size: 0.875rem;
     font-weight: 600;
+}
+
+.linha-campos {
+    display: flex;
+    gap: var(--space-3);
+    width: 100%;
+}
+
+.linha-campos .campo {
+    flex: 1 1 0;
 }
 
 .campo input,
 .campo select,
-.campo textarea {
+.campo textarea,
+.entrada-materiais input {
     width: 100%;
-    border: none;
-    outline: none;
-    border-radius: var(--radius-md);
-    background-color: var(--color-bg);
+    padding: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
     color: var(--color-text);
-    font-size: 15px;
-}
-
-.campo input,
-.campo select {
-    height: 50px;
-    padding: 0 16px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color var(--transition-fast);
 }
 
 .campo textarea {
-    min-height: 140px;
-    padding: 16px;
     resize: vertical;
 }
 
 .campo input:focus,
 .campo select:focus,
-.campo textarea:focus {
-    outline: 2px solid var(--color-primary);
-    background-color: #fff;
+.campo textarea:focus,
+.entrada-materiais input:focus {
+    outline: none;
+    border-color: var(--color-primary-light);
 }
 
-.campos-duplos {
+.campo input::placeholder,
+.campo textarea::placeholder,
+.entrada-materiais input::placeholder {
+    color: #999999;
+}
+
+/* Materiais */
+
+.entrada-materiais {
     display: flex;
-    gap: 24px;
-    width: 100%;
+    gap: var(--space-2);
 }
 
-.campos-duplos .campo {
-    width: 50%;
+.lista-materiais {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
 }
 
-.campo select {
+.lista-materiais:empty {
+    display: none;
+}
+
+.material {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: 100px;
+    background-color: var(--color-bg);
+    font-size: 0.875rem;
+}
+
+.material button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: var(--color-danger);
+    font-size: 0.75rem;
     cursor: pointer;
+}
+
+/* Etapas */
+
+.cabecalho-secao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lista-etapas {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.etapa {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.etapa-numero {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.botao-remover-etapa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--color-danger);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.botao-remover-etapa:hover {
+    background-color: rgba(204, 40, 40, 0.1);
+}
+
+/* Botões */
+
+.botao-primario,
+.botao-secundario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.botao-secundario {
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.botao-secundario:hover {
+    background-color: #dcdcdc;
 }
 
 .acoes-formulario {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    gap: 15px;
-    padding-top: 10px;
 }
 
-.btn-cancelar,
-.btn-cadastrar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 48px;
-    padding: 0 24px;
-    border-radius: var(--radius-md);
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.btn-cancelar {
-    border: 2px solid var(--color-primary);
-    background-color: transparent;
-    color: var(--color-primary);
-}
-
-.btn-cancelar:hover {
+.botao-primario {
+    padding: var(--space-2) var(--space-5);
     background-color: var(--color-primary);
     color: var(--color-text-inverse);
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-.btn-cadastrar {
-    gap: 8px;
-    border: none;
-    background-color: var(--color-accent);
-    color: var(--color-text);
-}
-
-.btn-cadastrar:hover {
-    filter: brightness(0.9);
-    transform: translateY(-2px);
-}
-
-@media (max-width: 1050px) {
-    main {
-        width: calc(100% - 40px);
-    }
-}
-
-@media (max-width: 700px) {
-    main {
-        width: calc(100% - 24px);
-        margin: 24px 0 40px;
-    }
-
-    .cadastro-tarefa {
-        padding: 30px 24px;
-    }
-
-    .campos-duplos {
-        flex-direction: column;
-    }
-
-    .campos-duplos .campo {
-        width: 100%;
-    }
-}
-
-@media (max-width: 500px) {
-    .cadastro-tarefa {
-        padding: 25px 18px;
-    }
-
-    .cabecalho-pagina h1 {
-        font-size: 28px;
-    }
-
-    .acoes-formulario {
-        flex-direction: column-reverse;
-    }
-
-    .btn-cancelar,
-    .btn-cadastrar {
-        width: 100%;
-    }
+.botao-primario:hover {
+    background-color: var(--color-primary-light);
 }
