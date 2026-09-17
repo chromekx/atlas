@@ -11,7 +11,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
 }
 
 $id_editar = $_GET['id'];
-$sql = "SELECT id_usuario, foto, nome, email, preferencia, nivel FROM usuarios WHERE id_usuario = '$id_editar'";
+$sql = "SELECT id_usuario, foto, nome, email, preferencia, nivel FROM usuario WHERE id_usuario = '$id_editar'";
 $resultado = $conn->query($sql);
 $usuario = $resultado->fetch_assoc();
 
@@ -34,9 +34,9 @@ if (isset($_POST['editar'])) {
     } else {
         if (!empty($novaSenha)) {
             $senhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
-            $sql = "UPDATE usuarios SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', senha = '$senhaHash', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+            $sql = "UPDATE usuario SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', senha = '$senhaHash', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
         } else {
-            $sql = "UPDATE usuarios SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+            $sql = "UPDATE usuario SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
         }
 
         $query = $conn->query($sql);

@@ -12,7 +12,7 @@ if (!isset($_GET['id'])) {
 }
 
 $id = $_GET['id'];
-$sql = "UPDATE usuarios SET estado = 'Ativo' WHERE id_usuario = '$id'";
+$sql = "UPDATE usuario SET estado = 'Ativo' WHERE id_usuario = '$id'";
 
 if ($conn->query($sql)) {
     header("Location: admin.php#" . $id);

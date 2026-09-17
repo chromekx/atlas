@@ -8,7 +8,7 @@ if (isset($_POST['entrar'])) {
     $senha = $_POST['senha'];
     $erro = '';
 
-    $sql = "SELECT id_usuario, foto, nome, email, senha, nivel, estado FROM usuarios WHERE email = '$email'";
+    $sql = "SELECT id_usuario, foto, nome, email, senha, nivel, estado FROM usuario WHERE email = '$email'";
     $resultado = $conn->query($sql);
     $usuario = $resultado->fetch_assoc();
 

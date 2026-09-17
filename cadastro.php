@@ -16,7 +16,7 @@ if (isset($_POST['cadastrar'])) {
         $foto = null;
     }
 
-    $sql = "SELECT email FROM usuarios WHERE email = '$email'";
+    $sql = "SELECT email FROM usuario WHERE email = '$email'";
     $buscarEmails = $conn->query($sql);
 
     if (strlen($senha) < 8) {
@@ -28,9 +28,9 @@ if (isset($_POST['cadastrar'])) {
     } else {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
         if ($foto != null) {
-            $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES ('$foto', '$nome', '$email', '$senhaHash', '$preferencia')";
+            $sql = "INSERT INTO usuario (foto, nome, email, senha, preferencia) VALUES ('$foto', '$nome', '$email', '$senhaHash', '$preferencia')";
         } else {
-            $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES (null, '$nome', '$email', '$senhaHash', '$preferencia')";
+            $sql = "INSERT INTO usuario (foto, nome, email, senha, preferencia) VALUES (null, '$nome', '$email', '$senhaHash', '$preferencia')";
         }
         $cadastro = $conn->query($sql);
         if ($cadastro) {
@@ -68,7 +68,7 @@ if (isset($_POST['cadastrar'])) {
     </header>
 
     <main>
-        <form class="login-form" method="POST" enctype="multipart/form-data">
+        <form class="login-form" method="POST" enctype="multipart/form-data" autocomplete="off">
             <h2>Cadastro de Usuário</h2>
 
             <div class="logar">

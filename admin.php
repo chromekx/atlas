@@ -86,10 +86,10 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
 
             <?php
             if (!isset($_POST['pesquisar'])) {
-                $sql = "SELECT id_usuario, foto, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios";
+                $sql = "SELECT id_usuario, foto, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuario";
             } else {
                 $pesquisa = $_POST['barraPesquisa'];
-                $sql = "SELECT id_usuario, foto, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuarios WHERE id_usuario = '$pesquisa'";
+                $sql = "SELECT id_usuario, foto, nome, email, senha, preferencia, nivel, estado, data_criacao FROM usuario WHERE id_usuario = '$pesquisa'";
             }
 
             $resultado = $conn->query($sql);
