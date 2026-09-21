@@ -39,13 +39,6 @@ if (isset($_POST['editar'])) {
             $sql = "UPDATE usuario SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
         }
         $query = $conn->query($sql);
-        $senhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
-
-        $_SESSION['foto'] = $novaFoto;
-        $_SESSION['nome'] = $novoNome;
-        $_SESSION['email'] = $novoEmail;
-        $_SESSION['senha'] = $senhaHash;
-        $_SESSION['nivel'] = $novoNivel;
         
         if ($query) {
             header('Location: admin.php#id:' . $id_editar);
