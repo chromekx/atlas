@@ -8,7 +8,7 @@ if (isset($_POST['entrar'])) {
     $senha = $_POST['senha'];
     $erro = '';
 
-    $sql = "SELECT id_usuario, foto, nome, email, senha, nivel, estado FROM usuario WHERE email = '$email'";
+    $sql = "SELECT id_usuario, foto, nome, email, preferencia, senha, nivel, estado FROM usuario WHERE email = '$email'";
     $resultado = $conn->query($sql);
     $usuario = $resultado->fetch_assoc();
 
@@ -23,6 +23,7 @@ if (isset($_POST['entrar'])) {
         $_SESSION['foto'] = $usuario['foto'];
         $_SESSION['nome'] = $usuario['nome'];
         $_SESSION['email'] = $usuario['email'];
+        $_SESSION['preferencia'] = $usuario['preferencia'];
         $_SESSION['nivel'] = $usuario['nivel'];
         $_SESSION['estado'] = $usuario['estado'];
         header('Location: index.php');
@@ -48,7 +49,7 @@ if (isset($_POST['entrar'])) {
 <body>
     <header>
         <nav class="nav-options">
-            <a href="index.php"><img class="logo" src="imgs_website/logotipoatlas.png"></a>
+            <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
         </nav>
 
         <nav class="nav-btns">
@@ -57,7 +58,7 @@ if (isset($_POST['entrar'])) {
     </header>
 
     <main>
-        <form method="POST" class="login-form">
+        <form class="login-form" method="POST">
             <h2>Iniciar Sessão</h2>
 
             <div class="cadastrar">
@@ -90,14 +91,12 @@ if (isset($_POST['entrar'])) {
         <script>
             Swal.fire({
                 title: "<?= $erro ?>",
-                confirmButtonColor: "#006eff",
+                confirmButtonColor: "#263783",
                 padding: '25px',
                 confirmButtonText: "Ok",
             })
         </script>
     <?php endif; ?>
-
-    <script src="js/header.js"></script>
 </body>
 
 </html>

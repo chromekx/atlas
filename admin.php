@@ -27,6 +27,13 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
     <header>
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
+        <nav class="nav-options">
+            <button onclick="window.location.href='cadastro_tarefas.php'" class="item"><p>Cadastrar Tarefa</p></button>
+            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
+            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
+            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
+        </nav>
+        
         <nav class="nav-btns">
             <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
 
@@ -39,7 +46,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meuperfil.php">Meu Perfil</a>
+                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
                         <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
                         <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
                         <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
@@ -59,13 +66,11 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
 
     <div class="forms">
         <form class="form-pesquisar" method="POST">
-            <p>Pesquisar por ID:</p>
-            <div class="division">
-                <input class="barra-pesquisa" type="number" min="1" id="barraPesquisa" name="barraPesquisa" placeholder="Digite o ID do usuário">
-                <div class="botoes">
-                    <button class="btn-pesquisar" id="btnPesquisar" name="pesquisar">Pesquisar</button>
-                    <button class="btn-resetar" id="btnResetar" name="resetar">Resetar</button>
-                </div>
+            <label for="barraPesquisa">Pesquisar por ID</label>
+            <input class="barra-pesquisa" type="number" min="1" id="barraPesquisa" name="barraPesquisa" placeholder="Digite o ID do usuário">
+            <div class="botoes">
+                <button class="btn-pesquisar" id="btnPesquisar" name="pesquisar">Pesquisar</button>
+                <button class="btn-resetar" id="btnResetar" name="resetar">Resetar</button>
             </div>
         </form>
 
@@ -80,8 +85,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                 <th>Nível</th>
                 <th>Estado</th>
                 <th>Data de Criação</th>
-                <th>Editar</th>
-                <th>Ativação</th>
+                <th>Ações</th>
             </tr>
 
             <?php
@@ -108,12 +112,22 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                         <td><?= htmlspecialchars($linha['nivel']) ?></td>
                         <td><?= htmlspecialchars($linha['estado']) ?></td>
                         <td><?= htmlspecialchars($linha['data_criacao']) ?></td>
-                        <td><button class="editar" onclick="window.location.href='editar_usuario.php?id=' + <?= $linha['id_usuario'] ?>">Editar</button></td>
-                        <?php if ($linha['estado'] == "ativo") { ?>
-                            <td><button class='inativar' onclick="inativarUsuario(<?= $linha['id_usuario'] ?>)">Inativar</button></td>
-                        <?php } else { ?>
-                            <td><button class='reativar' onclick="reativarUsuario(<?= $linha['id_usuario'] ?>)">Reativar</button></td>
-                        <?php } ?>
+                        <td class="celula-acoes">
+                            <div class="acoes-linha">
+                                <button class="editar" onclick="window.location.href='editar_admin.php?id=' + <?= $linha['id_usuario'] ?>" title="Editar">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <?php if ($linha['estado'] == "ativo") { ?>
+                                    <button class='inativar' onclick="inativarUsuario(<?= $linha['id_usuario'] ?>)" title="Inativar">
+                                        <i class="fa-solid fa-ban"></i>
+                                    </button>
+                                <?php } else { ?>
+                                    <button class='reativar' onclick="reativarUsuario(<?= $linha['id_usuario'] ?>)" title="Reativar">
+                                        <i class="fa-solid fa-rotate-left"></i>
+                                    </button>
+                                <?php } ?>
+                            </div>
+                        </td>
                     </tr>
             <?php }
             } ?>
@@ -123,6 +137,43 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
             echo $erro;
         } ?>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a class="footer-logo" href="index.php" aria-label="Voltar para o início">
+                    <img src="imgs_website/logoatlas.png" alt="Atlas">
+                </a>
+                <p>Ideias, oportunidades e caminhos para você criar sua independência.</p>
+                <div class="footer-socials" aria-label="Redes sociais">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="mailto:contato@atlas.com" aria-label="Enviar e-mail"><i class="fa-regular fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Explorar</h3>
+                <a href="#categorias">Categorias</a>
+                <a href="#aspectos">Descubra o Atlas</a>
+                <a href="meu_perfil.php">Meu perfil</a>
+            </div>
+
+            <div class="footer-section footer-contact">
+                <h3>Vamos conversar?</h3>
+                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p>
+                <a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <?= date('Y') ?> Atlas. Feito para ir longe.</p>
+            <div>
+                <a href="#">Privacidade</a>
+                <a href="#">Termos de uso</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/header.js"></script>
     <script src="js/admin.js"></script>

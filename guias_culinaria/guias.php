@@ -13,7 +13,7 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>ATLAS</title>
-    <link rel="stylesheet" href="../css/tarefas.css">
+    <link rel="stylesheet" href="../css/guias.css">
     <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
 
@@ -22,21 +22,10 @@ session_start();
         <a class="logo" href="../index.php"><img src="../imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
-            <div class="item">
-                <a href="cadastro_tarefas.php"><p>Cadastrar Tarefa</p></a>
-            </div>
-
-            <div class="item">
-                <a href="item2.php"><p>Item 2</p></a>
-            </div>
-
-            <div class="item">
-                <a href="item3.php"><p>Item 3</p></a>
-            </div>
-
-            <div class="item">
-                <a href="item4.php"><p>Item 4</p></a>
-            </div>
+            <button onclick="window.location.href='cadastro_tarefas.php'" class="item"><p>Cadastrar Tarefa</p></button>
+            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
+            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
+            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
         </nav>
 
         <nav class="nav-btns">
@@ -51,7 +40,7 @@ session_start();
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="../meuperfil.php">Meu Perfil</a>
+                        <a class="perfil-option meu-perfil" id="perfil-option" href="../meu_perfil.php">Meu Perfil</a>
                         <a class="perfil-option config" id="perfil-option" href="../configuracoes.php">Configurações</a>
                         <a class="perfil-option sair" id="perfil-option" href="../sair.php">Sair</a>
                         <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
@@ -88,6 +77,43 @@ session_start();
             </div>
         </section>
     </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a class="footer-logo" href="index.php" aria-label="Voltar para o início">
+                    <img src="imgs_website/logoatlas.png" alt="Atlas">
+                </a>
+                <p>Ideias, oportunidades e caminhos para você criar sua independência.</p>
+                <div class="footer-socials" aria-label="Redes sociais">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="mailto:contato@atlas.com" aria-label="Enviar e-mail"><i class="fa-regular fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Explorar</h3>
+                <a href="#categorias">Categorias</a>
+                <a href="#aspectos">Descubra o Atlas</a>
+                <a href="meu_perfil.php">Meu perfil</a>
+            </div>
+
+            <div class="footer-section footer-contact">
+                <h3>Vamos conversar?</h3>
+                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p>
+                <a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <?= date('Y') ?> Atlas. Feito para ir longe.</p>
+            <div>
+                <a href="#">Privacidade</a>
+                <a href="#">Termos de uso</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="../js/header.js"></script>
     <script src="../js/tarefas.js"></script>

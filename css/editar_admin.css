@@ -1,5 +1,6 @@
 @import "header.css";
 @import "variaveis.css";
+@import "footer.css";
 
 *,
 *::before,
@@ -25,11 +26,11 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 480px;
+    max-width: 720px;
     margin: 0 auto;
 }
 
-.login-form {
+.editar-form {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -40,12 +41,12 @@ main {
     box-shadow: var(--shadow-offset-lg);
 }
 
-.login-form h2 {
+.editar-form h2 {
     font-size: 1.75rem;
     text-align: center;
 }
 
-.cadastrar {
+.logar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,17 +55,17 @@ main {
     color: var(--color-text-secondary);
 }
 
-.cadastrar a {
+.logar a {
     color: var(--color-primary-light);
     font-weight: 600;
     text-decoration: none;
 }
 
-.cadastrar a:hover {
+.logar a:hover {
     text-decoration: underline;
 }
 
-.login {
+.cadastro {
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
@@ -87,7 +88,12 @@ main {
     font-weight: 600;
 }
 
-.login-form input {
+.division .senha {
+    flex-direction: row;
+}
+
+.editar-form input,
+.editar-form select {
     width: 100%;
     padding: var(--space-2);
     border: 1px solid var(--color-border);
@@ -99,15 +105,40 @@ main {
     transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
-.login-form input:focus {
+.editar-form input:focus,
+.editar-form select:focus {
     outline: none;
     border-color: var(--color-primary-light);
     background-color: var(--color-surface);
 }
 
-.login-form button {
-    padding: var(--space-2) var(--space-3);
+.editar-form input[type="file"] {
+    padding: var(--space-1);
+    font-size: 0.875rem;
+}
+
+.editar-form input[type="file"]::file-selector-button {
+    padding: var(--space-1) var(--space-2);
+    margin-right: var(--space-2);
     border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.editar-form input[type="file"]::file-selector-button:hover {
+    background-color: var(--color-border);
+}
+
+.editar-form button {
+    padding: var(--space-2) var(--space-3);
+    margin-top: var(--space-1);
+    border: none;
+    width: 100%;
     border-radius: var(--radius-sm);
     background-color: var(--color-primary);
     color: var(--color-text-inverse);
@@ -118,6 +149,6 @@ main {
     transition: background-color var(--transition-fast);
 }
 
-.login-form button:hover {
+.editar-form button:hover {
     background-color: var(--color-primary-light);
 }

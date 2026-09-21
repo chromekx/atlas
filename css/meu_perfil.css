@@ -1,0 +1,183 @@
+@import "header.css";
+@import "variaveis.css";
+@import "footer.css";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Google Sans', sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    gap: var(--space-4);
+}
+
+.cabecalho-perfil {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+}
+
+.foto-grande {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.info-perfil {
+    display: flex;
+    flex: 1 1 220px;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.info-perfil h1 {
+    font-size: 1.5rem;
+}
+
+.email-perfil {
+    color: var(--color-text-secondary);
+}
+
+.detalhes-perfil {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+}
+
+.data-pref {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: 100px;
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+}
+
+.cabecalho-perfil .botao-secundario {
+    flex: 0 0 auto;
+}
+
+.abas-perfil {
+    display: flex;
+    gap: var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.aba-perfil {
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    border-bottom: 2px solid transparent;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.aba-perfil:hover {
+    color: var(--color-text);
+}
+
+.aba-perfil.ativa {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.painel-perfil {
+    display: flex;
+    min-height: 240px;
+    padding: var(--space-4);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+}
+
+.painel-perfil[hidden] {
+    display: none;
+}
+
+.estado-vazio {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+.estado-vazio i {
+    font-size: 2rem;
+    color: var(--color-border);
+}
+
+/* Botões (compartilhados com cadastro_tarefas.css) */
+
+.botao-primario,
+.botao-secundario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.botao-secundario {
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.botao-secundario:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.botao-primario {
+    padding: var(--space-2) var(--space-5);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+}
+
+.botao-primario:hover {
+    background-color: var(--color-primary-light);
+}
