@@ -22,21 +22,10 @@ session_start();
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
-            <div class="item">
-                <a href="cadastro_tarefas.php"><p>Cadastrar Tarefa</p></a>
-            </div>
-
-            <div class="item">
-                <a href="item2.php"><p>Item 2</p></a>
-            </div>
-
-            <div class="item">
-                <a href="item3.php"><p>Item 3</p></a>
-            </div>
-
-            <div class="item">
-                <a href="item4.php"><p>Item 4</p></a>
-            </div>
+            <button onclick="window.location.href='cadastro_tarefas.php'" class="item"><p>Cadastrar Tarefa</p></button>
+            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
+            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
+            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
         </nav>
 
         <nav class="nav-btns">
@@ -51,7 +40,7 @@ session_start();
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meuperfil.php">Meu Perfil</a>
+                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
                         <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
                         <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
                         <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
@@ -84,27 +73,31 @@ session_start();
             </button>
 
             <div class="categorias" id="categorias">
-                <button class="categoria" onclick="window.location.href='tarefas_culinaria/tarefas.php'"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
-                <button class="categoria"><i class="fa-solid fa-hammer"></i>Categoria 2</button>
-                <button class="categoria"><i class="fa-solid fa-car"></i>Categoria 3</button>
-                <button class="categoria"><i class="fa-solid fa-leaf"></i>Categoria 4</button>
-                <button class="categoria"><i class="fa-solid fa-computer"></i>Categoria 5</button>
-                <button class="categoria"><i class="fa-solid fa-broom"></i>Categoria 6</button>
-                <button class="categoria"><i class="fa-solid fa-book"></i>Categoria 7</button>
-                <button class="categoria"><i class="fa-solid fa-baby"></i>Categoria 8</button>
-                <button class="categoria"><i class="fa-solid fa-shirt"></i>Categoria 9</button>
-                <button class="categoria"><i class="fa-solid fa-floppy-disk"></i>Categoria 10</button>
-                <button class="categoria"><i class="fa-solid fa-bus"></i>Categoria 11</button>
-            </div>
+                <button onclick="window.location.href='guias_culinaria/guias.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
+                <button onclick="window.location.href='guias_casa/guias.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
+                <button onclick="window.location.href='guias_limpeza/guias.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
+                <button onclick="window.location.href='guias_financas/guias.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
+                <button onclick="window.location.href='guias_trabalho/guias.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
+                <button onclick="window.location.href='guias_educacao/guias.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
+                <button onclick="window.location.href='guias_saude/guias.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
+                <button onclick="window.location.href='guias_automoveis/guias.php'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
+                <button onclick="window.location.href='guias_transporte/guias.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
+                <button onclick="window.location.href='guias_tecnologia/guias.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
+                <button onclick="window.location.href='guias_jardinagem/guias.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
+                <button onclick="window.location.href='guias_moda/guias.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
+                <button onclick="window.location.href='guias_cuidados/guias.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
+                <button onclick="window.location.href='guias_manutencao/guias.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
+                <button onclick="window.location.href='guias_compras/guias.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+        </div>
 
-            <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
+        <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
         </div>
     </section>
 
-    <section id="aspectos">
-        <h1 class="titulo">Aspectos interessantes</h1>
+    <section id="preferencias">
+        <h1 class="titulo">Porque você gosta de <?= htmlspecialchars($_SESSION['preferencia']) ?>:</h1>
 
         <div class="cartoes" id="cartao">
             <div class="cartao" id="cartao">
@@ -175,7 +168,7 @@ session_start();
                 <h3>Explorar</h3>
                 <a href="#categorias">Categorias</a>
                 <a href="#aspectos">Descubra o Atlas</a>
-                <a href="meuperfil.php">Meu perfil</a>
+                <a href="meu_perfil.php">Meu perfil</a>
             </div>
 
             <div class="footer-section footer-contact">

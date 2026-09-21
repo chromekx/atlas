@@ -1,13 +1,55 @@
 <?php
 session_start();
-if (!isset($_SESSION['id'])) {
+include('conexao.php');
+
+if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
     header("Location: index.php");
+    exit();
+} else if (!isset($_GET['id'])) {
+    header('Location: admin.php');
+    exit();
 }
 
+$id_editar = $_GET['id'];
+$sql = "SELECT id_usuario, foto, nome, email, preferencia, nivel FROM usuario WHERE id_usuario = '$id_editar'";
+$resultado = $conn->query($sql);
+$usuario = $resultado->fetch_assoc();
 
+if (isset($_POST['editar'])) {
+    $novoNome = $_POST['nome'];
+    $novoEmail = $_POST['email'];
+    $novaSenha = $_POST['senha'];
+    $novoNivel = $_POST['nivel'];
+    $novaFoto = $usuario['foto'];
+    $erro = '';
+
+    // Verifica se uma nova foto foi enviada
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        $novaFoto = time() . '_' . $_FILES['foto']['name'];
+        move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_banco/' . $novaFoto);
+    }
+
+    if (!empty($novaSenha) && strlen($novaSenha) < 8) {
+        $erro = "A senha precisa ter pelo menos 8 caracteres.";
+    } else {
+        if (!empty($novaSenha)) {
+            $senhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
+            $sql = "UPDATE usuario SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', senha = '$senhaHash', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+        } else {
+            $sql = "UPDATE usuario SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
+        }
+        $query = $conn->query($sql);
+        
+        if ($query) {
+            header('Location: admin.php#id:' . $id_editar);
+            exit();
+        } else {
+            $erro = "Houve um erro ao atualizar o usuário.";
+        }
+    }
+}
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -18,8 +60,8 @@ if (!isset($_SESSION['id'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>ATLAS - Cadastrar Tarefa</title>
-    <link rel="stylesheet" href="css/cadastro_tarefas.css">
+    <title>ATLAS</title>
+    <link rel="stylesheet" href="css/editar_admin.css">
     <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
 
@@ -41,7 +83,7 @@ if (!isset($_SESSION['id'])) {
                 <div class="perfil" id="perfil">
                     <p>
                         <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
-                        Olá, <?= htmlspecialchars($_SESSION['nome']) ?>
+                        Olá, <?= $_SESSION['nome'] ?>
                     </p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
@@ -49,13 +91,13 @@ if (!isset($_SESSION['id'])) {
                         <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
                         <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
                         <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
-                        <?php if ($_SESSION['nivel'] == 1): ?>
+                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
                             <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
                         <?php endif; ?>
                     </div>
                 </div>
             <?php else: ?>
-                <button class="entrar" onclick="window.location.href='login.php'">Entrar</button>
+                <button class="entrar" onclick="window.location.href='login.php'"></button>
             <?php endif; ?>
 
             <a class="icon" onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
@@ -63,96 +105,37 @@ if (!isset($_SESSION['id'])) {
     </header>
 
     <main>
-        <div class="cabecalho-pagina">
-            <h1>Cadastrar tarefa</h1>
-            <p>Monte um guia passo a passo pra ajudar outras pessoas a aprenderem algo novo.</p>
-        </div>
+        <form class="editar-form" method="POST" enctype="multipart/form-data">
+            <h2>Editar Usuário</h2>
 
-        <form class="formulario-tarefa" id="formulario-tarefa" method="POST" enctype="multipart/form-data">
-            <section class="cartao-formulario">
-                <h2>Informações gerais</h2>
-
-                <div class="campo">
-                    <label for="titulo">Título</label>
-                    <input type="text" id="titulo" name="titulo" maxlength="200" placeholder="Ex: Como fazer um bolo de chocolate" required>
-                </div>
-
-                <div class="linha-campos">
-                    <div class="campo">
-                        <label for="categoria">Categoria</label>
-                        <select id="categoria" name="id_categoria" required>
-                            <option value="" disabled selected>Selecione uma categoria</option>
-                        </select>
+            <div class="cadastro">
+                <div class="text">
+                    <div class="division">
+                        <label for="nome">Nome de Usuário:</label>
+                        <input type="text" id="nome" name="nome" minlength="3" maxlength="100" required value="<?= $usuario['nome']; ?>">
                     </div>
 
-                    <div class="campo">
-                        <label for="dificuldade">Dificuldade</label>
-                        <select id="dificuldade" name="id_dificuldade" required>
-                            <option value="" disabled selected>Selecione a dificuldade</option>
-                            <option value="1">Fácil</option>
-                            <option value="2">Médio</option>
-                            <option value="3">Difícil</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="campo">
-                    <label for="descricao">Descrição</label>
-                    <textarea id="descricao" name="descricao" rows="4" placeholder="Conte rapidamente o que essa tarefa ensina" required></textarea>
-                </div>
-            </section>
-
-            <section class="cartao-formulario">
-                <h2>Materiais necessários</h2>
-                <p class="dica-campo">Digite um material e aperte Enter (ou clique em Adicionar).</p>
-
-                <div class="entrada-materiais">
-                    <input type="text" id="input-material" placeholder="Ex: Farinha de trigo">
-                    <button type="button" id="botao-add-material" class="botao-secundario">Adicionar</button>
-                </div>
-
-                <ul class="lista-materiais" id="lista-materiais"></ul>
-            </section>
-
-            <section class="cartao-formulario">
-                <div class="cabecalho-secao">
-                    <h2>Etapas</h2>
-                    <button type="button" id="botao-add-etapa" class="botao-secundario">
-                        <i class="fa-solid fa-plus"></i> Adicionar etapa
-                    </button>
-                </div>
-
-                <div class="lista-etapas" id="lista-etapas"></div>
-            </section>
-
-            <template id="template-etapa">
-                <div class="etapa">
-                    <div class="cabecalho-secao">
-                        <span class="etapa-numero">Etapa</span>
-                        <button type="button" class="botao-remover-etapa" aria-label="Remover etapa">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                    <div class="division">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" maxlength="150" name="email" required value="<?= $usuario['email']; ?>">
                     </div>
 
-                    <div class="campo">
-                        <label>Título da etapa (opcional)</label>
-                        <input type="text" class="campo-etapa-titulo" placeholder="Ex: Misture os ingredientes secos">
+                    <div class="division">
+                        <label for="senha">Senha:</label>
+                        <input type="password" id="senha" name="senha" maxlength="255">
                     </div>
 
-                    <div class="campo">
-                        <label>Descrição</label>
-                        <textarea class="campo-etapa-descricao" rows="3" placeholder="Explique o que fazer nessa etapa" required></textarea>
+                    <div class="division">
+                        <label for="nivel">Nivel:</label>
+                        <input type="number" id="nivel" name="nivel" min="1" max="3" required value="<?= $usuario['nivel']; ?>">
                     </div>
 
-                    <div class="campo">
-                        <label>Foto ou vídeo (opcional)</label>
-                        <input type="file" class="campo-etapa-midia" accept="image/*,video/*">
+                    <div class="division">
+                        <label for="foto">Foto</label>
+                        <input type="file" id="foto" name="foto" value="<?= $usuario['foto']; ?>">
                     </div>
                 </div>
-            </template>
-
-            <div class="acoes-formulario">
-                <button type="submit" class="botao-primario">Publicar tarefa</button>
+                <button type="submit" name="editar">Atualizar Usuário</button>
             </div>
         </form>
     </main>
@@ -195,7 +178,18 @@ if (!isset($_SESSION['id'])) {
     </footer>
 
     <script src="js/header.js"></script>
-    <script src="js/cadastro_tarefas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if (!empty($erro)): ?>
+        <script>
+            Swal.fire({
+                title: "<?= $erro ?>",
+                confirmButtonColor: "#006eff",
+                padding: '25px',
+                confirmButtonText: "Ok",
+            })
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>

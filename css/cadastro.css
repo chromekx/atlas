@@ -1,134 +1,152 @@
 @import "header.css";
+@import "variaveis.css";
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-    font-family: 'Google Sans';
     margin: 0;
     padding: 0;
-    transition: 0.3s ease;
 }
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #e9e9e9;
     width: 100%;
     overflow-x: hidden;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Google Sans', sans-serif;
 }
 
 main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 1000px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding-bottom: var(--space-7);
 }
 
-.login-form {
+.cadastro-form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 100%;
-    padding: 50px;
-    margin: 40px;
-    margin-top: 0px;
-    border-radius: 20px;
-    box-shadow: -10px 10px 0px #0000003f;
-    gap: 30px;
-    background-color: #fff;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-offset-lg);
 }
 
-.login-form h2 {
-    font-size: 35px;
-    width: 100%;
-    text-wrap: none;
+.cadastro-form h2 {
+    font-size: 1.75rem;
     text-align: center;
-}
-
-.login-form input,
-select {
-    width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background-color: #e9e9e9;
-    outline: none;
-}
-
-.login-form input:focus {
-    outline: 2px solid #000;
-}
-
-.login-form button {
-    font-size: 20px;
-    padding: 15px;
-    width: 200px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background-color: #e6b120;
-    color: #000;
-    cursor: pointer;
-}
-
-.login-form button:hover {
-    background-color: #c59102;
 }
 
 .logar {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    gap: 10px;
-}
-
-.logar h1 {
-    font-size: 100%;
-    width: 100%;
-    text-wrap: none;
+    justify-content: center;
+    gap: var(--space-1);
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
 }
 
 .logar a {
-    font-size: 18px;
-    border-radius: 10px;
-    text-align: center;
-    text-wrap: none;
-    color: #006eff;
+    color: var(--color-primary-light);
+    font-weight: 600;
+    text-decoration: none;
 }
 
 .logar a:hover {
-    filter: drop-shadow(0px 0px 5px #9bbbf7);
+    text-decoration: underline;
 }
 
 .cadastro {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 0px;
-    border-radius: 2px;
-    background-color: #fff;
-    gap: 30px;
-    filter: drop-shadow(0px 0px 0px #9bbbf7);
-}
-
-label {
-    margin-bottom: 10px;
+    gap: var(--space-4);
 }
 
 .text {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    gap: 20px;
+    gap: var(--space-3);
 }
 
 .division {
     display: flex;
     flex-direction: column;
+    gap: var(--space-1);
+}
+
+.division label {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.division .senha {
+    flex-direction: row;
+}
+
+.cadastro-form input,
+.cadastro-form select {
+    width: 100%;
+    padding: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.cadastro-form input:focus,
+.cadastro-form select:focus {
+    outline: none;
+    border-color: var(--color-primary-light);
+    background-color: var(--color-surface);
+}
+
+.cadastro-form input[type="file"] {
+    padding: var(--space-1);
+    font-size: 0.875rem;
+}
+
+.cadastro-form input[type="file"]::file-selector-button {
+    padding: var(--space-1) var(--space-2);
+    margin-right: var(--space-2);
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.cadastro-form input[type="file"]::file-selector-button:hover {
+    background-color: var(--color-border);
+}
+
+.cadastro-form button {
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.cadastro-form button:hover {
+    background-color: var(--color-primary-light);
 }

@@ -1,5 +1,7 @@
 @import 'header.css';
-@import 'variables.css';
+@import 'variaveis.css';
+@import "footer.css";
+
 
 * {
     box-sizing: border-box;

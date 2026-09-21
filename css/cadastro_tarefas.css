@@ -1,4 +1,6 @@
 @import "header.css";
+@import "variaveis.css";
+@import "footer.css";
 
 *,
 *::before,
@@ -24,9 +26,8 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 720px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 var(--space-3) var(--space-7);
 }
 
 .cabecalho-pagina {
@@ -34,7 +35,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: var(--space-1);
-    margin: var(--space-5) 0 var(--space-5);
+    margin: var(--space-3) 0 var(--space-5) 0;
     text-align: center;
 }
 
@@ -43,7 +44,7 @@ main {
 }
 
 .cabecalho-pagina p {
-    color: #555555;
+    color: var(--color-text-secondary);
 }
 
 /* Formulário */
@@ -70,9 +71,14 @@ main {
     font-size: 1.25rem;
 }
 
+.cabecalho-cartao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
 .dica-campo {
-    margin-top: calc(var(--space-1) * -1);
-    color: #777777;
+    color: var(--color-text-secondary);
     font-size: 0.875rem;
 }
 
@@ -90,12 +96,13 @@ main {
 
 .linha-campos {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-3);
     width: 100%;
 }
 
 .linha-campos .campo {
-    flex: 1 1 0;
+    flex: 1 1 220px;
 }
 
 .campo input,
@@ -128,7 +135,32 @@ main {
 .campo input::placeholder,
 .campo textarea::placeholder,
 .entrada-materiais input::placeholder {
-    color: #999999;
+    color: var(--color-text-placeholder);
+}
+
+/* Campo de arquivo: o navegador só deixa estilizar o botão interno */
+
+.campo input[type="file"] {
+    padding: var(--space-1);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+.campo input[type="file"]::file-selector-button {
+    padding: var(--space-1) var(--space-2);
+    margin-right: var(--space-2);
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.campo input[type="file"]::file-selector-button:hover {
+    background-color: var(--color-surface-hover);
 }
 
 /* Materiais */
@@ -163,11 +195,19 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 18px;
+    height: 18px;
     border: none;
+    border-radius: 50%;
     background: none;
     color: var(--color-danger);
     font-size: 0.75rem;
     cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.material button:hover {
+    background-color: var(--color-danger-bg);
 }
 
 /* Etapas */
@@ -176,6 +216,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-2);
 }
 
 .lista-etapas {
@@ -200,6 +241,7 @@ main {
 
 .botao-remover-etapa {
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
     width: 32px;
@@ -209,11 +251,17 @@ main {
     background-color: transparent;
     color: var(--color-danger);
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    transition: background-color var(--transition-fast), opacity var(--transition-fast);
 }
 
 .botao-remover-etapa:hover {
-    background-color: rgba(204, 40, 40, 0.1);
+    background-color: var(--color-danger-bg);
+}
+
+.botao-remover-etapa:disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
 }
 
 /* Botões */
@@ -223,6 +271,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 auto;
     gap: var(--space-1);
     border: none;
     border-radius: var(--radius-sm);
@@ -239,7 +288,7 @@ main {
 }
 
 .botao-secundario:hover {
-    background-color: #dcdcdc;
+    background-color: var(--color-surface-hover);
 }
 
 .acoes-formulario {

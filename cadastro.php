@@ -16,7 +16,7 @@ if (isset($_POST['cadastrar'])) {
         $foto = null;
     }
 
-    $sql = "SELECT email FROM usuarios WHERE email = '$email'";
+    $sql = "SELECT email FROM usuario WHERE email = '$email'";
     $buscarEmails = $conn->query($sql);
 
     if (strlen($senha) < 8) {
@@ -28,9 +28,9 @@ if (isset($_POST['cadastrar'])) {
     } else {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
         if ($foto != null) {
-            $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES ('$foto', '$nome', '$email', '$senhaHash', '$preferencia')";
+            $sql = "INSERT INTO usuario (foto, nome, email, senha, preferencia) VALUES ('$foto', '$nome', '$email', '$senhaHash', '$preferencia')";
         } else {
-            $sql = "INSERT INTO usuarios (foto, nome, email, senha, preferencia) VALUES (null, '$nome', '$email', '$senhaHash', '$preferencia')";
+            $sql = "INSERT INTO usuario (foto, nome, email, senha, preferencia) VALUES (null, '$nome', '$email', '$senhaHash', '$preferencia')";
         }
         $cadastro = $conn->query($sql);
         if ($cadastro) {
@@ -59,7 +59,7 @@ if (isset($_POST['cadastrar'])) {
 <body>
     <header>
         <nav class="nav-options">
-            <a href="index.php"><img class="logo" src="imgs_website/logotipoatlas.png"></a>
+            <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
         </nav>
 
         <nav class="nav-btns">
@@ -68,7 +68,7 @@ if (isset($_POST['cadastrar'])) {
     </header>
 
     <main>
-        <form class="login-form" method="POST" enctype="multipart/form-data">
+        <form class="cadastro-form" method="POST" enctype="multipart/form-data" autocomplete="off">
             <h2>Cadastro de Usuário</h2>
 
             <div class="logar">
@@ -77,35 +77,47 @@ if (isset($_POST['cadastrar'])) {
             </div>
 
             <div class="cadastro">
-
                 <div class="text">
                     <div class="division">
                         <label for="nome">Nome de Usuário:</label>
-                        <input type="text" id="nome" name="nome" minlength="3" maxlength="100" required>
+                        <input type="text" id="nome" name="nome" minlength="3" maxlength="100" autocomplete="off" required>
                     </div>
 
                     <div class="division">
                         <label for="email">E-mail:</label>
-                        <input type="email" id="email" maxlength="150" name="email" required>
+                        <input type="email" id="email" maxlength="150" name="email" autocomplete="off" required>
                     </div>
 
                     <div class="division">
                         <label for="senha">Senha:</label>
-                        <input type="password" id="senha" name="senha" minlength="8" maxlength="255" required>
+                        <input type="password" id="senha" name="senha" minlength="8" maxlength="255" autocomplete="new-password" required>
                     </div>
 
                     <div class="division">
                         <label for="confirmar_senha">Confirmar Senha:</label>
-                        <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+                        <input type="password" id="confirmarSenha" name="confirmarSenha" autocomplete="new-password" required>
                     </div>
 
                     <div class="division">
                         <label for="preferencias">Preferência:</label>
                         <select id="preferencias" name="preferencias">
-                            <option value="esportes">Esportes</option>
-                            <option value="música">Música</option>
-                            <option value="cinema">Cinema</option>
-                            <option value="livros">Livros</option>
+                            <div class="categorias" id="categorias">
+                                <option value="Culinária">Culinária</option>
+                                <option value="Casa">Casa</option>
+                                <option value="Limpeza">Limpeza</option>
+                                <option value="Finanças">Finanças</option>
+                                <option value="Trabalho">Trabalho</option>
+                                <option value="Educação">Educação</option>
+                                <option value="Saúde">Saúde</option>
+                                <option value="Automóveis">Automóveis</option>
+                                <option value="Transporte">Transporte</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="Jardinagem">Jardinagem</option>
+                                <option value="Moda">Moda</option>
+                                <option value="Cuidados">Cuidados</option>
+                                <option value="Manutenção">Manutenção</option>
+                                <option value="Compras">Compras</option>
+                            </div>
                         </select>
                     </div>
 
@@ -126,7 +138,7 @@ if (isset($_POST['cadastrar'])) {
         <script>
             Swal.fire({
                 title: "<?= $erro ?>",
-                confirmButtonColor: "#006eff",
+                confirmButtonColor: "#263783",
                 padding: '25px',
                 confirmButtonText: "Ok",
             })

@@ -11,7 +11,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
 }
 
 $id = $_GET['id'];
-$sql = "UPDATE usuarios SET estado = 'Inativo' WHERE id_usuario = '$id'";
+$sql = "UPDATE usuario SET estado = 'Inativo' WHERE id_usuario = '$id'";
 
 if ($conn->query($sql)) {
     header("Location: admin.php#" . $id);

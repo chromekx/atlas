@@ -1,5 +1,6 @@
 @import "header.css";
-@import "variables.css";
+@import "variaveis.css";
+@import "footer.css";
 
 *,
 *::before,
@@ -59,6 +60,7 @@ main button {
     color: var(--color-text-inverse);
     font-size: 14px;
     cursor: pointer;
+    font-family: 'Google Sans', sans-serif;
 }
 
 main button::before {
@@ -101,28 +103,6 @@ section {
     gap: var(--space-2);
 }
 
-.categorias {
-    display: flex;
-    flex: 1 1 auto;
-    min-width: 0;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--space-3);
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-.categorias.entrou {
-    opacity: 1;
-}
-
-.categorias::-webkit-scrollbar {
-    display: none;
-}
-
 .carrossel-seta {
     display: flex;
     flex: 0 0 auto;
@@ -149,6 +129,28 @@ section {
     pointer-events: none;
 }
 
+.categorias {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-3);
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.categorias.entrou {
+    opacity: 1;
+}
+
+.categorias::-webkit-scrollbar {
+    display: none;
+}
+
 .categoria {
     display: flex;
     flex: 0 0 200px;
@@ -163,6 +165,7 @@ section {
     cursor: pointer;
     scroll-snap-align: start;
     transition: background-color var(--transition-fast);
+    font-family: 'Google Sans', sans-serif;
 }
 
 .categoria:hover {
