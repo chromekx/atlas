@@ -18,8 +18,8 @@ if (!isset($_SESSION['id'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>ATLAS - Cadastrar Tarefa</title>
-    <link rel="stylesheet" href="css/cadastro_tarefas.css">
+    <title>ATLAS - Cadastrar guia</title>
+    <link rel="stylesheet" href="css/cadastro_guias.css">
     <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
 
@@ -28,7 +28,7 @@ if (!isset($_SESSION['id'])) {
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_tarefas.php'" class="item"><p>Cadastrar Tarefa</p></button>
+            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar guia</p></button>
             <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
             <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
             <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
@@ -64,7 +64,7 @@ if (!isset($_SESSION['id'])) {
 
     <main>
         <div class="cabecalho-pagina">
-            <h1>Cadastrar tarefa</h1>
+            <h1>Cadastrar guia</h1>
             <p>Monte um guia passo a passo pra ajudar outras pessoas a aprenderem algo novo.</p>
         </div>
 
@@ -195,7 +195,7 @@ if (!isset($_SESSION['id'])) {
     </footer>
 
     <script src="js/header.js"></script>
-    <script src="js/cadastro_tarefas.js"></script>
+    <script src="js/cadastro_guias.js"></script>
 </body>
 
 </html>
