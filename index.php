@@ -22,10 +22,18 @@ session_start();
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
-            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
-            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
+            <button onclick="window.location.href='cadastro_guias.php'" class="item">
+                <p>Cadastrar guia</p>
+            </button>
+            <button onclick="window.location.href='item2.php'" class="item">
+                <p>Item 2</p>
+            </button>
+            <button onclick="window.location.href='item3.php'" class="item">
+                <p>Item 3</p>
+            </button>
+            <button onclick="window.location.href='item4.php'" class="item">
+                <p>Item 4</p>
+            </button>
         </nav>
 
         <nav class="nav-btns">
@@ -88,67 +96,69 @@ session_start();
                 <button onclick="window.location.href='guias_cuidados/guias.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
                 <button onclick="window.location.href='guias_manutencao/guias.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
                 <button onclick="window.location.href='guias_compras/guias.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
-        </div>
-
-        <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-        </div>
-    </section>
-
-    <section id="preferencias">
-        <h1 class="titulo">Porque você gosta de <?= htmlspecialchars($_SESSION['preferencia']) ?>:</h1>
-
-        <div class="cartoes" id="cartao">
-            <div class="cartao" id="cartao">
-                <div class="foto-card" style="background-color: #44c0fa;"></div>
-                <div class="cartao-texto">
-                    <h2>Cartão 1</h2>
-                    <p>Desc do cartão 1</p>
-                </div>
             </div>
 
-            <div class="cartao" id="cartao">
-                <div class="foto-card" style="background-color: #ffcb3d;"></div>
-                <div class="cartao-texto">
-                    <h2>Cartão 2</h2>
-                    <p>Desc do cartão 2</p>
-                </div>
-            </div>
-
-            <div class="cartao" id="cartao">
-                <div class="foto-card" style="background-color: #ff6464ff;"></div>
-                <div class="cartao-texto">
-                    <h2>Cartão 3</h2>
-                    <p>Desc do cartão 3</p>
-                </div>
-            </div>
-
-            <div class="cartao" id="cartao">
-                <div class="foto-card" style="background-color: #b0da98ff;"></div>
-                <div class="cartao-texto">
-                    <h2>Cartão 4</h2>
-                    <p>Desc do cartão 4</p>
-                </div>
-            </div>
-
-            <div class="cartao" id="cartao">
-                <div class="foto-card" style="background-color: #3b56cf;"></div>
-                <div class="cartao-texto">
-                    <h2>Cartão 3</h2>
-                    <p>Desc do cartão 3</p>
-                </div>
-            </div>
-
-            <div class="cartao" id="cartao">
-                <div class="foto-card" style="background-color: #635ada;"></div>
-                <div class="cartao-texto">
-                    <h2>Cartão 4</h2>
-                    <p>Desc do cartão 4</p>
-                </div>
-            </div>
+            <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
     </section>
+
+    <?php if (isset($_SESSION['id'])) { ?>
+        <section id="preferencias">
+            <h1 class="titulo">Porque você gosta de <?= htmlspecialchars($_SESSION['preferencia']) ?>:</h1>
+
+            <div class="cartoes" id="cartao">
+                <div class="cartao" id="cartao">
+                    <div class="foto-card" style="background-color: #44c0fa;"></div>
+                    <div class="cartao-texto">
+                        <h2>Cartão 1</h2>
+                        <p>Desc do cartão 1</p>
+                    </div>
+                </div>
+
+                <div class="cartao" id="cartao">
+                    <div class="foto-card" style="background-color: #ffcb3d;"></div>
+                    <div class="cartao-texto">
+                        <h2>Cartão 2</h2>
+                        <p>Desc do cartão 2</p>
+                    </div>
+                </div>
+
+                <div class="cartao" id="cartao">
+                    <div class="foto-card" style="background-color: #ff6464ff;"></div>
+                    <div class="cartao-texto">
+                        <h2>Cartão 3</h2>
+                        <p>Desc do cartão 3</p>
+                    </div>
+                </div>
+
+                <div class="cartao" id="cartao">
+                    <div class="foto-card" style="background-color: #b0da98ff;"></div>
+                    <div class="cartao-texto">
+                        <h2>Cartão 4</h2>
+                        <p>Desc do cartão 4</p>
+                    </div>
+                </div>
+
+                <div class="cartao" id="cartao">
+                    <div class="foto-card" style="background-color: #3b56cf;"></div>
+                    <div class="cartao-texto">
+                        <h2>Cartão 3</h2>
+                        <p>Desc do cartão 3</p>
+                    </div>
+                </div>
+
+                <div class="cartao" id="cartao">
+                    <div class="foto-card" style="background-color: #635ada;"></div>
+                    <div class="cartao-texto">
+                        <h2>Cartão 4</h2>
+                        <p>Desc do cartão 4</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <?php } ?>
 
     <footer>
         <div class="footer-content">
