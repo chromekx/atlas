@@ -21,9 +21,10 @@ session_start();
     <header>
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
+        <?php if (isset($_SESSION['id'])) { ?>
         <nav class="nav-options">
             <button onclick="window.location.href='cadastro_guias.php'" class="item">
-                <p>Cadastrar guia</p>
+                <p>Cadastrar Guia</p>
             </button>
             <button onclick="window.location.href='item2.php'" class="item">
                 <p>Item 2</p>
@@ -35,6 +36,7 @@ session_start();
                 <p>Item 4</p>
             </button>
         </nav>
+        <?php } ?>
 
         <nav class="nav-btns">
             <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
@@ -81,21 +83,21 @@ session_start();
             </button>
 
             <div class="categorias" id="categorias">
-                <button onclick="window.location.href='guias_culinaria/guias.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
-                <button onclick="window.location.href='guias_casa/guias.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
-                <button onclick="window.location.href='guias_limpeza/guias.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
-                <button onclick="window.location.href='guias_financas/guias.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
-                <button onclick="window.location.href='guias_trabalho/guias.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
-                <button onclick="window.location.href='guias_educacao/guias.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
-                <button onclick="window.location.href='guias_saude/guias.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
-                <button onclick="window.location.href='guias_automoveis/guias.php'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
-                <button onclick="window.location.href='guias_transporte/guias.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
-                <button onclick="window.location.href='guias_tecnologia/guias.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
-                <button onclick="window.location.href='guias_jardinagem/guias.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
-                <button onclick="window.location.href='guias_moda/guias.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
-                <button onclick="window.location.href='guias_cuidados/guias.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
-                <button onclick="window.location.href='guias_manutencao/guias.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
-                <button onclick="window.location.href='guias_compras/guias.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+                <button onclick="window.location.href='guias/guias_culinaria/guias.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
+                <button onclick="window.location.href='guias/guias_casa/guias.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
+                <button onclick="window.location.href='guias/guias_limpeza/guias.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
+                <button onclick="window.location.href='guias/guias_financas/guias.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
+                <button onclick="window.location.href='guias/guias_trabalho/guias.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
+                <button onclick="window.location.href='guias/guias_educacao/guias.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
+                <button onclick="window.location.href='guias/guias_saude/guias.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
+                <button onclick="window.location.href='guias/guias_automoveis/guias.php'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
+                <button onclick="window.location.href='guias/guias_transporte/guias.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
+                <button onclick="window.location.href='guias/guias_tecnologia/guias.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
+                <button onclick="window.location.href='guias/guias_jardinagem/guias.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
+                <button onclick="window.location.href='guias/guias_moda/guias.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
+                <button onclick="window.location.href='guias/guias_cuidados/guias.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
+                <button onclick="window.location.href='guias/guias_manutencao/guias.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
+                <button onclick="window.location.href='guias/guias_compras/guias.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
             </div>
 
             <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">

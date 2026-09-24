@@ -28,7 +28,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar guia</p></button>
+            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
             <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
             <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
             <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>

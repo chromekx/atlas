@@ -140,6 +140,7 @@ a {
     white-space: nowrap;
     translate: 5px -5px;
     transition: translate var(--transition-fast), box-shadow var(--transition-fast);
+    font-family: 'Google Sans';
 }
 
 .entrar:hover::before {
