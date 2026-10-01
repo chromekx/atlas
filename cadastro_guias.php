@@ -26,10 +26,18 @@ if (!isset($_SESSION['id'])) {
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
-            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
-            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
+            <button onclick="window.location.href='cadastro_guias.php'" class="item">
+                <p>Cadastrar Guia</p>
+            </button>
+            <button onclick="window.location.href='item2.php'" class="item">
+                <p>Item 2</p>
+            </button>
+            <button onclick="window.location.href='item3.php'" class="item">
+                <p>Item 3</p>
+            </button>
+            <button onclick="window.location.href='item4.php'" class="item">
+                <p>Item 4</p>
+            </button>
         </nav>
 
         <nav class="nav-btns">
@@ -75,11 +83,31 @@ if (!isset($_SESSION['id'])) {
                     <input type="text" id="titulo" name="titulo" maxlength="200" placeholder="Ex: Como fazer um bolo de chocolate" required>
                 </div>
 
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa tarefa ensina" required></textarea>
+                </div>
+
                 <div class="linha-campos">
                     <div class="campo">
                         <label for="categoria">Categoria</label>
                         <select id="categoria" name="id_categoria" required>
                             <option value="" disabled selected>Selecione uma categoria</option>
+                            <option value="Culinária">Culinária</option>
+                            <option value="Casa">Casa</option>
+                            <option value="Limpeza">Limpeza</option>
+                            <option value="Finanças">Finanças</option>
+                            <option value="Trabalho">Trabalho</option>
+                            <option value="Educação">Educação</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Automóveis">Automóveis</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Tecnologia">Tecnologia</option>
+                            <option value="Jardinagem">Jardinagem</option>
+                            <option value="Moda">Moda</option>
+                            <option value="Cuidados">Cuidados</option>
+                            <option value="Manutenção">Manutenção</option>
+                            <option value="Compras">Compras</option>
                         </select>
                     </div>
 
@@ -87,16 +115,11 @@ if (!isset($_SESSION['id'])) {
                         <label for="dificuldade">Dificuldade</label>
                         <select id="dificuldade" name="id_dificuldade" required>
                             <option value="" disabled selected>Selecione a dificuldade</option>
-                            <option value="1">Fácil</option>
-                            <option value="2">Médio</option>
-                            <option value="3">Difícil</option>
+                            <option value="Fácil">Fácil</option>
+                            <option value="Médio">Médio</option>
+                            <option value="Difícil">Difícil</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="campo">
-                    <label for="descricao">Descrição</label>
-                    <textarea id="descricao" name="descricao" rows="4" placeholder="Conte rapidamente o que essa tarefa ensina" required></textarea>
                 </div>
             </section>
 
@@ -106,7 +129,7 @@ if (!isset($_SESSION['id'])) {
 
                 <div class="entrada-materiais">
                     <input type="text" id="input-material" placeholder="Ex: Farinha de trigo">
-                    <button type="button" id="botao-add-material" class="botao-secundario">Adicionar</button>
+                    <button type="button" id="botao-add-material" class="botao-secundario" onclick="addMaterial()" >Adicionar</button>
                 </div>
 
                 <ul class="lista-materiais" id="lista-materiais"></ul>

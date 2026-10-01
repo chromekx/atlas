@@ -121,7 +121,7 @@ main {
 }
 
 .campo textarea {
-    resize: vertical;
+    resize: none;
 }
 
 .campo input:focus,
