@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/08/2026 às 06:16
+-- Tempo de geração: 05/10/2026 às 16:33
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -24,50 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `acessar_historico`
---
-
-CREATE TABLE `acessar_historico` (
-  `id_historico_acesso` int(11) NOT NULL,
-  `id_historico` int(11) DEFAULT NULL,
-  `id_usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `admins`
---
-
-CREATE TABLE `admins` (
-  `id_admin` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `hash_senha` varchar(255) NOT NULL,
-  `data_criacao` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `autor`
---
-
-CREATE TABLE `autor` (
-  `id_autor` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `categorias`
 --
 
 CREATE TABLE `categorias` (
   `id_categoria` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `descricao` text DEFAULT NULL
+  `descricao` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `etapa`
+--
+
+CREATE TABLE `etapa` (
+  `id_etapa` int(11) NOT NULL,
+  `id_etapas` int(11) NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `descricao` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -77,10 +53,7 @@ CREATE TABLE `categorias` (
 --
 
 CREATE TABLE `etapas` (
-  `id_etapa` int(11) NOT NULL,
-  `numero_ordem` int(11) NOT NULL,
-  `titulo` varchar(150) DEFAULT NULL,
-  `descricao` text NOT NULL,
+  `id_etapas` int(1) NOT NULL,
   `id_guia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -91,39 +64,29 @@ CREATE TABLE `etapas` (
 --
 
 CREATE TABLE `favoritos` (
-  `id_favorito` int(11) NOT NULL,
-  `data_favorito` datetime DEFAULT current_timestamp(),
   `id_usuario` int(11) NOT NULL,
-  `id_guia` int(11) NOT NULL
+  `id_guia` int(11) NOT NULL,
+  `data_favorito` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `guias`
+-- Estrutura para tabela `guia`
 --
 
-CREATE TABLE `guias` (
+CREATE TABLE `guia` (
   `id_guia` int(11) NOT NULL,
   `titulo` varchar(200) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `data_criacao` datetime DEFAULT current_timestamp(),
-  `data_atualizacao` datetime DEFAULT current_timestamp(),
+  `descricao` text NOT NULL,
   `id_categoria` int(11) NOT NULL,
-  `id_dificuldade` int(11) NOT NULL,
-  `id_autor` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `guias_materiais`
---
-
-CREATE TABLE `guias_materiais` (
-  `id_guias_materiais` int(11) NOT NULL,
-  `id_guia` int(11) NOT NULL,
-  `id_material` int(11) NOT NULL
+  `dificuldade` enum('dificil','normal','facil') NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `data_criacao` datetime NOT NULL DEFAULT current_timestamp(),
+  `data_atualizacao` datetime NOT NULL DEFAULT current_timestamp(),
+  `midia1` blob NOT NULL,
+  `midia2` blob NOT NULL,
+  `midia3` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -134,9 +97,9 @@ CREATE TABLE `guias_materiais` (
 
 CREATE TABLE `historico_guias` (
   `id_historico_guia` int(11) NOT NULL,
-  `data_visualizacao` datetime DEFAULT current_timestamp(),
   `id_usuario` int(11) NOT NULL,
-  `id_guia` int(11) NOT NULL
+  `id_guia` int(11) NOT NULL,
+  `data_visualizacao` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -146,99 +109,59 @@ CREATE TABLE `historico_guias` (
 --
 
 CREATE TABLE `materiais` (
+  `id_materiais` int(11) NOT NULL,
+  `id_guia` int(11) NOT NULL,
+  `id_material` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `material`
+--
+
+CREATE TABLE `material` (
   `id_material` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `descricao` text DEFAULT NULL
+  `descricao` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `midias`
+-- Estrutura para tabela `usuario`
 --
 
-CREATE TABLE `midias` (
-  `id_midia` int(11) NOT NULL,
-  `tipo` enum('imagem','video') NOT NULL,
-  `arquivo` varchar(255) NOT NULL,
-  `id_guia` int(11) NOT NULL,
-  `id_etapa` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `moderacao_conteudo`
---
-
-CREATE TABLE `moderacao_conteudo` (
-  `id_moderacao` int(11) NOT NULL,
-  `motivo` text DEFAULT NULL,
-  `data_acao` datetime DEFAULT current_timestamp(),
-  `id_admin` int(11) NOT NULL,
-  `id_guia` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `niveis_dificuldade`
---
-
-CREATE TABLE `niveis_dificuldade` (
-  `id_dificuldade` int(11) NOT NULL,
-  `nome` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `usuarios`
---
-
-CREATE TABLE `usuarios` (
+CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
+  `foto` blob DEFAULT NULL,
   `nome` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  `preferencia` varchar(100) DEFAULT NULL,
+  `preferencia` enum('esportes','musica','livros','cinema') NOT NULL,
   `nivel` enum('1','2','3','') NOT NULL DEFAULT '3',
-  `estado` enum('ativo','inativo') NOT NULL DEFAULT 'ativo',
-  `data_criacao` datetime DEFAULT current_timestamp()
+  `estado` enum('ativo','inativo','','') NOT NULL DEFAULT 'ativo',
+  `data_criacao` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `usuarios`
+-- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `preferencia`, `nivel`, `estado`, `data_criacao`) VALUES
-(1, 'Paola Carosella', 'victorhsouza001@gmail.com', '$2y$10$I.AwHktnxL9EAR2afFaqReOJwYIuIM/fNpPXz1ggq3xULunrctYwW', 'esportes', '1', 'inativo', '2026-07-15 16:45:43'),
-(2, 'Victor', 'victor.souza1@alunos.sc.senac.br', '$2y$10$7s5/cD5e4pbu22LLbeoz5ukaJDpCsoFbULggp3wanBDikmlQA4UB.', 'esportes', '1', 'ativo', '2026-08-10 09:25:53'),
-(3, 'Victor', '1234@gmail.com', '$2y$10$xsEgTGrBAwYm8/lCPKf2vOs98s67HMW2kZBabkSdOlb.VKYPxm3Hi', 'música', '2', 'ativo', '2026-08-14 10:39:11');
+INSERT INTO `usuario` (`id_usuario`, `foto`, `nome`, `email`, `senha`, `preferencia`, `nivel`, `estado`, `data_criacao`) VALUES
+(1, 0x313738373537393430315f67617469726f2e61766966, 'Paola Carosella', 'victorhsouza001@gmail.com', '$2y$10$jo.jURxYOvJDvpHdhUo9geaL5XgSLnhYsqXVKR2K.4wnNUIHxxLtq', 'esportes', '3', 'inativo', '2026-07-15 16:45:43'),
+(2, NULL, 'Victor', 'victor.souza1@alunos.sc.senac.br', '$2y$10$7s5/cD5e4pbu22LLbeoz5ukaJDpCsoFbULggp3wanBDikmlQA4UB.', 'esportes', '1', 'ativo', '2026-08-10 09:25:53'),
+(3, NULL, 'Claudinha', 'claudia.werlich@gmail.com', '$2y$10$vIGTKaRhgijlEnIzViVA6.7NA3PqOcthVR.whI7OcdnnpjFs/kakO', 'livros', '1', 'ativo', '2026-08-28 08:09:24'),
+(4, 0x313738373931373233365f313738373532343834375f6761746f6c6172616e6a612e6a7065, 'Victor', 'victor@gmail.com', '$2y$10$9yK1FK4ndJikrj/tBSyE2eYWUYXFZx38E.opyTHK210ICq.RVlHuW', '', '1', 'ativo', '2026-08-14 10:39:11'),
+(5, 0x313738373931353138305f313738373532343938375f6761746f6272616e636f2e6a7065, 'Luyza', 'luyza@gmail.com', '$2y$10$L.M./AaCzjfn2IdlTdzsguR1Sqs24WKcMVNoHft8vAR9USrIdARga', 'musica', '3', 'ativo', '2026-08-28 08:06:20'),
+(6, 0x313738373931353230385f313738373532343933335f6761746f707265746f2e6a7065, 'Davi', 'davi@gmail.com', '$2y$10$koAWHESsRZ9OkEn5QIDXW.Wjr.ot.PrUyk9COLTu729nzpUJqgtDm', 'musica', '3', 'ativo', '2026-08-28 08:06:48'),
+(7, 0x313738373931353233325f313738373532353132365f6761746f74757865646f2e6a7067, 'Felipe', 'felipe@gmail.com', '$2y$10$RH4Nx4bFoL/hNg6BhaGc5uMjoh9jJtQEV/EWUR/ioUluxBRCxTPHO', 'cinema', '3', 'ativo', '2026-08-28 08:07:12'),
+(10, NULL, 'teste', 'teste@gmail.com', '$2y$10$dnCs2R/bOtv1UAegk4niXOAa/wwrfEUi9JOxMaG/cl2hb1xTk6Wyq', 'esportes', '3', 'ativo', '2026-08-28 08:17:39'),
+(11, NULL, 'teste2', 'teste2@gmail.com', '$2y$10$d2ZP2cwCTttXTfAa/dxKBeuuITpt3UgvISQaCuMCp3HZnl4AB.5eK', 'musica', '3', 'ativo', '2026-08-28 08:36:26');
 
 --
 -- Índices para tabelas despejadas
 --
-
---
--- Índices de tabela `acessar_historico`
---
-ALTER TABLE `acessar_historico`
-  ADD PRIMARY KEY (`id_historico_acesso`),
-  ADD KEY `acessar_historico_fk` (`id_historico`),
-  ADD KEY `acessar_historico_usuario_fk` (`id_usuario`);
-
---
--- Índices de tabela `admins`
---
-ALTER TABLE `admins`
-  ADD PRIMARY KEY (`id_admin`);
-
---
--- Índices de tabela `autor`
---
-ALTER TABLE `autor`
-  ADD PRIMARY KEY (`id_autor`);
 
 --
 -- Índices de tabela `categorias`
@@ -247,94 +170,65 @@ ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
+-- Índices de tabela `etapa`
+--
+ALTER TABLE `etapa`
+  ADD PRIMARY KEY (`id_etapa`),
+  ADD KEY `fk_etapa_etapas` (`id_etapas`);
+
+--
 -- Índices de tabela `etapas`
 --
 ALTER TABLE `etapas`
-  ADD PRIMARY KEY (`id_etapa`),
-  ADD KEY `etapas_guia_fk` (`id_guia`);
+  ADD PRIMARY KEY (`id_etapas`),
+  ADD KEY `fk_etapas_guia` (`id_guia`);
 
 --
 -- Índices de tabela `favoritos`
 --
 ALTER TABLE `favoritos`
-  ADD PRIMARY KEY (`id_favorito`),
-  ADD KEY `favoritos_usuario_fk` (`id_usuario`),
-  ADD KEY `favoritos_guia_fk` (`id_guia`);
+  ADD PRIMARY KEY (`id_usuario`,`id_guia`),
+  ADD KEY `fk_favoritos_guia` (`id_guia`);
 
 --
--- Índices de tabela `guias`
+-- Índices de tabela `guia`
 --
-ALTER TABLE `guias`
+ALTER TABLE `guia`
   ADD PRIMARY KEY (`id_guia`),
-  ADD KEY `guias_categoria_fk` (`id_categoria`),
-  ADD KEY `guias_dificuldade_fk` (`id_dificuldade`),
-  ADD KEY `guias_autor_fk` (`id_autor`);
-
---
--- Índices de tabela `guias_materiais`
---
-ALTER TABLE `guias_materiais`
-  ADD PRIMARY KEY (`id_guias_materiais`),
-  ADD KEY `guias_materiais_guia_fk` (`id_guia`),
-  ADD KEY `guias_materiais_material_fk` (`id_material`);
+  ADD KEY `fk_guias_categoria` (`id_categoria`),
+  ADD KEY `fk_guia_usuario` (`id_usuario`);
 
 --
 -- Índices de tabela `historico_guias`
 --
 ALTER TABLE `historico_guias`
   ADD PRIMARY KEY (`id_historico_guia`),
-  ADD KEY `historico_guias_usuario_fk` (`id_usuario`),
-  ADD KEY `historico_guias_guia_fk` (`id_guia`);
+  ADD KEY `fk_historico_usuario` (`id_usuario`),
+  ADD KEY `fk_historico_guia` (`id_guia`);
 
 --
 -- Índices de tabela `materiais`
 --
 ALTER TABLE `materiais`
+  ADD PRIMARY KEY (`id_materiais`),
+  ADD KEY `fk_guia_materiais_guia` (`id_guia`),
+  ADD KEY `fk_guia_materiais_material` (`id_material`);
+
+--
+-- Índices de tabela `material`
+--
+ALTER TABLE `material`
   ADD PRIMARY KEY (`id_material`);
 
 --
--- Índices de tabela `midias`
+-- Índices de tabela `usuario`
 --
-ALTER TABLE `midias`
-  ADD PRIMARY KEY (`id_midia`),
-  ADD KEY `midias_guia_fk` (`id_guia`),
-  ADD KEY `midias_etapa_fk` (`id_etapa`);
-
---
--- Índices de tabela `moderacao_conteudo`
---
-ALTER TABLE `moderacao_conteudo`
-  ADD PRIMARY KEY (`id_moderacao`),
-  ADD KEY `moderacao_admin_fk` (`id_admin`),
-  ADD KEY `moderacao_guia_fk` (`id_guia`);
-
---
--- Índices de tabela `niveis_dificuldade`
---
-ALTER TABLE `niveis_dificuldade`
-  ADD PRIMARY KEY (`id_dificuldade`);
-
---
--- Índices de tabela `usuarios`
---
-ALTER TABLE `usuarios`
+ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_usuario`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
-
---
--- AUTO_INCREMENT de tabela `acessar_historico`
---
-ALTER TABLE `acessar_historico`
-  MODIFY `id_historico_acesso` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `admins`
---
-ALTER TABLE `admins`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `categorias`
@@ -343,15 +237,21 @@ ALTER TABLE `categorias`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `etapas`
+-- AUTO_INCREMENT de tabela `etapa`
 --
-ALTER TABLE `etapas`
+ALTER TABLE `etapa`
   MODIFY `id_etapa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `guias`
+-- AUTO_INCREMENT de tabela `etapas`
 --
-ALTER TABLE `guias`
+ALTER TABLE `etapas`
+  MODIFY `id_etapas` int(1) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `guia`
+--
+ALTER TABLE `guia`
   MODIFY `id_guia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -364,85 +264,63 @@ ALTER TABLE `historico_guias`
 -- AUTO_INCREMENT de tabela `materiais`
 --
 ALTER TABLE `materiais`
+  MODIFY `id_materiais` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `material`
+--
+ALTER TABLE `material`
   MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `midias`
+-- AUTO_INCREMENT de tabela `usuario`
 --
-ALTER TABLE `midias`
-  MODIFY `id_midia` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `moderacao_conteudo`
---
-ALTER TABLE `moderacao_conteudo`
-  MODIFY `id_moderacao` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `usuario`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restrições para tabelas despejadas
 --
 
 --
--- Restrições para tabelas `acessar_historico`
+-- Restrições para tabelas `etapa`
 --
-ALTER TABLE `acessar_historico`
-  ADD CONSTRAINT `acessar_historico_fk` FOREIGN KEY (`id_historico`) REFERENCES `historico_guias` (`id_historico_guia`),
-  ADD CONSTRAINT `acessar_historico_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+ALTER TABLE `etapa`
+  ADD CONSTRAINT `fk_etapa_etapas` FOREIGN KEY (`id_etapas`) REFERENCES `etapas` (`id_etapas`);
 
 --
 -- Restrições para tabelas `etapas`
 --
 ALTER TABLE `etapas`
-  ADD CONSTRAINT `etapas_guia_fk` FOREIGN KEY (`id_guia`) REFERENCES `guias` (`id_guia`);
+  ADD CONSTRAINT `fk_etapas_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`);
 
 --
 -- Restrições para tabelas `favoritos`
 --
 ALTER TABLE `favoritos`
-  ADD CONSTRAINT `favoritos_guia_fk` FOREIGN KEY (`id_guia`) REFERENCES `guias` (`id_guia`),
-  ADD CONSTRAINT `favoritos_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+  ADD CONSTRAINT `fk_favoritos_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`),
+  ADD CONSTRAINT `fk_favoritos_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --
--- Restrições para tabelas `guias`
+-- Restrições para tabelas `guia`
 --
-ALTER TABLE `guias`
-  ADD CONSTRAINT `guias_autor_fk` FOREIGN KEY (`id_autor`) REFERENCES `autor` (`id_autor`),
-  ADD CONSTRAINT `guias_categoria_fk` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`),
-  ADD CONSTRAINT `guias_dificuldade_fk` FOREIGN KEY (`id_dificuldade`) REFERENCES `niveis_dificuldade` (`id_dificuldade`);
-
---
--- Restrições para tabelas `guias_materiais`
---
-ALTER TABLE `guias_materiais`
-  ADD CONSTRAINT `guias_materiais_guia_fk` FOREIGN KEY (`id_guia`) REFERENCES `guias` (`id_guia`),
-  ADD CONSTRAINT `guias_materiais_material_fk` FOREIGN KEY (`id_material`) REFERENCES `materiais` (`id_material`);
+ALTER TABLE `guia`
+  ADD CONSTRAINT `fk_guia_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`),
+  ADD CONSTRAINT `fk_guias_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`);
 
 --
 -- Restrições para tabelas `historico_guias`
 --
 ALTER TABLE `historico_guias`
-  ADD CONSTRAINT `historico_guias_guia_fk` FOREIGN KEY (`id_guia`) REFERENCES `guias` (`id_guia`),
-  ADD CONSTRAINT `historico_guias_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+  ADD CONSTRAINT `fk_historico_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`),
+  ADD CONSTRAINT `fk_historico_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --
--- Restrições para tabelas `midias`
+-- Restrições para tabelas `materiais`
 --
-ALTER TABLE `midias`
-  ADD CONSTRAINT `midias_etapa_fk` FOREIGN KEY (`id_etapa`) REFERENCES `etapas` (`id_etapa`),
-  ADD CONSTRAINT `midias_guia_fk` FOREIGN KEY (`id_guia`) REFERENCES `guias` (`id_guia`);
-
---
--- Restrições para tabelas `moderacao_conteudo`
---
-ALTER TABLE `moderacao_conteudo`
-  ADD CONSTRAINT `moderacao_admin_fk` FOREIGN KEY (`id_admin`) REFERENCES `admins` (`id_admin`),
-  ADD CONSTRAINT `moderacao_guia_fk` FOREIGN KEY (`id_guia`) REFERENCES `guias` (`id_guia`);
+ALTER TABLE `materiais`
+  ADD CONSTRAINT `fk_guia_materiais_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`),
+  ADD CONSTRAINT `fk_guia_materiais_material` FOREIGN KEY (`id_material`) REFERENCES `material` (`id_material`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
