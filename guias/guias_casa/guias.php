@@ -13,20 +13,22 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>ATLAS</title>
-    <link rel="stylesheet" href="../css/guias.css">
+    <link rel="stylesheet" href="../../css/guias.css">
     <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
 
 <body>
     <header>
-        <a class="logo" href="../index.php"><img src="../imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="../../index.php"><img src="../../imgs_website/logotipoatlas.png"></a>
 
+        <?php if (isset($_SESSION['id'])) { ?>
         <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar guia</p></button>
+            <button onclick="window.location.href='../../cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
             <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
             <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
             <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
         </nav>
+        <?php } ?>
 
         <nav class="nav-btns">
             <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
@@ -34,7 +36,7 @@ session_start();
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="../imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        <img class="foto" src="../../imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
                         Olá, <?= $_SESSION['nome'] ?>
                     </p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>
@@ -60,18 +62,22 @@ session_start();
         <div class="categ-div">
             <label for="categorias" class="categorias-label">Categorias</label>
             <section class="categorias" id="categorias">
-                <button class="categoria" onclick="window.location.href='../tarefas_culinaria/tarefas.php'">Culinária</button>
-                <button class="categoria" onclick="window.location.href='../tarefas_esporte/tarefas.php'">Esporte</button>
-                <button class="categoria" onclick="window.location.href='../tarefas_lazer/tarefas.php'">Lazer</button>
+                <button class="categoria" onclick="window.location.href='../../guias/guias_culinaria/guias.php'">Culinária</button>
+                <button class="categoria">Categoria 2</button>
+                <button class="categoria">Categoria 3</button>
             </section>
         </div>
         <section class="lado-tarefas">
             <div class="breadcrumbs">
-                <a href="../index.php">Início</a>
+                <a href="../../index.php">Início</a>
                 <i class="fa-solid fa-arrow-right"></i>
-                <a href="../tarefas_culinaria/tarefas.php">Culinária</a>
+                <a href="../../guias/guias_culinaria/guias.php">Culinária</a>
             </div>
-            <button class="add-tarefa" onclick="window.location.href='../cadastro_guias.php'">Adicionar Tarefa</button>
+            <?php if (isset($_SESSION['id'])) { ?>
+            <button class="add-tarefa" onclick="window.location.href='../../cadastro_guias.php'">Adicionar Guia</button>
+            <?php } else { ?>
+            <button class="add-tarefa" onclick="window.location.href='../../login.php'">Entre para adicionar uma guia.</button>
+            <?php } ?>         
             <div class="tarefas">
 
             </div>

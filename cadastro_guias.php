@@ -4,8 +4,6 @@ if (!isset($_SESSION['id'])) {
     header("Location: index.php");
 }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +16,7 @@ if (!isset($_SESSION['id'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>ATLAS - Cadastrar guia</title>
+    <title>ATLAS - Cadastrar Guia</title>
     <link rel="stylesheet" href="css/cadastro_guias.css">
     <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
@@ -28,10 +26,18 @@ if (!isset($_SESSION['id'])) {
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
-            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
-            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
+            <button onclick="window.location.href='cadastro_guias.php'" class="item">
+                <p>Cadastrar Guia</p>
+            </button>
+            <button onclick="window.location.href='item2.php'" class="item">
+                <p>Item 2</p>
+            </button>
+            <button onclick="window.location.href='item3.php'" class="item">
+                <p>Item 3</p>
+            </button>
+            <button onclick="window.location.href='item4.php'" class="item">
+                <p>Item 4</p>
+            </button>
         </nav>
 
         <nav class="nav-btns">
@@ -64,7 +70,7 @@ if (!isset($_SESSION['id'])) {
 
     <main>
         <div class="cabecalho-pagina">
-            <h1>Cadastrar guia</h1>
+            <h1>Cadastrar Guia</h1>
             <p>Monte um guia passo a passo pra ajudar outras pessoas a aprenderem algo novo.</p>
         </div>
 
@@ -77,11 +83,31 @@ if (!isset($_SESSION['id'])) {
                     <input type="text" id="titulo" name="titulo" maxlength="200" placeholder="Ex: Como fazer um bolo de chocolate" required>
                 </div>
 
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa tarefa ensina" required></textarea>
+                </div>
+
                 <div class="linha-campos">
                     <div class="campo">
                         <label for="categoria">Categoria</label>
                         <select id="categoria" name="id_categoria" required>
                             <option value="" disabled selected>Selecione uma categoria</option>
+                            <option value="Culinária">Culinária</option>
+                            <option value="Casa">Casa</option>
+                            <option value="Limpeza">Limpeza</option>
+                            <option value="Finanças">Finanças</option>
+                            <option value="Trabalho">Trabalho</option>
+                            <option value="Educação">Educação</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Automóveis">Automóveis</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Tecnologia">Tecnologia</option>
+                            <option value="Jardinagem">Jardinagem</option>
+                            <option value="Moda">Moda</option>
+                            <option value="Cuidados">Cuidados</option>
+                            <option value="Manutenção">Manutenção</option>
+                            <option value="Compras">Compras</option>
                         </select>
                     </div>
 
@@ -89,16 +115,11 @@ if (!isset($_SESSION['id'])) {
                         <label for="dificuldade">Dificuldade</label>
                         <select id="dificuldade" name="id_dificuldade" required>
                             <option value="" disabled selected>Selecione a dificuldade</option>
-                            <option value="1">Fácil</option>
-                            <option value="2">Médio</option>
-                            <option value="3">Difícil</option>
+                            <option value="Fácil">Fácil</option>
+                            <option value="Médio">Médio</option>
+                            <option value="Difícil">Difícil</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="campo">
-                    <label for="descricao">Descrição</label>
-                    <textarea id="descricao" name="descricao" rows="4" placeholder="Conte rapidamente o que essa tarefa ensina" required></textarea>
                 </div>
             </section>
 
@@ -108,7 +129,7 @@ if (!isset($_SESSION['id'])) {
 
                 <div class="entrada-materiais">
                     <input type="text" id="input-material" placeholder="Ex: Farinha de trigo">
-                    <button type="button" id="botao-add-material" class="botao-secundario">Adicionar</button>
+                    <button type="button" id="botao-add-material" class="botao-secundario" onclick="addMaterial()" >Adicionar</button>
                 </div>
 
                 <ul class="lista-materiais" id="lista-materiais"></ul>
