@@ -3,7 +3,14 @@ session_start();
 if (!isset($_SESSION['id'])) {
     header("Location: index.php");
 }
+if ($_POST['publicar']) {
+    $titulo = $_POST{'titulo'};
+    $descricao = $_POST{'descricao'};
+    $categoria = $_POST{'categoria'};
+    $dificuldade = $_POST{'dificuldade'};
 
+    $sql = ""
+}
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +98,7 @@ if (!isset($_SESSION['id'])) {
                 <div class="linha-campos">
                     <div class="campo">
                         <label for="categoria">Categoria</label>
-                        <select id="categoria" name="id_categoria" required>
+                        <select id="categoria" name="categoria" required>
                             <option value="" disabled selected>Selecione uma categoria</option>
                             <option value="Culinária">Culinária</option>
                             <option value="Casa">Casa</option>
@@ -129,7 +136,7 @@ if (!isset($_SESSION['id'])) {
 
                 <div class="entrada-materiais">
                     <input type="text" id="input-material" placeholder="Ex: Farinha de trigo">
-                    <button type="button" id="botao-add-material" class="botao-secundario" onclick="addMaterial()" >Adicionar</button>
+                    <button type="button" id="botao-add-material" class="botao-secundario" onclick="addMaterial()">Adicionar</button>
                 </div>
 
                 <ul class="lista-materiais" id="lista-materiais"></ul>
@@ -173,7 +180,7 @@ if (!isset($_SESSION['id'])) {
             </template>
 
             <div class="acoes-formulario">
-                <button type="submit" class="botao-primario">Publicar tarefa</button>
+                <button type="submit" class="botao-primario" name="publicar">Publicar tarefa</button>
             </div>
         </form>
     </main>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/10/2026 às 18:44
+-- Tempo de geração: 05/10/2026 às 19:10
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -122,8 +122,8 @@ CREATE TABLE `materiais` (
 
 CREATE TABLE `material` (
   `id_material` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `descricao` varchar(500) NOT NULL
+  `id_materiais` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -211,14 +211,15 @@ ALTER TABLE `historico_guias`
 --
 ALTER TABLE `materiais`
   ADD PRIMARY KEY (`id_materiais`),
-  ADD KEY `fk_guia_materiais_guia` (`id_guia`),
-  ADD KEY `fk_guia_materiais_material` (`id_material`);
+  ADD KEY `fk_materiais_guia` (`id_guia`) USING BTREE,
+  ADD KEY `fk_materiais_material` (`id_material`) USING BTREE;
 
 --
 -- Índices de tabela `material`
 --
 ALTER TABLE `material`
-  ADD PRIMARY KEY (`id_material`);
+  ADD PRIMARY KEY (`id_material`),
+  ADD KEY `fk_material_materiais` (`id_materiais`) USING BTREE;
 
 --
 -- Índices de tabela `usuario`
