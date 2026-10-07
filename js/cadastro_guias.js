@@ -2,7 +2,7 @@ const listaMateriais = document.getElementById('lista-materiais')
 const inputMaterial = document.getElementById('input-material')
 const botaoAddMaterial = document.getElementById('botao-add-material')
 
-function adicionarMaterial() {
+function addMaterial() {
     const valor = inputMaterial.value.trim()
 
     if (valor === '') {
@@ -17,7 +17,7 @@ function adicionarMaterial() {
 
     const campoOculto = document.createElement('input')
     campoOculto.type = 'hidden'
-    campoOculto.name = 'materiais[]'
+    campoOculto.name = 'materiais'
     campoOculto.value = valor
 
     const botaoRemover = document.createElement('button')
@@ -38,7 +38,7 @@ botaoAddMaterial.addEventListener('click', adicionarMaterial)
 inputMaterial.addEventListener('keydown', (evento) => {
     if (evento.key === 'Enter') {
         evento.preventDefault()
-        adicionarMaterial()
+        addMaterial()
     }
 })
 
@@ -67,7 +67,7 @@ function renumerarEtapas() {
     })
 }
 
-function adicionarEtapa() {
+function addEtapa() {
     const fragmento = templateEtapa.content.cloneNode(true)
     const etapa = fragmento.querySelector('.etapa')
 
@@ -80,7 +80,7 @@ function adicionarEtapa() {
     renumerarEtapas()
 }
 
-botaoAddEtapa.addEventListener('click', adicionarEtapa)
+botaoAddEtapa.addEventListener('click', addEtapa)
 
 // toda tarefa começa com uma etapa pronta pra preencher
 adicionarEtapa()

@@ -4,13 +4,69 @@ if (!isset($_SESSION['id'])) {
     header("Location: index.php");
 }
 if ($_POST['publicar']) {
-    $titulo = $_POST{'titulo'};
-    $descricao = $_POST{'descricao'};
-    $categoria = $_POST{'categoria'};
-    $dificuldade = $_POST{'dificuldade'};
+    $titulo = $_POST['titulo'];
+    $descricao = $_POST['descricao'];
+    $categoria = $_POST['categoria'];
+    $dificuldade = $_POST['dificuldade'];
+    $materiais = $_POST['material'];
 
-    $sql = ""
+    $sql = "SELECT id_guia FROM guia";
+    $query = $conn->query($sql);
+    $idGuia = $query->fetch_assoc();
+
+    $sql = "SELECT id_materiais FROM materiais";
+    $query = $conn->query($sql);
+    $idMateriais = $query->fetch_assoc();
+
+    $sql = "SELECT id_etapas FROM etapas";
+    $query = $conn->query($sql);
+    $idEtapas = $query->fetch_assoc();
+    
+    foreach ($materiais as $material) {
+        $sql = "INSERT INTO material (id_materiais, nome)  VALUES ('$idMateriais','$material')";
+        $query = $conn->query($sql);
+    }
 }
+
+/* arrumado pelo chat
+if (isset($_POST['publicar'])) {
+
+    $titulo = $_POST['titulo'];
+    $descricao = $_POST['descricao'];
+    $categoria = $_POST['categoria'];
+    $dificuldade = $_POST['dificuldade'];
+
+    $materiais = $_POST['material'];
+
+    // 1. Criar a guia
+    $sql = "INSERT INTO guia (titulo, descricao, categoria, dificuldade)
+            VALUES ('$titulo', '$descricao', '$categoria', '$dificuldade')";
+
+    $conn->query($sql);
+
+    // Pegar o ID da guia criada
+    $idGuia = $conn->insert_id;
+
+
+    // 2. Criar o registro em materiais
+    $sql = "INSERT INTO materiais (id_guia)
+            VALUES ('$idGuia')";
+
+    $conn->query($sql);
+
+    // Pegar o ID de materiais criado
+    $idMateriais = $conn->insert_id;
+
+
+    // 3. Inserir cada material
+    foreach ($materiais as $material) {
+
+        $sql = "INSERT INTO material (id_materiais, nome)
+                VALUES ('$idMateriais', '$material')";
+
+        $conn->query($sql);
+    }
+} */
 ?>
 
 <!DOCTYPE html>
@@ -132,7 +188,7 @@ if ($_POST['publicar']) {
 
             <section class="cartao-formulario">
                 <h2>Materiais necessários</h2>
-                <p class="dica-campo">Digite um material e aperte Enter (ou clique em Adicionar).</p>
+                <p class="dica-campo">Digite um material e clique em Adicionar.</p>
 
                 <div class="entrada-materiais">
                     <input type="text" id="input-material" placeholder="Ex: Farinha de trigo">
@@ -163,18 +219,13 @@ if ($_POST['publicar']) {
                     </div>
 
                     <div class="campo">
-                        <label>Título da etapa (opcional)</label>
-                        <input type="text" class="campo-etapa-titulo" placeholder="Ex: Misture os ingredientes secos">
-                    </div>
-
-                    <div class="campo">
                         <label>Descrição</label>
                         <textarea class="campo-etapa-descricao" rows="3" placeholder="Explique o que fazer nessa etapa" required></textarea>
                     </div>
 
                     <div class="campo">
                         <label>Foto ou vídeo (opcional)</label>
-                        <input type="file" class="campo-etapa-midia" accept="image/*,video/*">
+                        <input type="file" class="campo-etapa-midia" name="midia" accept="image/*,video/*">
                     </div>
                 </div>
             </template>
