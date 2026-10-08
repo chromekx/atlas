@@ -3,70 +3,38 @@ session_start();
 if (!isset($_SESSION['id'])) {
     header("Location: index.php");
 }
-if ($_POST['publicar']) {
+if (isset($_POST['publicar'])) {
+    include('conexao.php');
+
     $titulo = $_POST['titulo'];
     $descricao = $_POST['descricao'];
     $categoria = $_POST['categoria'];
     $dificuldade = $_POST['dificuldade'];
     $materiais = $_POST['material'];
+    $etapas = $_POST['etapas'];
 
-    $sql = "SELECT id_guia FROM guia";
-    $query = $conn->query($sql);
-    $idGuia = $query->fetch_assoc();
+    $sql = "INSERT INTO guia (titulo, descricao, categoria, dificuldade) VALUES ('$titulo', '$descricao', '$categoria', '$dificuldade')";
+    $conn->query($sql);
+    $idGuia = $conn->insert_id; // pega o último numero escrito no campo que tem auto increment (id_guia)
 
-    $sql = "SELECT id_materiais FROM materiais";
-    $query = $conn->query($sql);
-    $idMateriais = $query->fetch_assoc();
+    $sql = "INSERT INTO materiais (id_guia) VALUES ('$idGuia')";
+    $conn->query($sql);
+    $idMateriais = $conn->insert_id; // o mesmo aqui
 
-    $sql = "SELECT id_etapas FROM etapas";
-    $query = $conn->query($sql);
-    $idEtapas = $query->fetch_assoc();
-    
+    $sql = "INSERT INTO etapas (id_guia) VALUES ('$idGuia')";
+    $conn->query($sql);
+    $idEtapas = $conn->insert_id; // o mesmo aqui
+
     foreach ($materiais as $material) {
         $sql = "INSERT INTO material (id_materiais, nome)  VALUES ('$idMateriais','$material')";
         $query = $conn->query($sql);
     }
-}
 
-/* arrumado pelo chat
-if (isset($_POST['publicar'])) {
-
-    $titulo = $_POST['titulo'];
-    $descricao = $_POST['descricao'];
-    $categoria = $_POST['categoria'];
-    $dificuldade = $_POST['dificuldade'];
-
-    $materiais = $_POST['material'];
-
-    // 1. Criar a guia
-    $sql = "INSERT INTO guia (titulo, descricao, categoria, dificuldade)
-            VALUES ('$titulo', '$descricao', '$categoria', '$dificuldade')";
-
-    $conn->query($sql);
-
-    // Pegar o ID da guia criada
-    $idGuia = $conn->insert_id;
-
-
-    // 2. Criar o registro em materiais
-    $sql = "INSERT INTO materiais (id_guia)
-            VALUES ('$idGuia')";
-
-    $conn->query($sql);
-
-    // Pegar o ID de materiais criado
-    $idMateriais = $conn->insert_id;
-
-
-    // 3. Inserir cada material
-    foreach ($materiais as $material) {
-
-        $sql = "INSERT INTO material (id_materiais, nome)
-                VALUES ('$idMateriais', '$material')";
-
-        $conn->query($sql);
+    foreach ($etapas as $etapa) {
+        $sql = "INSERT INTO etapa (id_etapas, nome)  VALUES ('$idEtapas','$etapa')"; // adicionar os outros campos
+        $query = $conn->query($sql);
     }
-} */
+}
 ?>
 
 <!DOCTYPE html>

@@ -33,7 +33,7 @@ function addMaterial() {
     inputMaterial.focus()
 }
 
-botaoAddMaterial.addEventListener('click', adicionarMaterial)
+botaoAddMaterial.addEventListener('click', addMaterial)
 
 inputMaterial.addEventListener('keydown', (evento) => {
     if (evento.key === 'Enter') {
