@@ -29,7 +29,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
 
         <nav class="nav-options">
             <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
+            <button onclick="window.location.href='item2.php'" class="item"><p>Sobre Nós</p></button>
             <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
             <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
         </nav>
@@ -40,7 +40,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
                         Olá, <?= $_SESSION['nome'] ?>
                     </p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>
@@ -104,7 +104,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                 while ($linha = $resultado->fetch_assoc()) { ?>
                     <tr>
                         <td id="id:<?= $linha['id_usuario'] ?>"><?= $linha['id_usuario'] ?></td>
-                        <td><img class="foto-bd" src="imgs_banco/<?= !empty($linha['foto']) ? htmlspecialchars($linha['foto']) : 'foto_padrao.png' ?>"></td>
+                        <td><img class="foto-bd" src="imgs_perfil/<?= !empty($linha['foto']) ? htmlspecialchars($linha['foto']) : 'foto_padrao.png' ?>"></td>
                         <td><?= htmlspecialchars($linha['nome']) ?></td>
                         <td><?= htmlspecialchars($linha['email']) ?></td>
                         <td><?= htmlspecialchars($linha['senha']) ?></td>

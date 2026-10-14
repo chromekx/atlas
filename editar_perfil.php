@@ -22,7 +22,7 @@ if (isset($_POST['editar'])) {
     // Verifica se uma nova foto foi enviada
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
         $novaFoto = time() . '_' . $_FILES['foto']['name'];
-        move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_banco/' . $novaFoto);
+        move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_perfil/' . $novaFoto);
     }
 
     if (!empty($novaSenha) && strlen($novaSenha) < 8) {
@@ -74,7 +74,7 @@ if (isset($_POST['editar'])) {
 
         <nav class="nav-options">
             <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
+            <button onclick="window.location.href='item2.php'" class="item"><p>Sobre Nós</p></button>
             <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
             <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
         </nav>
@@ -85,7 +85,7 @@ if (isset($_POST['editar'])) {
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
                         Olá, <?= $_SESSION['nome'] ?>
                     </p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>

@@ -17,7 +17,7 @@ function addMaterial() {
 
     const campoOculto = document.createElement('input')
     campoOculto.type = 'hidden'
-    campoOculto.name = 'materiais'
+    campoOculto.name = 'material[]'
     campoOculto.value = valor
 
     const botaoRemover = document.createElement('button')
@@ -50,15 +50,13 @@ function renumerarEtapas() {
     const etapas = listaEtapas.querySelectorAll('.etapa')
 
     etapas.forEach((etapa, indice) => {
-        const numero = indice + 1
+        let numero = indice + 1
 
         etapa.querySelector('.etapa-numero').textContent = `Etapa ${numero}`
 
-        const campoTitulo = etapa.querySelector('.campo-etapa-titulo')
         const campoDescricao = etapa.querySelector('.campo-etapa-descricao')
         const campoMidia = etapa.querySelector('.campo-etapa-midia')
 
-        campoTitulo.name = `etapas[${indice}][titulo]`
         campoDescricao.name = `etapas[${indice}][descricao]`
         campoMidia.name = `etapas[${indice}][midia]`
 
@@ -80,7 +78,5 @@ function addEtapa() {
     renumerarEtapas()
 }
 
-botaoAddEtapa.addEventListener('click', addEtapa)
-
 // toda tarefa começa com uma etapa pronta pra preencher
-adicionarEtapa()
+addEtapa()

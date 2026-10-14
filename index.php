@@ -27,7 +27,7 @@ session_start();
                 <p>Cadastrar Guia</p>
             </button>
             <button onclick="window.location.href='item2.php'" class="item">
-                <p>Item 2</p>
+                <p>Sobre Nós</p>
             </button>
             <button onclick="window.location.href='item3.php'" class="item">
                 <p>Item 3</p>
@@ -44,7 +44,7 @@ session_start();
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
                         Olá, <?= $_SESSION['nome'] ?>
                     </p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>

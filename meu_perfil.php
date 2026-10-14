@@ -75,7 +75,7 @@ if (!empty($usuario['data_criacao'])) {
 
         <nav class="nav-options">
             <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Item 2</p></button>
+            <button onclick="window.location.href='item2.php'" class="item"><p>Sobre Nós</p></button>
             <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
             <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
         </nav>
@@ -85,7 +85,7 @@ if (!empty($usuario['data_criacao'])) {
 
             <div class="perfil" id="perfil">
                 <p>
-                    <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                    <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
                     Olá, <?= htmlspecialchars($_SESSION['nome']) ?>
                 </p>
                 <i class="fa-solid fa-caret-up" id="seta"></i>
@@ -106,7 +106,7 @@ if (!empty($usuario['data_criacao'])) {
 
     <main>
         <section class="cabecalho-perfil">
-            <img class="foto-grande" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+            <img class="foto-grande" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
 
             <div class="info-perfil">
                 <h1><?= htmlspecialchars($_SESSION['nome']) ?></h1>

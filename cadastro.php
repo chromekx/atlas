@@ -11,7 +11,7 @@ if (isset($_POST['cadastrar'])) {
 
     if (!empty($_FILES['foto']) && $_FILES['foto']['name'] != '') {
         $foto = time() . '_' . $_FILES['foto']['name'];
-        move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_banco/' . $foto);
+        move_uploaded_file($_FILES['foto']['tmp_name'], 'imgs_perfil/' . $foto);
     } else {
         $foto = null;
     }

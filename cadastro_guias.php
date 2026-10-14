@@ -1,41 +1,192 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['id'])) {
     header("Location: index.php");
+    exit();
 }
+
 if (isset($_POST['publicar'])) {
     include('conexao.php');
 
-    $titulo = $_POST['titulo'];
-    $descricao = $_POST['descricao'];
-    $categoria = $_POST['categoria'];
-    $dificuldade = $_POST['dificuldade'];
-    $materiais = $_POST['material'];
-    $etapas = $_POST['etapas'];
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    $sql = "INSERT INTO guia (titulo, descricao, categoria, dificuldade) VALUES ('$titulo', '$descricao', '$categoria', '$dificuldade')";
-    $conn->query($sql);
-    $idGuia = $conn->insert_id; // pega o último numero escrito no campo que tem auto increment (id_guia)
+    try {
+        $conn->begin_transaction();
 
-    $sql = "INSERT INTO materiais (id_guia) VALUES ('$idGuia')";
-    $conn->query($sql);
-    $idMateriais = $conn->insert_id; // o mesmo aqui
+        $idUsuario = $_SESSION['id'];
+        $titulo = $_POST['titulo'];
+        $descricao = $_POST['descricao'];
+        $categoria = $_POST['categoria'];
+        $dificuldade = $_POST['dificuldade'];
+        $materiais = $_POST['material'] ?? [];
+        $etapas = $_POST['etapas'] ?? [];
+        $imagens = $_FILES['imagens'] ?? null;
 
-    $sql = "INSERT INTO etapas (id_guia) VALUES ('$idGuia')";
-    $conn->query($sql);
-    $idEtapas = $conn->insert_id; // o mesmo aqui
+        // Recebe a capa, a foto e o vídeo da guia
+        $capa = '';
+        $foto = '';
+        $video = '';
 
-    foreach ($materiais as $material) {
-        $sql = "INSERT INTO material (id_materiais, nome)  VALUES ('$idMateriais','$material')";
-        $query = $conn->query($sql);
-    }
+        $tiposPermitidos = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/webp' => 'webp',
+            'video/mp4' => 'mp4',
+            'image/gif' => 'gif'
+        ];
 
-    foreach ($etapas as $etapa) {
-        $sql = "INSERT INTO etapa (id_etapas, nome)  VALUES ('$idEtapas','$etapa')"; // adicionar os outros campos
-        $query = $conn->query($sql);
+        if ($imagens) {
+            for ($i = 0; $i < 3; $i++) {
+                $erro = $imagens['error'][$i] ?? UPLOAD_ERR_NO_FILE;
+
+                if ($erro === UPLOAD_ERR_NO_FILE) {
+                    continue;
+                }
+
+                if ($erro !== UPLOAD_ERR_OK) {
+                    throw new Exception('Erro ao enviar uma mídia.');
+                }
+
+                $tmpName = $imagens['tmp_name'][$i];
+                $tamanho = $imagens['size'][$i];
+
+                if (!is_uploaded_file($tmpName)) {
+                    throw new Exception('Arquivo inválido.');
+                }
+
+                if ($tamanho > 5 * 1024 * 1024) {
+                    throw new Exception('Cada arquivo deve ter no máximo 5 MB.');
+                }
+
+                $finfo = new finfo(FILEINFO_MIME_TYPE);
+                $tipo = $finfo->file($tmpName);
+
+                // Capa e foto aceitam imagens; vídeo aceita MP4
+                if ($i < 2 && !in_array($tipo, [
+                    'image/jpeg',
+                    'image/png',
+                    'image/webp'
+                ])) {
+                    throw new Exception('A capa e a foto devem ser imagens JPG, PNG ou WebP.');
+                }
+
+                if ($i === 2 && $tipo !== 'video/mp4,image/gif') {
+                    throw new Exception('O arquivo de vídeo deve ser MP4.');
+                }
+
+                $conteudo = file_get_contents($tmpName);
+
+                if ($i === 0) {
+                    $capa = $conteudo;
+                } elseif ($i === 1) {
+                    $foto = $conteudo;
+                } else {
+                    $video = $conteudo;
+                }
+            }
+        }
+
+        // Converte as mídias em valores binários para o BLOB
+        $capaSQL = $capa === '' ? "''" : "0x" . bin2hex($capa);
+        $fotoSQL = $foto === '' ? "''" : "0x" . bin2hex($foto);
+        $videoSQL = $video === '' ? "''" : "0x" . bin2hex($video);
+
+        // Cadastra a guia
+        $sql = "INSERT INTO guia
+                (id_usuario, titulo, descricao, categoria, dificuldade, capa, foto, video)
+                VALUES ('$idUsuario', '$titulo', '$descricao', '$categoria',
+                '$dificuldade', $capaSQL, $fotoSQL, $videoSQL)";
+
+        $conn->query($sql);
+        $idGuia = $conn->insert_id;
+
+        // Cadastra o agrupamento dos materiais
+        $sql = "INSERT INTO materiais (id_guia)
+                VALUES ('$idGuia')";
+
+        $conn->query($sql);
+        $idMateriais = $conn->insert_id;
+
+        // Cadastra os materiais
+        if (is_array($materiais)) {
+            foreach ($materiais as $material) {
+                $material = trim($material);
+
+                if ($material === '') {
+                    continue;
+                }
+
+                $sql = "INSERT INTO material (id_materiais, nome)
+                        VALUES ('$idMateriais', '$material')";
+
+                $conn->query($sql);
+            }
+        }
+
+        // Cadastra o agrupamento das etapas
+        $sql = "INSERT INTO etapas (id_guia)
+                VALUES ('$idGuia')";
+
+        $conn->query($sql);
+        $idEtapas = $conn->insert_id;
+
+        // Cadastra as etapas e suas mídias
+        if (is_array($etapas)) {
+            foreach ($etapas as $indice => $etapa) {
+                $etapaDesc = trim($etapa['descricao'] ?? '');
+
+                if ($etapaDesc === '') {
+                    continue;
+                }
+
+                $midia = '';
+                $erro = $_FILES['etapas']['error'][$indice]['midia']
+                    ?? UPLOAD_ERR_NO_FILE;
+
+                if ($erro !== UPLOAD_ERR_NO_FILE) {
+                    if ($erro !== UPLOAD_ERR_OK) {
+                        throw new Exception('Erro ao enviar a mídia da etapa.');
+                    }
+
+                    $tmpName = $_FILES['etapas']['tmp_name'][$indice]['midia'];
+                    $tamanho = $_FILES['etapas']['size'][$indice]['midia'];
+
+                    if (!is_uploaded_file($tmpName)) {
+                        throw new Exception('Arquivo da etapa inválido.');
+                    }
+
+                    if ($tamanho > 5 * 1024 * 1024) {
+                        throw new Exception('A mídia de cada etapa deve ter no máximo 5 MB.');
+                    }
+
+                    $midia = file_get_contents($tmpName);
+                }
+
+                $midiaSQL = $midia === ''
+                    ? "NULL"
+                    : "0x" . bin2hex($midia);
+
+                $sql = "INSERT INTO etapa (id_etapas, descricao, midia)
+                        VALUES ('$idEtapas', '$etapaDesc', $midiaSQL)";
+
+                $conn->query($sql);
+            }
+        }
+
+        $conn->commit();
+
+        header("Location: cadastro_guias.php?sucesso=1");
+        exit();
+    } catch (Throwable $e) {
+        $conn->rollback();
+
+        error_log($e->getMessage());
+        $mensagemErro = $e->getMessage();
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -61,7 +212,7 @@ if (isset($_POST['publicar'])) {
                 <p>Cadastrar Guia</p>
             </button>
             <button onclick="window.location.href='item2.php'" class="item">
-                <p>Item 2</p>
+                <p>Sobre Nós</p>
             </button>
             <button onclick="window.location.href='item3.php'" class="item">
                 <p>Item 3</p>
@@ -77,7 +228,7 @@ if (isset($_POST['publicar'])) {
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_banco/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
                         Olá, <?= htmlspecialchars($_SESSION['nome']) ?>
                     </p>
                     <i class="fa-solid fa-caret-up" id="seta"></i>
@@ -144,13 +295,31 @@ if (isset($_POST['publicar'])) {
 
                     <div class="campo">
                         <label for="dificuldade">Dificuldade</label>
-                        <select id="dificuldade" name="id_dificuldade" required>
+                        <select id="dificuldade" name="dificuldade" required>
                             <option value="" disabled selected>Selecione a dificuldade</option>
                             <option value="Fácil">Fácil</option>
                             <option value="Médio">Médio</option>
                             <option value="Difícil">Difícil</option>
                         </select>
                     </div>
+                </div>
+                
+                <div class="campo">
+                    <label for="capa">Capa da guia</label>
+                    <input type="file" class="campo-midia" name="imagens[]" id="capa"
+                        accept="image/jpeg,image/png,image/webp">
+                </div>
+
+                <div class="campo">
+                    <label for="foto">Foto da guia</label>
+                    <input type="file" class="campo-midia" name="imagens[]" id="foto"
+                        accept="image/jpeg,image/png,image/webp">
+                </div>
+
+                <div class="campo">
+                    <label for="video">Vídeo da guia</label>
+                    <input type="file" class="campo-midia" name="imagens[]" id="video"
+                        accept="video/mp4,image/gif">
                 </div>
             </section>
 
@@ -169,7 +338,7 @@ if (isset($_POST['publicar'])) {
             <section class="cartao-formulario">
                 <div class="cabecalho-secao">
                     <h2>Etapas</h2>
-                    <button type="button" id="botao-add-etapa" class="botao-secundario">
+                    <button type="button" id="botao-add-etapa" class="botao-secundario" onclick='addEtapa()'>
                         <i class="fa-solid fa-plus"></i> Adicionar etapa
                     </button>
                 </div>
@@ -188,12 +357,12 @@ if (isset($_POST['publicar'])) {
 
                     <div class="campo">
                         <label>Descrição</label>
-                        <textarea class="campo-etapa-descricao" rows="3" placeholder="Explique o que fazer nessa etapa" required></textarea>
+                        <textarea name="etapaDesc" class="campo-etapa-descricao" rows="3" placeholder="Explique o que fazer nessa etapa" required></textarea>
                     </div>
 
                     <div class="campo">
                         <label>Foto ou vídeo (opcional)</label>
-                        <input type="file" class="campo-etapa-midia" name="midia" accept="image/*,video/*">
+                        <input type="file" class="campo-etapa-midia" name="etapaFoto" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4">
                     </div>
                 </div>
             </template>
