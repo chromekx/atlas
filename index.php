@@ -83,7 +83,7 @@ session_start();
             </button>
 
             <div class="categorias" id="categorias">
-                <button onclick="window.location.href='guias/guias_culinaria/guias.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
+                <button onclick="window.location.href='guias/guias_Culinária/guias.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
                 <button onclick="window.location.href='guias/guias_casa/guias.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
                 <button onclick="window.location.href='guias/guias_limpeza/guias.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
                 <button onclick="window.location.href='guias/guias_financas/guias.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>

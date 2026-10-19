@@ -86,7 +86,7 @@ main {
     font-size: 20px;
 }
 
-.lado-tarefas {
+.lado-guias {
     display: flex;
     position: relative;
     flex-direction: column;
@@ -110,7 +110,7 @@ main {
     width: 100%;
 }
 
-.add-tarefa {
+.add-guia {
     background-color: #fff;
     border: none;
     cursor: pointer;
@@ -121,14 +121,25 @@ main {
     font-size: 20px;
 }
 
-.tarefas {
+.guias {
     display: flex;
-    position: relative;
-    flex-direction: column;
-    justify-content: left;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
-    background-color: transparent;
     width: 100%;
     height: 100%;
+    background-color: transparent;
+}
+
+.guia {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
 }

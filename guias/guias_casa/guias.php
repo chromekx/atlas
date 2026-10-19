@@ -62,7 +62,7 @@ session_start();
         <div class="categ-div">
             <label for="categorias" class="categorias-label">Categorias</label>
             <section class="categorias" id="categorias">
-                <button class="categoria" onclick="window.location.href='../../guias/guias_culinaria/guias.php'">Culinária</button>
+                <button class="categoria" onclick="window.location.href='../../guias/guias_Culinária/guias.php'">Culinária</button>
                 <button class="categoria">Categoria 2</button>
                 <button class="categoria">Categoria 3</button>
             </section>
@@ -71,7 +71,7 @@ session_start();
             <div class="breadcrumbs">
                 <a href="../../index.php">Início</a>
                 <i class="fa-solid fa-arrow-right"></i>
-                <a href="../../guias/guias_culinaria/guias.php">Culinária</a>
+                <a href="../../guias/guias_Culinária/guias.php">Culinária</a>
             </div>
             <?php if (isset($_SESSION['id'])) { ?>
             <button class="add-tarefa" onclick="window.location.href='../../cadastro_guias.php'">Adicionar Guia</button>

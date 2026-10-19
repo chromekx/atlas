@@ -72,7 +72,7 @@ if (isset($_POST['publicar'])) {
                 }
 
                 if ($i === 2 && $tipo !== 'video/mp4,image/gif') {
-                    throw new Exception('O arquivo de vídeo deve ser MP4.');
+                    throw new Exception('O arquivo de vídeo deve ser MP4 ou GIF.');
                 }
 
                 $conteudo = file_get_contents($tmpName);
@@ -176,7 +176,7 @@ if (isset($_POST['publicar'])) {
 
         $conn->commit();
 
-        header("Location: cadastro_guias.php?sucesso=1");
+        header('Location: guias/guias_' . $categoria . '/guias.php');
         exit();
     } catch (Throwable $e) {
         $conn->rollback();
@@ -303,23 +303,20 @@ if (isset($_POST['publicar'])) {
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="campo">
                     <label for="capa">Capa da guia</label>
-                    <input type="file" class="campo-midia" name="imagens[]" id="capa"
-                        accept="image/jpeg,image/png,image/webp">
+                    <input type="file" class="campo-midia" name="imagens[]" id="capa" accept="image/jpeg,image/png,image/webp" required>
                 </div>
 
                 <div class="campo">
                     <label for="foto">Foto da guia</label>
-                    <input type="file" class="campo-midia" name="imagens[]" id="foto"
-                        accept="image/jpeg,image/png,image/webp">
+                    <input type="file" class="campo-midia" name="imagens[]" id="foto" accept="image/jpeg,image/png,image/webp" required>
                 </div>
 
                 <div class="campo">
                     <label for="video">Vídeo da guia</label>
-                    <input type="file" class="campo-midia" name="imagens[]" id="video"
-                        accept="video/mp4,image/gif">
+                    <input type="file" class="campo-midia" name="imagens[]" id="video" accept="video/mp4,image/gif">
                 </div>
             </section>
 

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../../conexao.php';
 ?>
 
 <!DOCTYPE html>
@@ -22,12 +23,20 @@ session_start();
         <a class="logo" href="../../index.php"><img src="../../imgs_website/logotipoatlas.png"></a>
 
         <?php if (isset($_SESSION['id'])) { ?>
-        <nav class="nav-options">
-            <button onclick="window.location.href='../../cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Sobre Nós</p></button>
-            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
-            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
-        </nav>
+            <nav class="nav-options">
+                <button onclick="window.location.href='../../cadastro_guias.php'" class="item">
+                    <p>Cadastrar Guia</p>
+                </button>
+                <button onclick="window.location.href='item2.php'" class="item">
+                    <p>Sobre Nós</p>
+                </button>
+                <button onclick="window.location.href='item3.php'" class="item">
+                    <p>Item 3</p>
+                </button>
+                <button onclick="window.location.href='item4.php'" class="item">
+                    <p>Item 4</p>
+                </button>
+            </nav>
         <?php } ?>
 
         <nav class="nav-btns">
@@ -62,25 +71,42 @@ session_start();
         <div class="categ-div">
             <label for="categorias" class="categorias-label">Categorias</label>
             <section class="categorias" id="categorias">
-                <button class="categoria" onclick="window.location.href='../../guias/guias_culinaria/guias.php'">Culinária</button>
+                <button class="categoria" onclick="window.location.href='../../guias/guias_Culinária/guias.php'">Culinária</button>
                 <button class="categoria">Categoria 2</button>
                 <button class="categoria">Categoria 3</button>
             </section>
         </div>
-        <section class="lado-tarefas">
+        <section class="lado-guias">
             <div class="breadcrumbs">
                 <a href="../../index.php">Início</a>
                 <i class="fa-solid fa-arrow-right"></i>
-                <a href="../../guias/guias_culinaria/guias.php">Culinária</a>
+                <a href="../../guias/guias_Culinária/guias.php">Culinária</a>
             </div>
             <?php if (isset($_SESSION['id'])) { ?>
-            <button class="add-tarefa" onclick="window.location.href='../../cadastro_guias.php'">Adicionar Guia</button>
+                <button class="add-guia" onclick="window.location.href='../../cadastro_guias.php'">Adicionar Guia</button>
             <?php } else { ?>
-            <button class="add-tarefa" onclick="window.location.href='../../login.php'">Entre para adicionar uma guia.</button>
-            <?php } ?>         
-            <div class="tarefas">
+                <button class="add-guia" onclick="window.location.href='../../login.php'">Entre para adicionar uma guia.</button>
+            <?php } ?>
 
-            </div>
+            <?php
+            $sql = "SELECT id_guia, titulo, descricao, dificuldade, capa, data_criacao FROM guia";
+            $query = $conn->query($sql);
+
+            if ($query->num_rows <= 0) {
+                echo "Não há guias cadastradas.";
+            } else {
+                while ($guia = $query->fetch_assoc()) { ?>
+                    <div class="guias">
+                        <a class="guia" href="../../guia.php/id= <?= $guia['id_guia'] ?>">
+                            <img class="foto-guia" src="imgs_perfil/<?= !empty($guia['capa']) ? htmlspecialchars($guia['capa']) : 'foto_padrao.png' ?>">
+                            <h2><?= htmlspecialchars($guia['titulo']) ?></h2>
+                            <p><?= htmlspecialchars($guia['descricao']) ?></p>
+                            <p><?= htmlspecialchars($guia['dificuldade']) ?></p>
+                            <p><?= htmlspecialchars($guia['data_criacao']) ?></p>
+                        </a>
+                    </div>
+            <?php }
+            } ?>
         </section>
     </main>
 
