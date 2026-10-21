@@ -75,6 +75,10 @@ main {
 }
 
 .categoria {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-3);
     background-color: #fff;
     border: none;
     padding: 10px 20px;
@@ -96,6 +100,40 @@ main {
     background-color: transparent;
     width: 75%;
     height: 100%;
+    gap: 30px
+}
+
+.add-guia {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;
+    height: 70px;
+    outline: none;
+    font-size: 20px;
+    z-index: 1;
+}
+
+.guias {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.guia {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    height: 250px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #000;
 }
 
 .breadcrumbs {
@@ -108,38 +146,4 @@ main {
     gap: 10px;
     background-color: transparent;
     width: 100%;
-}
-
-.add-guia {
-    background-color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px;
-    width: 100%;
-    height: 70px;
-    outline: none;
-    font-size: 20px;
-}
-
-.guias {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-}
-
-.guia {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-    width: 250px;
-    height: 250px;
-    border-radius: 20px;
 }

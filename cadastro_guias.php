@@ -71,7 +71,9 @@ if (isset($_POST['publicar'])) {
                     throw new Exception('A capa e a foto devem ser imagens JPG, PNG ou WebP.');
                 }
 
-                if ($i === 2 && $tipo !== 'video/mp4,image/gif') {
+                if ($i === 2 && $tipo !== 'video/mp4') {
+                    throw new Exception('O arquivo de vídeo deve ser MP4 ou GIF.');
+                } else if ($i === 2 && $tipo !== 'image/gif') {
                     throw new Exception('O arquivo de vídeo deve ser MP4 ou GIF.');
                 }
 

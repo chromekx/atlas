@@ -71,9 +71,21 @@ include '../../conexao.php';
         <div class="categ-div">
             <label for="categorias" class="categorias-label">Categorias</label>
             <section class="categorias" id="categorias">
-                <button class="categoria" onclick="window.location.href='../../guias/guias_Culinária/guias.php'">Culinária</button>
-                <button class="categoria">Categoria 2</button>
-                <button class="categoria">Categoria 3</button>
+                <button onclick="window.location.href='guias/guias_Culinária/guias.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
+                <button onclick="window.location.href='guias/guias_casa/guias.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
+                <button onclick="window.location.href='guias/guias_limpeza/guias.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
+                <button onclick="window.location.href='guias/guias_financas/guias.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
+                <button onclick="window.location.href='guias/guias_trabalho/guias.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
+                <button onclick="window.location.href='guias/guias_educacao/guias.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
+                <button onclick="window.location.href='guias/guias_saude/guias.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
+                <button onclick="window.location.href='guias/guias_automoveis/guias.php'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
+                <button onclick="window.location.href='guias/guias_transporte/guias.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
+                <button onclick="window.location.href='guias/guias_tecnologia/guias.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
+                <button onclick="window.location.href='guias/guias_jardinagem/guias.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
+                <button onclick="window.location.href='guias/guias_moda/guias.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
+                <button onclick="window.location.href='guias/guias_cuidados/guias.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
+                <button onclick="window.location.href='guias/guias_manutencao/guias.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
+                <button onclick="window.location.href='guias/guias_compras/guias.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
             </section>
         </div>
         <section class="lado-guias">
@@ -88,25 +100,26 @@ include '../../conexao.php';
                 <button class="add-guia" onclick="window.location.href='../../login.php'">Entre para adicionar uma guia.</button>
             <?php } ?>
 
-            <?php
-            $sql = "SELECT id_guia, titulo, descricao, dificuldade, capa, data_criacao FROM guia";
-            $query = $conn->query($sql);
-
-            if ($query->num_rows <= 0) {
-                echo "Não há guias cadastradas.";
-            } else {
-                while ($guia = $query->fetch_assoc()) { ?>
-                    <div class="guias">
-                        <a class="guia" href="../../guia.php/id= <?= $guia['id_guia'] ?>">
-                            <img class="foto-guia" src="imgs_perfil/<?= !empty($guia['capa']) ? htmlspecialchars($guia['capa']) : 'foto_padrao.png' ?>">
+            <div class="guias">
+                <?php
+                $sql = "SELECT id_guia, titulo, descricao, dificuldade, capa, data_criacao FROM guia LIMIT 15";
+                $query = $conn->query($sql);
+                if ($query->num_rows <= 0) {
+                    echo "Não há guias cadastradas.";
+                } else {
+                    while ($guia = $query->fetch_assoc()) { ?>
+                        <a class="guia" href="../../guia.php/id=<?= (int) $guia['id_guia'] ?>">
+                            <img class="foto-guia" src="../../exibir_imagem_guia.php?id=<?= (int) htmlspecialchars($guia['id_guia']) ?>" alt="<?= htmlspecialchars($guia['titulo']) ?>">
                             <h2><?= htmlspecialchars($guia['titulo']) ?></h2>
                             <p><?= htmlspecialchars($guia['descricao']) ?></p>
                             <p><?= htmlspecialchars($guia['dificuldade']) ?></p>
                             <p><?= htmlspecialchars($guia['data_criacao']) ?></p>
                         </a>
-                    </div>
-            <?php }
-            } ?>
+                <?php }
+                } ?>
+            </div>
+
+            <div class="paginas"></div>
         </section>
     </main>
 
@@ -147,8 +160,8 @@ include '../../conexao.php';
         </div>
     </footer>
 
-    <script src="../js/header.js"></script>
-    <script src="../js/tarefas.js"></script>
+    <script src="../../js/header.js"></script>
+    <script src="../../js/tarefas.js"></script>
 </body>
 
 </html>
