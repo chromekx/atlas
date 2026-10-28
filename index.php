@@ -22,25 +22,20 @@ session_start();
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
         <?php if (isset($_SESSION['id'])) { ?>
-        <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item">
-                <p>Cadastrar Guia</p>
-            </button>
-            <button onclick="window.location.href='item2.php'" class="item">
-                <p>Sobre Nós</p>
-            </button>
-            <button onclick="window.location.href='item3.php'" class="item">
-                <p>Item 3</p>
-            </button>
-            <button onclick="window.location.href='item4.php'" class="item">
-                <p>Item 4</p>
-            </button>
-        </nav>
+            <nav class="nav-options">
+                <button onclick="window.location.href='cadastro_guias.php'" class="item">
+                    <p>Cadastrar Guia</p>
+                </button>
+                <button onclick="window.location.href='#sobrenos'" class="item">
+                    <p>Sobre Nós</p>
+                </button>
+                <button onclick="window.location.href='suporte.php'" class="item">
+                    <p>Suporte</p>
+                </button>
+            </nav>
         <?php } ?>
 
         <nav class="nav-btns">
-            <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
-
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
@@ -61,17 +56,23 @@ session_start();
             <?php else: ?>
                 <button class="entrar" onclick="window.location.href='login.php'"></button>
             <?php endif; ?>
-
-            <a class="icon" onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
         </nav>
     </header>
 
     <main>
-        <div class="hero-text">
-            <h1>Um lugar para você criar sua independência.</h1>
-            <p>Com o Atlas, você vai longe.</p>
-            <button></button>
-        </div>
+        <?php if (!isset($_SESSION['id'])) { ?>
+            <div class="hero-text">
+                <h1>Um lugar para você criar sua independência.</h1>
+                <p>Com o Atlas, você vai longe.</p>
+                <button onclick="window.location.href='login.php'"></button>
+            </div>
+        <?php } else { ?>
+            <div class="hero-text">
+                <h1>Um lugar para você criar sua independência.</h1>
+                <p>Crie uma guia para ajudar as pessoas na sua comunidade!</p>
+                <button onclick="window.location.href='cadastro_guias.php'"></button>
+            </div>
+        <?php } ?>
     </main>
 
     <section id="secao-categorias">
@@ -83,21 +84,21 @@ session_start();
             </button>
 
             <div class="categorias" id="categorias">
-                <button onclick="window.location.href='guias.php?categoria=Culin%C3%A1ria?pagina=1'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
-                <button onclick="window.location.href='guias/guias_casa/guias.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
-                <button onclick="window.location.href='guias/guias_limpeza/guias.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
-                <button onclick="window.location.href='guias/guias_financas/guias.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
-                <button onclick="window.location.href='guias/guias_trabalho/guias.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
-                <button onclick="window.location.href='guias/guias_educacao/guias.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
-                <button onclick="window.location.href='guias/guias_saude/guias.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
-                <button onclick="window.location.href='guias/guias_automoveis/guias.php'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
-                <button onclick="window.location.href='guias/guias_transporte/guias.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
-                <button onclick="window.location.href='guias/guias_tecnologia/guias.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
-                <button onclick="window.location.href='guias/guias_jardinagem/guias.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
-                <button onclick="window.location.href='guias/guias_moda/guias.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
-                <button onclick="window.location.href='guias/guias_cuidados/guias.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
-                <button onclick="window.location.href='guias/guias_manutencao/guias.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
-                <button onclick="window.location.href='guias/guias_compras/guias.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+                <button onclick="window.location.href='guias_Automóveis.php'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
+                <button onclick="window.location.href='guias_Casa.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
+                <button onclick="window.location.href='guias_Compras.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+                <button onclick="window.location.href='guias_Cuidados.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
+                <button onclick="window.location.href='guias_Culinária.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
+                <button onclick="window.location.href='guias_Educação.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
+                <button onclick="window.location.href='guias_Finanças.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
+                <button onclick="window.location.href='guias.Jardinagem.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
+                <button onclick="window.location.href='guias_Limpeza.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
+                <button onclick="window.location.href='guias_Manutenção.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
+                <button onclick="window.location.href='guias_Moda.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
+                <button onclick="window.location.href='guias_Trabalho.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
+                <button onclick="window.location.href='guias_Transporte.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
+                <button onclick="window.location.href='guias_Tecnologia.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
+                <button onclick="window.location.href='guias_Saúde.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
             </div>
 
             <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
@@ -108,7 +109,7 @@ session_start();
 
     <?php if (isset($_SESSION['id'])) { ?>
         <section id="preferencias">
-            <h1 class="titulo">Porque você gosta de <?= htmlspecialchars($_SESSION['preferencia']) ?>:</h1>
+            <h1 class="titulo" id="sobrenos">Sobre Nós</h1>
 
             <div class="cartoes" id="cartao">
                 <div class="cartao" id="cartao">

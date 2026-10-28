@@ -2,25 +2,25 @@
 session_start();
 require_once __DIR__ . '/conexao.php';
 
-$categoria = $_GET['categoria'];
 $busca = $_GET['busca'] ?? '';
 $pagina = max(1, (int)($_GET['pagina'] ?? 1));
 $porPagina = 9;
 $inicio = ($pagina - 1) * $porPagina;
 
-$buscaSQL = $conn->real_escape_string($busca);
-
-// Contar o total de guias
-$sql = "SELECT COUNT(*) AS total FROM guia WHERE titulo LIKE '%$buscaSQL%' OR descricao LIKE '%$buscaSQL%'";
-
-$resultado = $conn->query($sql);
-$total = $resultado->fetch_assoc()['total'];
+$sql = "SELECT COUNT(*) AS total FROM guia
+        WHERE titulo LIKE '%$busca%' OR descricao LIKE '%$busca%'";
+$resultadoTotal = $conn->query($sql);
+$total = mysqli_fetch_assoc($resultadoTotal)['total'];
 
 $totalPaginas = max(1, ceil($total / $porPagina));
 
-// Buscar os guias da página atual
-$sql = "SELECT id_guia, titulo, descricao, categoria, dificuldade, data_criacao FROM guia WHERE titulo 
-        ORDER BY data_criacao DESC LIMIT $porPagina OFFSET $inicio";
+$sql = "SELECT g.id_guia, g.titulo, g.descricao, g.categoria, g.dificuldade,
+               g.data_criacao, u.nome AS autor
+        FROM guia g
+        LEFT JOIN usuario u ON u.id_usuario = g.id_usuario
+        WHERE g.titulo LIKE '%$busca%' OR g.descricao LIKE '%$busca%'
+        ORDER BY g.data_criacao DESC
+        LIMIT $porPagina OFFSET $inicio";
 $resultado = $conn->query($sql);
 
 function h($valor): string
@@ -30,7 +30,7 @@ function h($valor): string
 
 function linkPagina($pagina): string
 {
-    return 'guias.php?' . http_build_query([
+    return 'guias_Culinária.php?' . http_build_query([
         'busca' => $_GET['busca'] ?? '',
         'pagina' => $pagina
     ]);
@@ -43,7 +43,7 @@ function linkPagina($pagina): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATLAS - Guias</title>
+    <title>ATLAS - Culinária</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -54,39 +54,42 @@ function linkPagina($pagina): string
 
 <body>
     <header>
-        <a class="logo" href="index.php" aria-label="Página inicial"><img src="imgs_website/logotipoatlas.png" alt="ATLAS"></a>
-        <nav class="nav-options" aria-label="Navegação principal">
-            <a class="item" href="guias.php">
-                <p>Explorar guias</p>
-            </a>
-            <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php">
-                    <p>Cadastrar guia</p>
-                </a>
-            <?php endif; ?>
-            <a class="item" href="index.php#aspectos">
-                <p>Sobre o ATLAS</p>
-            </a>
-        </nav>
-        <nav class="nav-btns" aria-label="Conta">
+        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
+
+        <?php if (isset($_SESSION['id'])) { ?>
+            <nav class="nav-options">
+                <button onclick="window.location.href='cadastro_guias.php'" class="item">
+                    <p>Cadastrar Guia</p>
+                </button>
+                <button onclick="window.location.href='sobrenos.php'" class="item">
+                    <p>Sobre Nós</p>
+                </button>
+                <button onclick="window.location.href='suporte.php'" class="item">
+                    <p>Suporte</p>
+                </button>
+            </nav>
+        <?php } ?>
+
+        <nav class="nav-btns">
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
-                        <?php if (!empty($_SESSION['foto'])): ?>
-                            <img class="foto" src="imgs_perfil/<?= h($_SESSION['foto']) ?>" alt="">
-                        <?php endif; ?>
-                        Olá, <?= h($_SESSION['nome'] ?? 'usuário') ?>
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= $_SESSION['nome'] ?>
                     </p>
-                    <i class="fa-solid fa-caret-down" id="seta"></i>
+                    <i class="fa-solid fa-caret-up" id="seta"></i>
+
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
-                        <a class="perfil-option" href="configuracoes.php">Configurações</a>
-                        <?php if (($_SESSION['nivel'] ?? '') == 1): ?><a class="perfil-option" href="admin.php">Painel do administrador</a><?php endif; ?>
-                        <a class="perfil-option" href="sair.php">Sair</a>
+                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
+                        <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
+                        <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
+                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
+                            <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php else: ?>
-                <a class="entrar" href="login.php">Entrar</a>
+                <button class="entrar" onclick="window.location.href='login.php'"></button>
             <?php endif; ?>
         </nav>
     </header>
@@ -94,7 +97,6 @@ function linkPagina($pagina): string
     <main class="pagina-guias">
         <section class="hero-guias">
             <div class="hero-conteudo">
-                <span class="etiqueta-hero"><i class="fa-solid fa-compass"></i> Aprenda fazendo</span>
                 <h1>Conhecimento que vira prática.</h1>
                 <p>Encontre guias passo a passo criados por pessoas que querem compartilhar o que sabem.</p>
                 <form class="busca-guias" action="guias.php" method="get">
@@ -103,18 +105,12 @@ function linkPagina($pagina): string
                     <button type="submit">Buscar</button>
                 </form>
             </div>
-            <div class="hero-ilustracao" aria-hidden="true">
-                <div class="hero-circulo"><i class="fa-solid fa-lightbulb"></i></div>
-                <div class="hero-card hero-card-um"><i class="fa-solid fa-list-check"></i><span>Passo a passo</span></div>
-                <div class="hero-card hero-card-dois"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Novas habilidades</span></div>
-                <span class="hero-ponto ponto-um"></span><span class="hero-ponto ponto-dois"></span>
-            </div>
         </section>
 
         <section class="resultados-guias">
             <div class="titulo-secao titulo-resultados">
                 <div>
-                    <h2><?= $categoria ?></h2>
+                    <h2>Culinária</h2>
                 </div>
                 <span class="contador-guias"><?= $total ?> <?= $total === 1 ? 'guia encontrado' : 'guias encontrados' ?></span>
             </div>
@@ -126,23 +122,22 @@ function linkPagina($pagina): string
                     <p>Tente buscar por outro termo.</p>
                     <a href="guias.php">Limpar filtros</a>
                 </div>
+
             <?php else: ?>
                 <div class="grade-guias">
                     <?php while ($guia = $resultado->fetch_assoc()): ?>
                         <a class="cartao-guia" href="guia.php?id=<?= (int)$guia['id_guia'] ?>">
-                            <div class="imagem-cartao">
-                                <img src="exibir_midia_guia.php?tipo=capa&id=<?= (int)$guia['id_guia'] ?>" alt="" loading="lazy"
-                                    onerror="this.style.display='none';this.parentElement.classList.add('sem-imagem')">
-                                <span class="categoria-selo"><?= h($guia['categoria']) ?></span>
-                                <span class="icone-sem-imagem"><i class="fa-solid fa-book-open"></i></span>
-                            </div>
                             <div class="conteudo-cartao">
                                 <div class="metadados-cartao">
+                                    <img src="exibir_midia_guia.php?tipo=capa&id=<?= (int)$guia['id_guia'] ?>" alt="" loading="lazy"
+                                        onerror="this.style.display='none';this.parentElement.classList.add('sem-imagem')">
                                     <span><i class="fa-solid fa-signal"></i> <?= h($guia['dificuldade']) ?></span>
                                     <span><i class="fa-regular fa-calendar"></i> <?= h(date('d/m/Y', strtotime($guia['data_criacao']))) ?></span>
                                 </div>
+
                                 <h3><?= h($guia['titulo']) ?></h3>
                                 <p><?= h(mb_strimwidth(trim($guia['descricao']), 0, 118, '…', 'UTF-8')) ?></p>
+
                                 <div class="rodape-cartao">
                                     <span class="autor-guia"><i class="fa-regular fa-user"></i> <?= h($guia['autor'] ?: 'Comunidade ATLAS') ?></span>
                                     <span class="abrir-guia" aria-label="Abrir guia"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
@@ -151,6 +146,7 @@ function linkPagina($pagina): string
                         </a>
                     <?php endwhile; ?>
                 </div>
+
                 <?php if ($totalPaginas > 1): ?>
                     <nav class="paginacao" aria-label="Paginação">
                         <?php if ($pagina > 1): ?><a href="<?= h(linkPagina($pagina - 1)) ?>" aria-label="Página anterior"><i class="fa-solid fa-chevron-left"></i></a><?php endif; ?>
@@ -171,6 +167,7 @@ function linkPagina($pagina): string
                 </div>
                 <a href="login.php">Entrar para publicar <i class="fa-solid fa-arrow-right"></i></a>
             </section>
+
         <?php else: ?>
             <section class="convite-criar">
                 <div><span class="sobretitulo">SUA VEZ DE ENSINAR</span>

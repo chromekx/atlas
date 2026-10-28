@@ -51,10 +51,6 @@ if (isset($_POST['entrar'])) {
         <nav class="nav-options">
             <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
         </nav>
-
-        <nav class="nav-btns">
-            <a onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
-        </nav>
     </header>
 
     <main>
@@ -83,6 +79,43 @@ if (isset($_POST['entrar'])) {
             </div>
         </form>
     </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a class="footer-logo" href="index.php" aria-label="Voltar para o início">
+                    <img src="imgs_website/logoatlas.png" alt="Atlas">
+                </a>
+                <p>Ideias, oportunidades e caminhos para você criar sua independência.</p>
+                <div class="footer-socials" aria-label="Redes sociais">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="mailto:contato@atlas.com" aria-label="Enviar e-mail"><i class="fa-regular fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Explorar</h3>
+                <a href="#categorias">Categorias</a>
+                <a href="#aspectos">Descubra o Atlas</a>
+                <a href="meu_perfil.php">Meu perfil</a>
+            </div>
+
+            <div class="footer-section footer-contact">
+                <h3>Vamos conversar?</h3>
+                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p>
+                <a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <?= date('Y') ?> Atlas. Feito para ir longe.</p>
+            <div>
+                <a href="#">Privacidade</a>
+                <a href="#">Termos de uso</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -1,4 +1,5 @@
 @import "variaveis.css";
+@import "body.css";
 
 footer {
     margin-top: var(--space-7);

@@ -1,4 +1,5 @@
 @import "variaveis.css";
+@import "body.css";
 
 header {
     display: flex;

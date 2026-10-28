@@ -27,16 +27,21 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
     <header>
         <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
 
-        <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Sobre Nós</p></button>
-            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
-            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
-        </nav>
-        
-        <nav class="nav-btns">
-            <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <?php if (isset($_SESSION['id'])) { ?>
+            <nav class="nav-options">
+                <button onclick="window.location.href='cadastro_guias.php'" class="item">
+                    <p>Cadastrar Guia</p>
+                </button>
+                <button onclick="window.location.href='sobrenos.php'" class="item">
+                    <p>Sobre Nós</p>
+                </button>
+                <button onclick="window.location.href='suporte.php'" class="item">
+                    <p>Suporte</p>
+                </button>
+            </nav>
+        <?php } ?>
 
+        <nav class="nav-btns">
             <?php if (isset($_SESSION['id'])): ?>
                 <div class="perfil" id="perfil">
                     <p>
@@ -55,10 +60,8 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel'] != 1) {
                     </div>
                 </div>
             <?php else: ?>
-                <button class="entrar" onclick="window.location.href='login.php'">Entrar</button>
+                <button class="entrar" onclick="window.location.href='login.php'"></button>
             <?php endif; ?>
-
-            <a class="icon" onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
         </nav>
     </header>
 
