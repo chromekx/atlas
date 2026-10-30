@@ -7,21 +7,38 @@ $pagina = max(1, (int)($_GET['pagina'] ?? 1));
 $porPagina = 9;
 $inicio = ($pagina - 1) * $porPagina;
 
-$sql = "SELECT COUNT(*) AS total FROM guia
+if (isset($_POST['busca'])) {
+    $sql = "SELECT COUNT(*) AS total FROM guia
         WHERE titulo LIKE '%$busca%' OR descricao LIKE '%$busca%'";
-$resultadoTotal = $conn->query($sql);
-$total = mysqli_fetch_assoc($resultadoTotal)['total'];
-
+    $resultadoTotal = $conn->query($sql);
+    $total = mysqli_fetch_assoc($resultadoTotal)['total'];
+} else {
+    $sql = "SELECT COUNT(*) AS total FROM guia
+        WHERE categoria = 'Compras'";
+    $resultadoTotal = $conn->query($sql);
+    $total = mysqli_fetch_assoc($resultadoTotal)['total'];
+}
 $totalPaginas = max(1, ceil($total / $porPagina));
 
-$sql = "SELECT g.id_guia, g.titulo, g.descricao, g.categoria, g.dificuldade,
+if (isset($_POST['busca'])) {
+    $sql = "SELECT g.id_guia, g.titulo, g.descricao, g.categoria, g.dificuldade,
                g.data_criacao, u.nome AS autor
         FROM guia g
         LEFT JOIN usuario u ON u.id_usuario = g.id_usuario
         WHERE g.titulo LIKE '%$busca%' OR g.descricao LIKE '%$busca%'
         ORDER BY g.data_criacao DESC
         LIMIT $porPagina OFFSET $inicio";
-$resultado = $conn->query($sql);
+    $resultado = $conn->query($sql);
+} else {
+    $sql = "SELECT g.id_guia, g.titulo, g.descricao, g.categoria, g.dificuldade,
+               g.data_criacao, u.nome AS autor
+        FROM guia g
+        LEFT JOIN usuario u ON u.id_usuario = g.id_usuario
+        WHERE g.categoria = 'Compras'
+        ORDER BY g.data_criacao DESC
+        LIMIT $porPagina OFFSET $inicio";
+    $resultado = $conn->query($sql);
+}
 
 function h($valor): string
 {
@@ -30,7 +47,7 @@ function h($valor): string
 
 function linkPagina($pagina): string
 {
-    return 'guias_Culinária.php?' . http_build_query([
+    return 'guias_Compras.php?' . http_build_query([
         'busca' => $_GET['busca'] ?? '',
         'pagina' => $pagina
     ]);

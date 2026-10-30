@@ -37,7 +37,8 @@ $sqlEtapas = "SELECT e.id_etapa, e.descricao, e.midia
 $resultadoEtapas = mysqli_query($conn, $sqlEtapas);
 $etapas = mysqli_fetch_all($resultadoEtapas, MYSQLI_ASSOC);
 
-function h($valor): string {
+function h($valor): string
+{
     return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
 }
 ?>
@@ -101,7 +102,7 @@ function h($valor): string {
 
     <main class="pagina-guia">
         <nav class="migalhas" aria-label="Você está aqui">
-            <a href="index.php">Início</a><i class="fa-solid fa-chevron-right"></i><a href="guias.php"><?= h($guia['categoria']) ?></a><i class="fa-solid fa-chevron-right"></i></i><span><?= h($guia['titulo']) ?></span>
+            <a href="index.php">Início</a><i class="fa-solid fa-chevron-right"></i><a href="guias_<?= h($guia['categoria']) ?>.php"><?= h($guia['categoria']) ?></a><i class="fa-solid fa-chevron-right"></i></i><span><?= h($guia['titulo']) ?></span>
         </nav>
 
         <section class="guia-capa">
@@ -122,16 +123,18 @@ function h($valor): string {
 
         <div class="guia-layout">
             <article class="guia-conteudo">
-                <section class="bloco-guia introducao">
-                    <h2>Descrição da guia</h2>
-                    <p><?= nl2br(h($guia['descricao'])) ?></p>
-                </section>
-
-                <?php if ((int)($guia['foto_tamanho'] ?? 0) > 0): ?>
-                    <section class="foto-destaque">
-                        <img src="exibir_midia_guia.php?tipo=foto&id=<?= (int)$idGuia ?>" alt="Imagem complementar do guia" loading="lazy">
+                <div class="guia-desc">
+                    <section class="bloco-guia introducao">
+                        <h2>Descrição da guia</h2>
+                        <p><?= nl2br(h($guia['descricao'])) ?></p>
                     </section>
-                <?php endif; ?>
+
+                    <?php if ((int)($guia['foto_tamanho'] ?? 0) > 0): ?>
+                        <section class="foto-destaque">
+                            <img src="exibir_midia_guia.php?tipo=foto&id=<?= (int)$idGuia ?>" alt="Imagem complementar do guia" loading="lazy">
+                        </section>
+                    <?php endif; ?>
+                </div>
 
                 <?php if ($materiais): ?>
                     <section class="bloco-guia materiais-guia">
@@ -203,7 +206,7 @@ function h($valor): string {
 
             <aside class="guia-lateral">
                 <div class="cartao-resumo">
-                    <span class="sobretitulo">Resumo do Guia</span>
+                    <h2>Resumo do Guia</h2>
                     <div><i class="fa-solid fa-layer-group"></i>
                         <p><small>Categoria</small><strong><?= h($guia['categoria']) ?></strong></p>
                     </div>
@@ -213,12 +216,12 @@ function h($valor): string {
                     <div><i class="fa-solid fa-list-check"></i>
                         <p><small>Etapas</small><strong><?= count($etapas) ?> <?= count($etapas) === 1 ? 'passo' : 'passos' ?></strong></p>
                     </div>
-                    <a href="guias_<?= $guia['categoria'] ?>.php">Mais guias de <?= h($guia['categoria']) ?> <i class="fa-solid fa-arrow-right"></i></a>
+                    <div class="favoritar"><i class="fa-solid fa-heart"></i>Favoritar Guia</div>
                 </div>
             </aside>
         </div>
 
-        <div class="voltar-guias"><a href="index.php"><i class="fa-solid fa-arrow-left"></i> Voltar para o início</a></div>
+        <div class="voltar-guias"><a href="guias_<?= $guia['categoria'] ?>.php"><i class="fa-solid fa-arrow-left"></i> Voltar para as guias sobre <?= $guia['categoria'] ?></a></div>
     </main>
 
     <footer>

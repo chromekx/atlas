@@ -107,61 +107,18 @@ session_start();
         </div>
     </section>
 
-    <?php if (isset($_SESSION['id'])) { ?>
-        <section id="preferencias">
-            <h1 class="titulo" id="sobrenos">Sobre Nós</h1>
+    <section id="preferencias">
+        <h1 class="titulo" id="sobrenos">Sobre Nós</h1>
 
-            <div class="cartoes" id="cartao">
-                <div class="cartao" id="cartao">
-                    <div class="foto-card" style="background-color: #44c0fa;"></div>
-                    <div class="cartao-texto">
-                        <h2>Cartão 1</h2>
-                        <p>Desc do cartão 1</p>
-                    </div>
-                </div>
-
-                <div class="cartao" id="cartao">
-                    <div class="foto-card" style="background-color: #ffcb3d;"></div>
-                    <div class="cartao-texto">
-                        <h2>Cartão 2</h2>
-                        <p>Desc do cartão 2</p>
-                    </div>
-                </div>
-
-                <div class="cartao" id="cartao">
-                    <div class="foto-card" style="background-color: #ff6464ff;"></div>
-                    <div class="cartao-texto">
-                        <h2>Cartão 3</h2>
-                        <p>Desc do cartão 3</p>
-                    </div>
-                </div>
-
-                <div class="cartao" id="cartao">
-                    <div class="foto-card" style="background-color: #b0da98ff;"></div>
-                    <div class="cartao-texto">
-                        <h2>Cartão 4</h2>
-                        <p>Desc do cartão 4</p>
-                    </div>
-                </div>
-
-                <div class="cartao" id="cartao">
-                    <div class="foto-card" style="background-color: #3b56cf;"></div>
-                    <div class="cartao-texto">
-                        <h2>Cartão 3</h2>
-                        <p>Desc do cartão 3</p>
-                    </div>
-                </div>
-
-                <div class="cartao" id="cartao">
-                    <div class="foto-card" style="background-color: #635ada;"></div>
-                    <div class="cartao-texto">
-                        <h2>Cartão 4</h2>
-                        <p>Desc do cartão 4</p>
-                    </div>
+        <div class="cartoes" id="cartao">
+            <div class="cartao" id="cartao">
+                <div class="foto-card" style="background-color: #44c0fa;"></div>
+                <div class="cartao-texto">
+                    <h2>Cartão 1</h2>
+                    <p>Desc do cartão 1</p>
                 </div>
             </div>
-        </section>
-    <?php } ?>
+    </section>
 
     <footer>
         <div class="footer-content">

@@ -13,10 +13,10 @@ main {
     align-items: center;
     justify-content: flex-start;
     min-height: 520px;
-    margin: 0;
+    margin: 0 var(--space-7);
     padding: var(--space-6) var(--space-7);
     background-color: var(--color-accent);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
 }
 
 .hero-text {

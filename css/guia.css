@@ -3,9 +3,6 @@
 @import "footer.css";
 @import "body.css";
 
-main {
-}
-
 a {
     color: var(--color-primary, #263783);
 }
@@ -15,7 +12,7 @@ a {
     flex-wrap: wrap;
     align-items: center;
     gap: 9px;
-    margin: var(--space-4);
+    margin: 20px var(--space-7) var(--space-4);
     color: #666;
     font-size: .9rem;
 }
@@ -32,11 +29,13 @@ a {
     position: relative;
     display: flex;
     align-items: end;
-    min-height: 450px;
+    min-height: 520px;
     overflow: hidden;
+    margin: 0 var(--space-7);
     gap: var(--space-4);
     padding: var(--space-5);
     background: #dfe4f1;
+    border-radius: var(--radius-md)
 }
 
 .guia-capa-imagem,
@@ -111,11 +110,18 @@ a {
     gap: 25px;
     margin-top: 28px;
     align-items: start;
-    margin: var(--space-5) 150px 0 ; 
+    margin: 50px var(--space-7);
 }
 
 .guia-conteudo {
     min-width: 0;
+}
+
+.guia-desc{
+    display: flex;
+    justify-items: stretch;
+    gap: 20px;
+    width: 100%;
 }
 
 .bloco-guia,
@@ -127,6 +133,7 @@ a {
     border: 1px solid #ddd;
     border-radius: 10px;
     background: #fff;
+    width: 100%;
 }
 
 .bloco-guia h2 {
@@ -278,7 +285,7 @@ a {
 }
 
 .voltar-guias {
-    margin: var(--space-4) 150px 0;
+    margin: 20px var(--space-7) var(--space-4);
 }
 
 .voltar-guias a {
