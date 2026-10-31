@@ -91,14 +91,14 @@ session_start();
                 <button onclick="window.location.href='guias_Culinária.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
                 <button onclick="window.location.href='guias_Educação.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
                 <button onclick="window.location.href='guias_Finanças.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
-                <button onclick="window.location.href='guias.Jardinagem.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
+                <button onclick="window.location.href='guias_Jardinagem.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
                 <button onclick="window.location.href='guias_Limpeza.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
                 <button onclick="window.location.href='guias_Manutenção.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
                 <button onclick="window.location.href='guias_Moda.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
+                <button onclick="window.location.href='guias_Saúde.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
+                <button onclick="window.location.href='guias_Tecnologia.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
                 <button onclick="window.location.href='guias_Trabalho.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
                 <button onclick="window.location.href='guias_Transporte.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
-                <button onclick="window.location.href='guias_Tecnologia.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
-                <button onclick="window.location.href='guias_Saúde.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
             </div>
 
             <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
@@ -123,9 +123,7 @@ session_start();
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <a class="footer-logo" href="index.php" aria-label="Voltar para o início">
-                    <img src="imgs_website/logoatlas.png" alt="Atlas">
-                </a>
+                <a class="footer-logo" href="index.php" aria-label="Voltar para o início"><img src="imgs_website/logoatlas.png" alt="ATLAS"></a>
                 <p>Ideias, oportunidades e caminhos para você criar sua independência.</p>
                 <div class="footer-socials" aria-label="Redes sociais">
                     <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -133,27 +131,21 @@ session_start();
                     <a href="mailto:contato@atlas.com" aria-label="Enviar e-mail"><i class="fa-regular fa-envelope"></i></a>
                 </div>
             </div>
-
             <div class="footer-section">
                 <h3>Explorar</h3>
-                <a href="#categorias">Categorias</a>
-                <a href="#aspectos">Descubra o Atlas</a>
-                <a href="meu_perfil.php">Meu perfil</a>
+                <a href="index.php">Início</a>
+                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="suporte.php">Suporte
+                </a>
             </div>
-
             <div class="footer-section footer-contact">
                 <h3>Vamos conversar?</h3>
-                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p>
-                <a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p><a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; <?= date('Y') ?> Atlas. Feito para ir longe.</p>
-            <div>
-                <a href="#">Privacidade</a>
-                <a href="#">Termos de uso</a>
-            </div>
+            <div><a href="#">Privacidade</a><a href="#">Termos de uso</a></div>
         </div>
     </footer>
 

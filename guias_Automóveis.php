@@ -137,7 +137,7 @@ function linkPagina($pagina): string
                     <i class="fa-regular fa-folder-open"></i>
                     <h3>Nenhum guia encontrado</h3>
                     <p>Tente buscar por outro termo.</p>
-                    <a href="guias.php">Limpar filtros</a>
+                    <a href="guias_Automóveis.php">Limpar filtros</a>
                 </div>
 
             <?php else: ?>
@@ -208,7 +208,11 @@ function linkPagina($pagina): string
                 </div>
             </div>
             <div class="footer-section">
-                <h3>Explorar</h3><a href="guias.php">Guias</a><a href="guias.php">Categorias</a><a href="meu_perfil.php">Meu perfil</a>
+                <h3>Explorar</h3>
+                <a href="index.php">Início</a>
+                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="suporte.php">Suporte
+                </a>
             </div>
             <div class="footer-section footer-contact">
                 <h3>Vamos conversar?</h3>

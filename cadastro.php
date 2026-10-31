@@ -98,21 +98,21 @@ if (isset($_POST['cadastrar'])) {
                         <label for="preferencias">Preferência:</label>
                         <select id="preferencias" name="preferencias">
                             <div class="categorias" id="categorias">
-                                <option value="Culinária">Culinária</option>
-                                <option value="Casa">Casa</option>
-                                <option value="Limpeza">Limpeza</option>
-                                <option value="Finanças">Finanças</option>
-                                <option value="Trabalho">Trabalho</option>
-                                <option value="Educação">Educação</option>
-                                <option value="Saúde">Saúde</option>
                                 <option value="Automóveis">Automóveis</option>
-                                <option value="Transporte">Transporte</option>
-                                <option value="Tecnologia">Tecnologia</option>
-                                <option value="Jardinagem">Jardinagem</option>
-                                <option value="Moda">Moda</option>
-                                <option value="Cuidados">Cuidados</option>
-                                <option value="Manutenção">Manutenção</option>
+                                <option value="Casa">Casa</option>
                                 <option value="Compras">Compras</option>
+                                <option value="Cuidados">Cuidados</option>
+                                <option value="Culinária">Culinária</option>
+                                <option value="Educação">Educação</option>
+                                <option value="Finanças">Finanças</option>
+                                <option value="Limpeza">Limpeza</option>
+                                <option value="Jardinagem">Jardinagem</option>
+                                <option value="Manutenção">Manutenção</option>
+                                <option value="Moda">Moda</option>
+                                <option value="Saúde">Saúde</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="Trabalho">Trabalho</option>
+                                <option value="Transporte">Transporte</option>
                             </div>
                         </select>
                     </div>
@@ -131,9 +131,7 @@ if (isset($_POST['cadastrar'])) {
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <a class="footer-logo" href="index.php" aria-label="Voltar para o início">
-                    <img src="imgs_website/logoatlas.png" alt="Atlas">
-                </a>
+                <a class="footer-logo" href="index.php" aria-label="Voltar para o início"><img src="imgs_website/logoatlas.png" alt="ATLAS"></a>
                 <p>Ideias, oportunidades e caminhos para você criar sua independência.</p>
                 <div class="footer-socials" aria-label="Redes sociais">
                     <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -141,27 +139,21 @@ if (isset($_POST['cadastrar'])) {
                     <a href="mailto:contato@atlas.com" aria-label="Enviar e-mail"><i class="fa-regular fa-envelope"></i></a>
                 </div>
             </div>
-
             <div class="footer-section">
                 <h3>Explorar</h3>
-                <a href="#categorias">Categorias</a>
-                <a href="#aspectos">Descubra o Atlas</a>
-                <a href="meu_perfil.php">Meu perfil</a>
+                <a href="index.php">Início</a>
+                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="suporte.php">Suporte
+                </a>
             </div>
-
             <div class="footer-section footer-contact">
                 <h3>Vamos conversar?</h3>
-                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p>
-                <a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p><a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; <?= date('Y') ?> Atlas. Feito para ir longe.</p>
-            <div>
-                <a href="#">Privacidade</a>
-                <a href="#">Termos de uso</a>
-            </div>
+            <div><a href="#">Privacidade</a><a href="#">Termos de uso</a></div>
         </div>
     </footer>
 

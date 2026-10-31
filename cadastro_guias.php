@@ -6,189 +6,187 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+$erro = '';
+
 if (isset($_POST['publicar'])) {
     include('conexao.php');
 
-    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    // Faz o query retornar false quando houver erro, em vez de lançar exceção.
+    mysqli_report(MYSQLI_REPORT_OFF);
 
-    try {
-        $conn->begin_transaction();
+    $idUsuario = $_SESSION['id'];
+    $titulo = $_POST['titulo'];
+    $descricao = $_POST['descricao'];
+    $categoria = $_POST['categoria'];
+    $dificuldade = $_POST['dificuldade'];
+    $video = trim($_POST['video'] ?? '');
+    $materiais = $_POST['material'] ?? [];
+    $etapas = $_POST['etapas'] ?? [];
 
-        $idUsuario = $_SESSION['id'];
-        $titulo = $_POST['titulo'];
-        $descricao = $_POST['descricao'];
-        $categoria = $_POST['categoria'];
-        $dificuldade = $_POST['dificuldade'];
-        $materiais = $_POST['material'] ?? [];
-        $etapas = $_POST['etapas'] ?? [];
-        $imagens = $_FILES['imagens'] ?? null;
+    // Verifica o link do vídeo.
+    if ($video == '' || !filter_var($video, FILTER_VALIDATE_URL)) {
+        $erro = 'Insira um link válido para o vídeo.';
+    }
 
-        // Recebe a capa, a foto e o vídeo da guia
-        $capa = '';
-        $foto = '';
-        $video = '';
+    // Recebe e valida a capa da guia.
+    $capa = '';
+    $arquivoCapa = $_FILES['capa'] ?? null;
 
-        $tiposPermitidos = [
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
-            'image/webp' => 'webp',
-            'video/mp4' => 'mp4',
-            'image/gif' => 'gif'
-        ];
+    if ($erro == '') {
+        if (!$arquivoCapa || $arquivoCapa['error'] == UPLOAD_ERR_NO_FILE) {
+            $erro = 'Selecione uma imagem para a capa.';
+        } elseif ($arquivoCapa['error'] != UPLOAD_ERR_OK) {
+            $erro = 'Ocorreu um erro ao enviar a capa.';
+        } else {
+            $tmpName = $arquivoCapa['tmp_name'];
+            $tamanho = $arquivoCapa['size'];
 
-        if ($imagens) {
-            for ($i = 0; $i < 3; $i++) {
-                $erro = $imagens['error'][$i] ?? UPLOAD_ERR_NO_FILE;
+            if (!is_uploaded_file($tmpName)) {
+                $erro = 'Arquivo da capa inválido.';
+            } elseif ($tamanho > (5 * 1024 * 1024)) {
+                $erro = 'A capa deve ter no máximo 5 MB.';
+            } else {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $tipo = finfo_file($finfo, $tmpName);
+                finfo_close($finfo);
 
-                if ($erro === UPLOAD_ERR_NO_FILE) {
-                    continue;
+                if (!in_array($tipo, ['image/jpeg', 'image/png', 'image/webp', 'image/gif'])) {
+                    $erro = 'A capa deve ser JPG, PNG, WebP ou GIF.';
+                } else {
+                    $capa = file_get_contents($tmpName);
+                }
+            }
+        }
+    }
+
+    // Converte a capa para gravar no campo BLOB.
+    $capaSQL = "0x" . bin2hex($capa);
+
+    // Escapa os textos para que aspas não quebrem o comando SQL.
+    $titulo = $conn->real_escape_string($titulo);
+    $descricao = $conn->real_escape_string($descricao);
+    $categoria = $conn->real_escape_string($categoria);
+    $dificuldade = $conn->real_escape_string($dificuldade);
+    $video = $conn->real_escape_string($video);
+
+    // Cadastra a guia.
+    if ($erro == '') {
+        // A coluna foto continua NOT NULL no banco, então recebe um valor vazio.
+        $sql = "INSERT INTO guia (id_usuario, titulo, descricao, categoria, dificuldade, capa, video)
+                VALUES ('$idUsuario', '$titulo', '$descricao', '$categoria', '$dificuldade', $capaSQL, '$video')";
+
+        if ($conn->query($sql)) {
+            $idGuia = $conn->insert_id;
+        } else {
+            $erro = 'Erro ao cadastrar a guia: ' . $conn->error;
+        }
+    }
+
+    // Cadastra o agrupamento dos materiais.
+    if ($erro == '') {
+        $sql = "INSERT INTO materiais (id_guia) VALUES ('$idGuia')";
+
+        if ($conn->query($sql)) {
+            $idMateriais = $conn->insert_id;
+            global $idMateriais;
+        } else {
+            $erro = 'Erro ao cadastrar os materiais: ' . $conn->error;
+        }
+    }
+
+    // Cadastra os materiais.
+    if ($erro == '' && is_array($materiais)) {
+        foreach ($materiais as $material) {
+            $material = trim($material);
+
+            if ($material == '') {
+                continue;
+            }
+
+            $material = $conn->real_escape_string($material);
+            $sql = "INSERT INTO material (id_materiais, nome)
+                    VALUES ('$idMateriais', '$material')";
+
+            if (!$conn->query($sql)) {
+                $erro = 'Erro ao cadastrar um material: ' . $conn->error;
+                break;
+            }
+        }
+    }
+
+    // Cadastra o agrupamento das etapas.
+    if ($erro == '') {
+        $sql = "INSERT INTO etapas (id_guia) VALUES ('$idGuia')";
+
+        if ($conn->query($sql)) {
+            $idEtapas = $conn->insert_id;
+            global $idEtapas;
+        } else {
+            $erro = 'Erro ao cadastrar as etapas: ' . $conn->error;
+        }
+    }
+
+    // Cadastra cada etapa e sua mídia opcional.
+    if ($erro == '' && is_array($etapas)) {
+        foreach ($etapas as $indice => $etapa) {
+            $etapaDesc = trim($etapa['descricao'] ?? '');
+
+            if ($etapaDesc == '') {
+                continue;
+            }
+
+            $midia = '';
+            $codigoErro = $_FILES['etapas']['error'][$indice]['midia'] ?? UPLOAD_ERR_NO_FILE;
+
+            if ($codigoErro != UPLOAD_ERR_NO_FILE) {
+                if ($codigoErro != UPLOAD_ERR_OK) {
+                    $erro = 'Erro ao enviar a mídia da etapa.';
+                    break;
                 }
 
-                if ($erro !== UPLOAD_ERR_OK) {
-                    throw new Exception('Erro ao enviar uma mídia.');
-                }
-
-                $tmpName = $imagens['tmp_name'][$i];
-                $tamanho = $imagens['size'][$i];
+                $tmpName = $_FILES['etapas']['tmp_name'][$indice]['midia'];
+                $tamanho = $_FILES['etapas']['size'][$indice]['midia'];
 
                 if (!is_uploaded_file($tmpName)) {
-                    throw new Exception('Arquivo inválido.');
-                }
-
-                if ($tamanho > 5 * 1024 * 1024) {
-                    throw new Exception('Cada arquivo deve ter no máximo 5 MB.');
-                }
-
-                $finfo = new finfo(FILEINFO_MIME_TYPE);
-                $tipo = $finfo->file($tmpName);
-
-                // Capa e foto aceitam imagens; vídeo aceita MP4
-                if ($i < 2 && !in_array($tipo, [
-                    'image/jpeg',
-                    'image/png',
-                    'image/webp'
-                ])) {
-                    throw new Exception('A capa e a foto devem ser imagens JPG, PNG ou WebP.');
-                }
-
-                if ($i === 2 && $tipo !== 'video/mp4') {
-                    throw new Exception('O arquivo de vídeo deve ser MP4 ou GIF.');
-                } else if ($i === 2 && $tipo !== 'image/gif') {
-                    throw new Exception('O arquivo de vídeo deve ser MP4 ou GIF.');
-                }
-
-                $conteudo = file_get_contents($tmpName);
-
-                if ($i === 0) {
-                    $capa = $conteudo;
-                } elseif ($i === 1) {
-                    $foto = $conteudo;
+                    $erro = 'Arquivo da etapa inválido.';
+                } elseif ($tamanho > (5 * 1024 * 1024)) {
+                    $erro = 'A foto de cada etapa deve ter no máximo 5 MB.';
                 } else {
-                    $video = $conteudo;
+                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    $tipo = finfo_file($finfo, $tmpName);
+                    finfo_close($finfo);
+
+                    if (!in_array($tipo, ['image/jpeg', 'image/png', 'image/webp', 'image/gif'])) {
+                        $erro = 'A foto da etapa deve ser JPG, PNG, WebP ou GIF.';
+                    } else {
+                        $midia = file_get_contents($tmpName);
+                    }
                 }
             }
-        }
 
-        // Converte as mídias em valores binários para o BLOB
-        $capaSQL = $capa === '' ? "''" : "0x" . bin2hex($capa);
-        $fotoSQL = $foto === '' ? "''" : "0x" . bin2hex($foto);
-        $videoSQL = $video === '' ? "''" : "0x" . bin2hex($video);
+            if ($erro != '') {
+                break;
+            }
 
-        // Cadastra a guia
-        $sql = "INSERT INTO guia
-                (id_usuario, titulo, descricao, categoria, dificuldade, capa, foto, video)
-                VALUES ('$idUsuario', '$titulo', '$descricao', '$categoria',
-                '$dificuldade', $capaSQL, $fotoSQL, $videoSQL)";
+            $midiaSQL = $midia == '' ? 'NULL' : "0x" . bin2hex($midia);
+            $etapaDesc = $conn->real_escape_string($etapaDesc);
+            $sql = "INSERT INTO etapa (id_etapas, descricao, midia)
+                    VALUES ('$idEtapas', '$etapaDesc', $midiaSQL)";
 
-        $conn->query($sql);
-        $idGuia = $conn->insert_id;
-
-        // Cadastra o agrupamento dos materiais
-        $sql = "INSERT INTO materiais (id_guia)
-                VALUES ('$idGuia')";
-
-        $conn->query($sql);
-        $idMateriais = $conn->insert_id;
-
-        // Cadastra os materiais
-        if (is_array($materiais)) {
-            foreach ($materiais as $material) {
-                $material = trim($material);
-
-                if ($material === '') {
-                    continue;
-                }
-
-                $sql = "INSERT INTO material (id_materiais, nome)
-                        VALUES ('$idMateriais', '$material')";
-
-                $conn->query($sql);
+            if (!$conn->query($sql)) {
+                $erro = 'Erro ao cadastrar uma etapa: ' . $conn->error;
+                break;
             }
         }
+    }
 
-        // Cadastra o agrupamento das etapas
-        $sql = "INSERT INTO etapas (id_guia)
-                VALUES ('$idGuia')";
-
-        $conn->query($sql);
-        $idEtapas = $conn->insert_id;
-
-        // Cadastra as etapas e suas mídias
-        if (is_array($etapas)) {
-            foreach ($etapas as $indice => $etapa) {
-                $etapaDesc = trim($etapa['descricao'] ?? '');
-
-                if ($etapaDesc === '') {
-                    continue;
-                }
-
-                $midia = '';
-                $erro = $_FILES['etapas']['error'][$indice]['midia']
-                    ?? UPLOAD_ERR_NO_FILE;
-
-                if ($erro !== UPLOAD_ERR_NO_FILE) {
-                    if ($erro !== UPLOAD_ERR_OK) {
-                        throw new Exception('Erro ao enviar a mídia da etapa.');
-                    }
-
-                    $tmpName = $_FILES['etapas']['tmp_name'][$indice]['midia'];
-                    $tamanho = $_FILES['etapas']['size'][$indice]['midia'];
-
-                    if (!is_uploaded_file($tmpName)) {
-                        throw new Exception('Arquivo da etapa inválido.');
-                    }
-
-                    if ($tamanho > 5 * 1024 * 1024) {
-                        throw new Exception('A mídia de cada etapa deve ter no máximo 5 MB.');
-                    }
-
-                    $midia = file_get_contents($tmpName);
-                }
-
-                $midiaSQL = $midia === ''
-                    ? "NULL"
-                    : "0x" . bin2hex($midia);
-
-                $sql = "INSERT INTO etapa (id_etapas, descricao, midia)
-                        VALUES ('$idEtapas', '$etapaDesc', $midiaSQL)";
-
-                $conn->query($sql);
-            }
-        }
-
-        $conn->commit();
-
-        header('Location: guias/guias_' . $categoria . '/guias.php');
+    // Redireciona depois de cadastrar tudo sem erros.
+    if ($erro == '') {
+        header('Location: guias_' . $categoria);
         exit();
-    } catch (Throwable $e) {
-        $conn->rollback();
-
-        error_log($e->getMessage());
-        $mensagemErro = $e->getMessage();
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -202,7 +200,7 @@ if (isset($_POST['publicar'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>ATLAS - Cadastrar Guia</title>
     <link rel="stylesheet" href="css/cadastro_guias.css">
-    <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
+    <link rel="icon" href="imgs_website/logoatlas.png" type="image/png">
 </head>
 
 <body>
@@ -247,122 +245,180 @@ if (isset($_POST['publicar'])) {
         </nav>
     </header>
 
-    <main>
-        <div class="cabecalho-pagina">
-            <h1>Cadastrar Guia</h1>
-            <p>Monte um guia passo a passo pra ajudar outras pessoas a aprenderem algo novo.</p>
-        </div>
+    <main class="pagina-cadastro">
+        <nav class="migalhas" aria-label="Você está aqui">
+            <a href="index.php">Início</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Cadastrar guia</span>
+        </nav>
+
+        <section class="cabecalho-pagina">
+            <h1>Cadastrar guia</h1>
+            <p>Monte um guia passo a passo para ajudar outras pessoas a aprenderem algo novo.</p>
+        </section>
+
+
+        <section class="guia-capa preview-capa sem-capa" id="preview-capa">
+            <img class="guia-capa-imagem" id="preview-capa-imagem" alt="Prévia da capa da guia" hidden>
+            <div class="guia-capa-sombra"></div>
+            <div class="guia-capa-conteudo">
+                <span class="guia-categoria"><i class="fa-solid fa-book-open"></i> <span id="preview-categoria">Categoria</span></span>
+                <h2 id="preview-titulo">Título da sua guia</h2>
+                <p id="preview-descricao">A descrição da sua guia aparecerá aqui enquanto você preenche o formulário.</p>
+                <div class="guia-capa-meta">
+                    <span><i class="fa-solid fa-signal"></i> <span id="preview-dificuldade">Dificuldade</span></span>
+                    <span><i class="fa-regular fa-user"></i> <?= htmlspecialchars($_SESSION['nome'] ?? 'Comunidade ATLAS', ENT_QUOTES, 'UTF-8') ?></span>
+                    <span><i class="fa-regular fa-eye"></i> Prévia ao vivo</span>
+                </div>
+            </div>
+            <div class="capa-placeholder" id="capa-placeholder"><i class="fa-solid fa-image"></i></div>
+        </section>
 
         <form class="formulario-tarefa" id="formulario-tarefa" method="POST" enctype="multipart/form-data">
-            <section class="cartao-formulario">
-                <h2>Informações gerais</h2>
+            <div class="guia-layout cadastro-layout">
+                <div class="guia-conteudo formulario-coluna">
+                    <section class="bloco-guia cartao-formulario">
+                        <div class="cabecalho-bloco">
+                            <span class="icone-bloco"><i class="fa-solid fa-pen-to-square"></i></span>
+                            <div>
+                                <h2>Informações gerais</h2>
+                                <p>Apresente sua guia e escolha como ela será organizada.</p>
+                            </div>
+                        </div>
 
-                <div class="campo">
-                    <label for="titulo">Título</label>
-                    <input type="text" id="titulo" name="titulo" maxlength="200" placeholder="Ex: Como fazer um bolo de chocolate" required>
-                </div>
+                        <div class="campo">
+                            <label for="titulo">Título</label>
+                            <input type="text" id="titulo" name="titulo" maxlength="200" placeholder="Ex.: Como fazer um bolo de chocolate" required>
+                        </div>
+                        <div class="campo">
+                            <label for="descricao">Descrição</label>
+                            <textarea id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa guia ensina" required></textarea>
+                        </div>
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="categoria">Categoria</label>
+                                <select id="categoria" name="categoria" required>
+                                    <option value="" disabled selected>Selecione uma categoria</option>
+                                    <option value="Automóveis">Automóveis</option>
+                                    <option value="Casa">Casa</option>
+                                    <option value="Compras">Compras</option>
+                                    <option value="Cuidados">Cuidados</option>
+                                    <option value="Culinária">Culinária</option>
+                                    <option value="Educação">Educação</option>
+                                    <option value="Finanças">Finanças</option>
+                                    <option value="Jardinagem">Jardinagem</option>
+                                    <option value="Limpeza">Limpeza</option>
+                                    <option value="Manutenção">Manutenção</option>
+                                    <option value="Moda">Moda</option>
+                                    <option value="Saúde">Saúde</option>
+                                    <option value="Tecnologia">Tecnologia</option>
+                                    <option value="Trabalho">Trabalho</option>
+                                    <option value="Transporte">Transporte</option>
+                                </select>
+                            </div>
+                            <div class="campo">
+                                <label for="dificuldade">Dificuldade</label>
+                                <select id="dificuldade" name="dificuldade" required>
+                                    <option value="" disabled selected>Selecione a dificuldade</option>
+                                    <option value="Fácil">Fácil</option>
+                                    <option value="Médio">Médio</option>
+                                    <option value="Difícil">Difícil</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
 
-                <div class="campo">
-                    <label for="descricao">Descrição</label>
-                    <textarea id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa tarefa ensina" required></textarea>
-                </div>
+                    <section class="bloco-guia cartao-formulario">
+                        <div class="cabecalho-bloco">
+                            <span class="icone-bloco"><i class="fa-solid fa-images"></i></span>
+                            <div>
+                                <h2>Imagens e vídeo</h2>
+                            </div>
+                        </div>
+                        <div class="campo">
+                            <label for="capa">Capa da guia</label>
+                            <input type="file" class="campo-midia" name="capa" id="capa" accept="image/jpeg,image/png,image/webp,image/gif" required>
+                            <small>JPG, PNG, WebP ou GIF. Até 5 MB.</small>
+                        </div>
+                        <div class="campo">
+                            <label for="video">Vídeo da guia</label>
+                            <input type="url" class="campo-midia" name="video" id="video" maxlength="500" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url" required>
+                            <small>Insira o link do vídeo (YouTube, Vimeo ou outro endereço válido).</small>
+                        </div>
+                    </section>
 
-                <div class="linha-campos">
-                    <div class="campo">
-                        <label for="categoria">Categoria</label>
-                        <select id="categoria" name="categoria" required>
-                            <option value="" disabled selected>Selecione uma categoria</option>
-                            <option value="Culinária">Culinária</option>
-                            <option value="Casa">Casa</option>
-                            <option value="Limpeza">Limpeza</option>
-                            <option value="Finanças">Finanças</option>
-                            <option value="Trabalho">Trabalho</option>
-                            <option value="Educação">Educação</option>
-                            <option value="Saúde">Saúde</option>
-                            <option value="Automóveis">Automóveis</option>
-                            <option value="Transporte">Transporte</option>
-                            <option value="Tecnologia">Tecnologia</option>
-                            <option value="Jardinagem">Jardinagem</option>
-                            <option value="Moda">Moda</option>
-                            <option value="Cuidados">Cuidados</option>
-                            <option value="Manutenção">Manutenção</option>
-                            <option value="Compras">Compras</option>
-                        </select>
+                    <section class="bloco-guia cartao-formulario">
+                        <div class="cabecalho-bloco">
+                            <span class="icone-bloco"><i class="fa-solid fa-toolbox"></i></span>
+                            <div>
+                                <h2>Materiais necessários</h2>
+                                <p>Adicione os materiais usados para realizar a guia.</p>
+                            </div>
+                        </div>
+                        <div class="entrada-materiais">
+                            <input type="text" id="input-material" placeholder="Ex.: Farinha de trigo" aria-label="Nome do material">
+                            <button type="button" id="botao-add-material" class="botao-secundario"><i class="fa-solid fa-plus"></i> Adicionar</button>
+                        </div>
+                        <ul class="lista-materiais" id="lista-materiais"></ul>
+                    </section>
+
+                    <section class="bloco-guia cartao-formulario">
+                        <div class="cabecalho-bloco">
+                            <span class="icone-bloco"><i class="fa-solid fa-list-ol"></i></span>
+                            <div>
+                                <h2>Passo a passo</h2>
+                            </div>
+                        </div>
+                        <div class="lista-etapas" id="lista-etapas"></div>
+                        <button type="button" id="botao-add-etapa" class="botao-secundario"><i class="fa-solid fa-plus"></i> Adicionar etapa</button>
+                    </section>
+
+                    <template id="template-etapa">
+                        <article class="etapa bloco-etapa">
+                            <div class="cabecalho-bloco cabecalho-secao">
+                                <span class="icone-bloco numero-etapa"><span class="etapa-numero">1</span></span>
+                                <h3>Etapa</h3>
+                                <button type="button" class="botao-remover-etapa" aria-label="Remover etapa"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div class="campo">
+                                <label>Descrição</label>
+                                <textarea class="campo-etapa-descricao" rows="3" maxlength="500" placeholder="Explique o que fazer nesta etapa" required></textarea>
+                            </div>
+                            <div class="campo">
+                                <label>Foto (opcional)</label>
+                                <input type="file" class="campo-etapa-midia" accept="image/jpeg,image/png,image/webp,image/gif">
+                            </div>
+                            <div class="preview-midia etapa-preview" hidden></div>
+                        </article>
+                    </template>
+
+                    <div class="acoes-formulario">
+                        <button type="submit" class="botao-primario" name="publicar"><i class="fa-solid fa-cloud-arrow-up"></i> Publicar guia</button>
                     </div>
-
-                    <div class="campo">
-                        <label for="dificuldade">Dificuldade</label>
-                        <select id="dificuldade" name="dificuldade" required>
-                            <option value="" disabled selected>Selecione a dificuldade</option>
-                            <option value="Fácil">Fácil</option>
-                            <option value="Médio">Médio</option>
-                            <option value="Difícil">Difícil</option>
-                        </select>
-                    </div>
                 </div>
 
-                <div class="campo">
-                    <label for="capa">Capa da guia</label>
-                    <input type="file" class="campo-midia" name="imagens[]" id="capa" accept="image/jpeg,image/png,image/webp" required>
-                </div>
-
-                <div class="campo">
-                    <label for="foto">Foto da guia</label>
-                    <input type="file" class="campo-midia" name="imagens[]" id="foto" accept="image/jpeg,image/png,image/webp" required>
-                </div>
-
-                <div class="campo">
-                    <label for="video">Vídeo da guia</label>
-                    <input type="file" class="campo-midia" name="imagens[]" id="video" accept="video/mp4,image/gif">
-                </div>
-            </section>
-
-            <section class="cartao-formulario">
-                <h2>Materiais necessários</h2>
-                <p class="dica-campo">Digite um material e clique em Adicionar.</p>
-
-                <div class="entrada-materiais">
-                    <input type="text" id="input-material" placeholder="Ex: Farinha de trigo">
-                    <button type="button" id="botao-add-material" class="botao-secundario" onclick="addMaterial()">Adicionar</button>
-                </div>
-
-                <ul class="lista-materiais" id="lista-materiais"></ul>
-            </section>
-
-            <section class="cartao-formulario">
-                <div class="cabecalho-secao">
-                    <h2>Etapas</h2>
-                    <button type="button" id="botao-add-etapa" class="botao-secundario" onclick='addEtapa()'>
-                        <i class="fa-solid fa-plus"></i> Adicionar etapa
-                    </button>
-                </div>
-
-                <div class="lista-etapas" id="lista-etapas"></div>
-            </section>
-
-            <template id="template-etapa">
-                <div class="etapa">
-                    <div class="cabecalho-secao">
-                        <span class="etapa-numero">Etapa</span>
-                        <button type="button" class="botao-remover-etapa" aria-label="Remover etapa">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-
-                    <div class="campo">
-                        <label>Descrição</label>
-                        <textarea name="etapaDesc" class="campo-etapa-descricao" rows="3" placeholder="Explique o que fazer nessa etapa" required></textarea>
-                    </div>
-
-                    <div class="campo">
-                        <label>Foto ou vídeo (opcional)</label>
-                        <input type="file" class="campo-etapa-midia" name="etapaFoto" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4">
-                    </div>
-                </div>
-            </template>
-
-            <div class="acoes-formulario">
-                <button type="submit" class="botao-primario" name="publicar">Publicar tarefa</button>
+                <aside class="guia-lateral">
+                    <section class="cartao-resumo">
+                        <h2>Prévia do conteúdo</h2>
+                        <div><i class="fa-solid fa-layer-group"></i>
+                            <p><small>Categoria</small><strong id="resumo-categoria">Ainda não selecionada</strong></p>
+                        </div>
+                        <div><i class="fa-solid fa-signal"></i>
+                            <p><small>Dificuldade</small><strong id="resumo-dificuldade">Ainda não selecionada</strong></p>
+                        </div>
+                        <div><i class="fa-solid fa-list-check"></i>
+                            <p><small>Etapas</small><strong id="resumo-etapas">0 passos</strong></p>
+                        </div>
+                        <div><i class="fa-solid fa-toolbox"></i>
+                            <p><small>Materiais</small><strong id="resumo-materiais">0 materiais</strong></p>
+                        </div>
+                    </section>
+                    <section class="cartao-dica">
+                        <i class="fa-regular fa-lightbulb"></i>
+                        <h3>Dica</h3>
+                        <p>Use uma capa clara e escreva etapas objetivas. A prévia é atualizada conforme você preenche o formulário.</p>
+                    </section>
+                </aside>
             </div>
         </form>
     </main>
@@ -370,9 +426,7 @@ if (isset($_POST['publicar'])) {
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <a class="footer-logo" href="index.php" aria-label="Voltar para o início">
-                    <img src="imgs_website/logoatlas.png" alt="Atlas">
-                </a>
+                <a class="footer-logo" href="index.php" aria-label="Voltar para o início"><img src="imgs_website/logoatlas.png" alt="ATLAS"></a>
                 <p>Ideias, oportunidades e caminhos para você criar sua independência.</p>
                 <div class="footer-socials" aria-label="Redes sociais">
                     <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -380,27 +434,21 @@ if (isset($_POST['publicar'])) {
                     <a href="mailto:contato@atlas.com" aria-label="Enviar e-mail"><i class="fa-regular fa-envelope"></i></a>
                 </div>
             </div>
-
             <div class="footer-section">
                 <h3>Explorar</h3>
-                <a href="#categorias">Categorias</a>
-                <a href="#aspectos">Descubra o Atlas</a>
-                <a href="meu_perfil.php">Meu perfil</a>
+                <a href="index.php">Início</a>
+                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="suporte.php">Suporte
+                </a>
             </div>
-
             <div class="footer-section footer-contact">
                 <h3>Vamos conversar?</h3>
-                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p>
-                <a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <p>Tem uma dúvida ou uma ideia? Fale com a gente.</p><a href="mailto:contato@atlas.com">contato@atlas.com <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; <?= date('Y') ?> Atlas. Feito para ir longe.</p>
-            <div>
-                <a href="#">Privacidade</a>
-                <a href="#">Termos de uso</a>
-            </div>
+            <div><a href="#">Privacidade</a><a href="#">Termos de uso</a></div>
         </div>
     </footer>
 
