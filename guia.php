@@ -45,55 +45,6 @@ function h($valor): string
 {
     return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
 }
-
-function urlVideoIncorporado(string $url): string
-{
-    $url = trim($url);
-
-    if ($url === '' || !filter_var($url, FILTER_VALIDATE_URL)) {
-        return '';
-    }
-
-    $host = strtolower((string)parse_url($url, PHP_URL_HOST));
-    $path = trim((string)parse_url($url, PHP_URL_PATH), '/');
-
-    $query = [];
-    parse_str((string)parse_url($url, PHP_URL_QUERY), $query);
-
-    if (preg_match('/(^|\.)youtube\.com$/', $host)) {
-        $id = $query['v'] ?? '';
-
-        if ($id === '' && preg_match('~^(embed|shorts)/([^/?]+)~', $path, $m)) {
-            $id = $m[2];
-        }
-
-        return preg_match('/^[a-zA-Z0-9_-]{6,}$/', $id)
-            ? 'https://www.youtube-nocookie.com/embed/' . $id
-            : '';
-    }
-
-    if ($host === 'youtu.be' || str_ends_with($host, '.youtu.be')) {
-        $id = explode('/', $path)[0] ?? '';
-
-        return preg_match('/^[a-zA-Z0-9_-]{6,}$/', $id)
-            ? 'https://www.youtube-nocookie.com/embed/' . $id
-            : '';
-    }
-
-    if (preg_match('/(^|\.)vimeo\.com$/', $host)) {
-        $id = basename($path);
-
-        return ctype_digit($id)
-            ? 'https://player.vimeo.com/video/' . $id
-            : '';
-    }
-
-    if (preg_match('/\.(mp4|webm|ogg)$/i', (string)parse_url($url, PHP_URL_PATH))) {
-        return $url;
-    }
-
-    return '';
-}
 ?>
 
 <!DOCTYPE html>
@@ -102,17 +53,12 @@ function urlVideoIncorporado(string $url): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>ATLAS - <?= h($guia['titulo']) ?></title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/guia.css">
-
     <link rel="icon" href="imgs_website/logoatlas.png" type="image/png">
 </head>
 
@@ -160,20 +106,17 @@ function urlVideoIncorporado(string $url): string
                 </div>
 
             <?php else: ?>
-
                 <a class="entrar" href="login.php">Entrar</a>
-
             <?php endif; ?>
         </nav>
     </header>
 
     <main class="pagina-guia">
-
         <nav class="migalhas" aria-label="Você está aqui">
             <a href="index.php">Início</a>
             <i class="fa-solid fa-chevron-right"></i>
 
-            <a href="guias.php">Guias</a>
+            <a href="index.php#categorias-section">Guias</a>
             <i class="fa-solid fa-chevron-right"></i>
 
             <a href="guias.php?categoria=<?= urlencode($guia['categoria']) ?>">
@@ -186,10 +129,9 @@ function urlVideoIncorporado(string $url): string
         </nav>
 
         <section class="guia-capa">
-
             <img
                 class="guia-capa-imagem"
-                src="exibir_midia_guia.php?tipo=capa&id=<?= (int)$idGuia ?>"
+                src="exibir_imagem_guia.php?tipo=capa&id=<?= (int)$idGuia ?>"
                 alt="Capa do guia <?= h($guia['titulo']) ?>"
                 loading="eager"
                 onerror="this.style.display='none';this.parentElement.classList.add('sem-capa')">
@@ -197,7 +139,6 @@ function urlVideoIncorporado(string $url): string
             <div class="guia-capa-sombra"></div>
 
             <div class="guia-capa-conteudo">
-
                 <span class="guia-categoria">
                     <i class="fa-solid fa-book-open"></i>
                     <?= h($guia['categoria']) ?>
@@ -223,60 +164,33 @@ function urlVideoIncorporado(string $url): string
                         <i class="fa-regular fa-calendar"></i>
                         <?= h(date('d/m/Y', strtotime($guia['data_criacao']))) ?>
                     </span>
-
                 </div>
             </div>
 
             <div class="capa-placeholder">
                 <i class="fa-solid fa-book-open"></i>
             </div>
-
         </section>
 
         <div class="guia-layout">
-
             <article class="guia-conteudo">
-
                 <section class="bloco-guia introducao">
-
-                    <span class="sobretitulo">SOBRE ESTE GUIA</span>
-
                     <h2>O que você vai aprender</h2>
-
                     <p><?= nl2br(h($guia['descricao'])) ?></p>
-
                 </section>
 
-                <?php if ((int)($guia['foto_tamanho'] ?? 0) > 0): ?>
-
-                    <figure class="foto-destaque">
-                        <img
-                            src="exibir_midia_guia.php?tipo=foto&id=<?= (int)$idGuia ?>"
-                            alt="Imagem complementar do guia"
-                            loading="lazy">
-                    </figure>
-
-                <?php endif; ?>
-
                 <div class="guia-desc">
-
                     <div>
-
                         <?php if ($materiais): ?>
-
                             <section class="bloco-guia materiais-guia">
-
                                 <div class="cabecalho-bloco">
-
                                     <span class="icone-bloco">
                                         <i class="fa-solid fa-toolbox"></i>
                                     </span>
 
                                     <div>
-                                        <span class="sobretitulo">ANTES DE COMEÇAR</span>
                                         <h2>Materiais necessários</h2>
                                     </div>
-
                                 </div>
 
                                 <ul>
@@ -287,47 +201,36 @@ function urlVideoIncorporado(string $url): string
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
-
                             </section>
-
                         <?php endif; ?>
-
                     </div>
 
                     <?php
                     $urlVideo = trim((string)($guia['video'] ?? ''));
-                    $urlVideoEmbed = urlVideoIncorporado($urlVideo);
+                    $urlVideoEmbed = $guia['video'];
 
                     $videoDireto = $urlVideoEmbed !== ''
                         && preg_match('/\.(mp4|webm|ogg)(\?.*)?$/i', $urlVideo) === 1;
                     ?>
 
                     <?php if ($urlVideoEmbed !== ''): ?>
-
                         <section class="bloco-guia video-guia">
-
                             <div class="cabecalho-bloco">
-
                                 <span class="icone-bloco">
                                     <i class="fa-solid fa-circle-play"></i>
                                 </span>
 
                                 <div>
-                                    <span class="sobretitulo">CONTEÚDO EM VÍDEO</span>
                                     <h2>Veja como fazer</h2>
                                 </div>
-
                             </div>
 
                             <?php if ($videoDireto): ?>
-
                                 <video controls preload="metadata">
                                     <source src="<?= h($urlVideoEmbed) ?>">
                                     Seu navegador não suporta vídeo.
                                 </video>
-
                             <?php else: ?>
-
                                 <div class="guia-video">
                                     <iframe
                                         src="<?= h($urlVideoEmbed) ?>"
@@ -337,102 +240,66 @@ function urlVideoIncorporado(string $url): string
                                         referrerpolicy="strict-origin-when-cross-origin"
                                         allowfullscreen></iframe>
                                 </div>
-
                             <?php endif; ?>
-
                         </section>
-
                     <?php endif; ?>
-
                 </div>
 
                 <section class="bloco-guia etapas-guia">
-
                     <div class="cabecalho-bloco">
-
                         <span class="icone-bloco">
                             <i class="fa-solid fa-list-ol"></i>
                         </span>
 
                         <div>
-                            <span class="sobretitulo">MÃO NA MASSA</span>
                             <h2>Passo a passo</h2>
                         </div>
-
                     </div>
 
                     <?php if (!$etapas): ?>
-
                         <p class="sem-etapas">
                             Este guia ainda não tem etapas cadastradas.
                         </p>
-
                     <?php else: ?>
-
                         <div class="linha-etapas">
-
                             <?php foreach ($etapas as $indice => $etapa): ?>
-
                                 <article class="etapa-guia">
-
                                     <div class="numero-etapa">
                                         <?= $indice + 1 ?>
                                     </div>
-
                                     <div class="etapa-corpo">
-
                                         <h3>Etapa <?= $indice + 1 ?></h3>
-
                                         <p><?= nl2br(h($etapa['descricao'])) ?></p>
-
                                         <?php if (!empty($etapa['midia'])): ?>
-
                                             <?php
                                             $finfo = new finfo(FILEINFO_MIME_TYPE);
                                             $mimeEtapa = $finfo->buffer($etapa['midia']) ?: '';
                                             ?>
-
                                             <?php if (str_starts_with($mimeEtapa, 'image/')): ?>
-
                                                 <img
                                                     class="midia-etapa"
-                                                    src="exibir_midia_guia.php?tipo=etapa&id=<?= (int)$etapa['id_etapa'] ?>"
+                                                    src="exibir_imagem_guia.php?tipo=etapa&id=<?= (int)$etapa['id_etapa'] ?>"
                                                     alt="Imagem da etapa <?= $indice + 1 ?>"
                                                     loading="lazy">
-
                                             <?php elseif (str_starts_with($mimeEtapa, 'video/')): ?>
-
                                                 <video class="midia-etapa" controls preload="metadata">
                                                     <source
-                                                        src="exibir_midia_guia.php?tipo=etapa&id=<?= (int)$etapa['id_etapa'] ?>"
+                                                        src="exibir_imagem_guia.php?tipo=etapa&id=<?= (int)$etapa['id_etapa'] ?>"
                                                         type="<?= h($mimeEtapa) ?>">
                                                     Seu navegador não suporta vídeo.
                                                 </video>
-
                                             <?php endif; ?>
-
                                         <?php endif; ?>
-
                                     </div>
-
                                 </article>
-
                             <?php endforeach; ?>
-
                         </div>
-
                     <?php endif; ?>
-
                 </section>
-
             </article>
 
             <aside class="guia-lateral">
-
                 <div class="cartao-resumo">
-
-                    <span class="sobretitulo">RESUMO DO GUIA</span>
-
                     <div>
                         <i class="fa-solid fa-layer-group"></i>
                         <p>
@@ -460,11 +327,10 @@ function urlVideoIncorporado(string $url): string
                         </p>
                     </div>
 
-                    <a href="guias.php?categoria=<?= urlencode($guia['categoria']) ?>">
-                        Mais guias de <?= h($guia['categoria']) ?>
-                        <i class="fa-solid fa-arrow-right"></i>
+                    <a href="favoritar_guia.php?id=<?= $guia['id'] ?>">
+                        Favoritar Guia ?>
+                        <i class="fa-regular fa-heart"></i>
                     </a>
-
                 </div>
 
                 <div class="cartao-dica">
@@ -472,9 +338,7 @@ function urlVideoIncorporado(string $url): string
                     <h3>Dica ATLAS</h3>
                     <p>Leia todas as etapas antes de começar e separe os materiais necessários.</p>
                 </div>
-
             </aside>
-
         </div>
 
         <div class="voltar-guias">
@@ -483,15 +347,11 @@ function urlVideoIncorporado(string $url): string
                 Voltar para todos os guias
             </a>
         </div>
-
     </main>
 
     <footer>
-
         <div class="footer-content">
-
             <div class="footer-brand">
-
                 <a class="footer-logo" href="index.php" aria-label="Voltar para o início">
                     <img src="imgs_website/logoatlas.png" alt="ATLAS">
                 </a>
@@ -511,7 +371,6 @@ function urlVideoIncorporado(string $url): string
                         <i class="fa-regular fa-envelope"></i>
                     </a>
                 </div>
-
             </div>
 
             <div class="footer-section">
@@ -542,7 +401,6 @@ function urlVideoIncorporado(string $url): string
         </div>
 
     </footer>
-
     <script src="js/header.js"></script>
 
 </body>

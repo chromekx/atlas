@@ -342,7 +342,7 @@ a {
     color: var(--color-danger);
 }
 
-.lista-materiais li i .fa-check{
+.lista-materiais li i .fa-check::before {
     color: var(--color-success-dark);
 }
 

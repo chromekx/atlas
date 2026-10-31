@@ -95,18 +95,18 @@ section {
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border: none;
     border-radius: 50%;
     background-color: var(--color-primary-light);
     color: var(--color-text-inverse);
     font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color var(--transition-fast), opacity var(--transition-fast);
+    transition: background-color var(--transition-fast);
 }
 
-.carrossel-seta:hover {
+.carrossel-seta:hover:not(:disabled) {
     background-color: var(--color-primary);
 }
 
@@ -123,9 +123,11 @@ section {
     align-items: center;
     justify-content: flex-start;
     gap: var(--space-3);
+    padding: 8px 2px 12px;
     overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
+    scrollbar-width: none;
     opacity: 0;
     transition: opacity 0.6s ease;
 }
@@ -145,22 +147,28 @@ section {
     justify-content: center;
     gap: var(--space-2);
     height: 80px;
-    border: none;
-    border-radius: var(--radius-md); 
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
     background-color: var(--color-surface);
-    font-size: 1.25rem;
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-family: 'Google Sans';
     cursor: pointer;
     scroll-snap-align: start;
-    transition: background-color var(--transition-fast);
-    font-family: 'Google Sans', sans-serif;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
 }
 
 .categoria:hover {
     background-color: #d1d7e4;
+    border-color: #c1c9dc;
+    transform: translateY(-2px);
 }
 
 .categoria i {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 
 .cartoes {
@@ -191,12 +199,6 @@ section {
 .cartao:hover {
     translate: 0 -6px;
     box-shadow: var(--shadow-card-hover);
-}
-
-/* 1º, 4º, 5º, 8º... ocupam duas colunas para variar o ritmo da grade */
-.cartao:nth-child(4n+1),
-.cartao:nth-child(4n) {
-    grid-column: span 2;
 }
 
 .foto-card {

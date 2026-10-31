@@ -76,29 +76,28 @@ session_start();
     </main>
 
     <section id="secao-categorias">
-        <h1 class="titulo">Categorias</h1>
-
+        <h1 class="titulo" id="categorias-section">Categorias</h1>
         <div class="carrossel">
             <button class="carrossel-seta carrossel-seta-esquerda" id="setaEsquerda" type="button" aria-label="Categorias anteriores">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
 
             <div class="categorias" id="categorias">
-                <button onclick="window.location.href='guias_Automóveis.php'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
-                <button onclick="window.location.href='guias_Casa.php'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
-                <button onclick="window.location.href='guias_Compras.php'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
-                <button onclick="window.location.href='guias_Cuidados.php'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
-                <button onclick="window.location.href='guias_Culinária.php'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
-                <button onclick="window.location.href='guias_Educação.php'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
-                <button onclick="window.location.href='guias_Finanças.php'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
-                <button onclick="window.location.href='guias_Jardinagem.php'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
-                <button onclick="window.location.href='guias_Limpeza.php'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
-                <button onclick="window.location.href='guias_Manutenção.php'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
-                <button onclick="window.location.href='guias_Moda.php'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
-                <button onclick="window.location.href='guias_Saúde.php'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
-                <button onclick="window.location.href='guias_Tecnologia.php'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
-                <button onclick="window.location.href='guias_Trabalho.php'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
-                <button onclick="window.location.href='guias_Transporte.php'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
+                <button onclick="window.location.href='guias.php?categoria=Automóveis'" class="categoria"><i class="fa-solid fa-car"></i>Automóveis</button>
+                <button onclick="window.location.href='guias.php?categoria=Casa'" class="categoria"><i class="fa-solid fa-house"></i>Casa</button>
+                <button onclick="window.location.href='guias.php?categoria=Compras'" class="categoria"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+                <button onclick="window.location.href='guias.php?categoria=Cuidados'" class="categoria"><i class="fa-solid fa-baby"></i>Cuidados</button>
+                <button onclick="window.location.href='guias.php?categoria=Culinária'" class="categoria"><i class="fa-solid fa-bowl-food"></i>Culinária</button>
+                <button onclick="window.location.href='guias.php?categoria=Educação'" class="categoria"><i class="fa-solid fa-graduation-cap"></i>Educação</button>
+                <button onclick="window.location.href='guias.php?categoria=Finanças'" class="categoria"><i class="fa-solid fa-money-bill-wave"></i>Finanças</button>
+                <button onclick="window.location.href='guias.php?categoria=Jardinagem'" class="categoria"><i class="fa-solid fa-seedling"></i>Jardinagem</button>
+                <button onclick="window.location.href='guias.php?categoria=Limpeza'" class="categoria"><i class="fa-solid fa-broom"></i>Limpeza</button>
+                <button onclick="window.location.href='guias.php?categoria=Manutenção'" class="categoria"><i class="fa-solid fa-screwdriver-wrench"></i>Manutenção</button>
+                <button onclick="window.location.href='guias.php?categoria=Moda'" class="categoria"><i class="fa-solid fa-shirt"></i>Moda</button>
+                <button onclick="window.location.href='guias.php?categoria=Saúde'" class="categoria"><i class="fa-solid fa-heart-pulse"></i>Saúde</button>
+                <button onclick="window.location.href='guias.php?categoria=Tecnologia'" class="categoria"><i class="fa-solid fa-computer"></i>Tecnologia</button>
+                <button onclick="window.location.href='guias.php?categoria=Trabalho'" class="categoria"><i class="fa-solid fa-briefcase"></i>Trabalho</button>
+                <button onclick="window.location.href='guias.php?categoria=Transporte'" class="categoria"><i class="fa-solid fa-bus"></i>Transporte</button>
             </div>
 
             <button class="carrossel-seta carrossel-seta-direita" id="setaDireita" type="button" aria-label="Próximas categorias">
@@ -109,15 +108,41 @@ session_start();
 
     <section id="preferencias">
         <h1 class="titulo" id="sobrenos">Sobre Nós</h1>
-
-        <div class="cartoes" id="cartao">
-            <div class="cartao" id="cartao">
+        <p class="sobrenos-intro">O ATLAS nasceu pra ajudar pessoas a compartilharem o que sabem fazer, de forma simples e sem complicação.</p>
+        
+        <div class="hero-sobrenos">
+            <div class="foto-card" style="background-color: #44c0fa;"></div>
+            <div class="cartao-texto">
+                <h2>Conhecimento compartilhado</h2>
+                <p>Qualquer pessoa pode publicar um guia passo a passo e ajudar quem está aprendendo.</p>
+            </div>
+        </div>
+        
+        <div class="cartoes">
+            <div class="cartao ">
                 <div class="foto-card" style="background-color: #44c0fa;"></div>
                 <div class="cartao-texto">
-                    <h2>Cartão 1</h2>
-                    <p>Desc do cartão 1</p>
+                    <h2>Conhecimento compartilhado</h2>
+                    <p>Qualquer pessoa pode publicar um guia passo a passo e ajudar quem está aprendendo.</p>
                 </div>
             </div>
+
+            <div class="cartao">
+                <div class="foto-card" style="background-color: #ffcb3d;"></div>
+                <div class="cartao-texto">
+                    <h2>De graça, pra todo mundo</h2>
+                    <p>Criar uma conta, publicar e explorar guias no ATLAS não custa nada.</p>
+                </div>
+            </div>
+
+            <div class="cartao">
+                <div class="foto-card" style="background-color: #ff6464;"></div>
+                <div class="cartao-texto">
+                    <h2>Feito pela comunidade</h2>
+                    <p>Cada guia vem de alguém que já passou pelo processo e quer poupar seu tempo.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <footer>
