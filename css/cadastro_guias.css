@@ -11,32 +11,6 @@ body {
     color: #242633;
 }
 
-a {
-    color: var(--color-primary);
-}
-
-.pagina-cadastro {
-    padding-bottom: 45px;
-}
-
-.migalhas {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 9px;
-    margin: 20px var(--space-7, 5%);
-    color: #666;
-    font-size: .9rem;
-}
-
-.migalhas a {
-    text-decoration: none;
-}
-
-.migalhas span {
-    color: #333;
-}
-
 .cabecalho-pagina {
     margin: 32px var(--space-7, 5%) 28px;
 }

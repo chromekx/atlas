@@ -8,6 +8,7 @@ function h($valor): string
 }
 
 // Lista de categorias válidas: rótulo exibido => valor gravado em guia.categoria
+// (o valor de "Manutenção" está com erro de digitação no banco: "Manuntenção")
 $categoriasValidas = [
     'Automóveis' => ['icone' => 'fa-car', 'valor' => 'Automóveis'],
     'Casa' => ['icone' => 'fa-house', 'valor' => 'Casa'],
@@ -88,40 +89,53 @@ function linkPagina($pagina, $categoriaValida, $busca): string
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="index.php" aria-label="Página inicial">
+            <img src="imgs_website/logotipoatlas.png" alt="ATLAS">
+        </a>
 
-        <nav class="nav-options">
+        <nav class="nav-options" aria-label="Navegação principal">
+            <a class="item" href="guias.php">
+                <p>Explorar guias</p>
+            </a>
+
             <?php if (isset($_SESSION['id'])): ?>
                 <a class="item" href="cadastro_guias.php">
-                    <p>Cadastrar Guia</p>
+                    <p>Cadastrar guia</p>
                 </a>
             <?php endif; ?>
-            <a class="item" href="sobrenos.php">
-                <p>Sobre Nós</p>
+
+            <a class="item" href="index.php#aspectos">
+                <p>Sobre o ATLAS</p>
             </a>
+
             <a class="item" href="suporte.php">
                 <p>Suporte</p>
             </a>
         </nav>
 
-        <nav class="nav-btns">
+        <nav class="nav-btns" aria-label="Conta">
             <?php if (isset($_SESSION['id'])): ?>
+
                 <div class="perfil" id="perfil">
                     <p>
                         <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? h($_SESSION['foto']) : 'foto_padrao.png' ?>">
                         Olá, <?= h($_SESSION['nome']) ?>
                     </p>
+
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option" href="meu_perfil.php">Meu Perfil</a>
+                        <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
                         <a class="perfil-option" href="configuracoes.php">Configurações</a>
-                        <a class="perfil-option" href="sair.php">Sair</a>
+
                         <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
-                            <a class="perfil-option" href="admin.php">Painel do Administrador</a>
+                            <a class="perfil-option" href="admin.php">Painel do administrador</a>
                         <?php endif; ?>
+
+                        <a class="perfil-option" href="sair.php">Sair</a>
                     </div>
                 </div>
+
             <?php else: ?>
                 <a class="entrar" href="login.php">Entrar</a>
             <?php endif; ?>

@@ -9,7 +9,7 @@ if (!isset($_SESSION['id'])) {
 $erro = '';
 
 if (isset($_POST['publicar'])) {
-    include('conexao.php');
+    require_once __DIR__ . "/conexao.php";
 
     // Faz o query retornar false quando houver erro, em vez de lançar exceção.
     mysqli_report(MYSQLI_REPORT_OFF);
@@ -186,6 +186,11 @@ if (isset($_POST['publicar'])) {
         exit();
     }
 }
+
+function h($valor): string
+{
+    return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
+}
 ?>
 
 <!DOCTYPE html>
@@ -205,56 +210,62 @@ if (isset($_POST['publicar'])) {
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="index.php" aria-label="Página inicial">
+            <img src="imgs_website/logotipoatlas.png" alt="ATLAS">
+        </a>
 
-        <?php if (isset($_SESSION['id'])) { ?>
-            <nav class="nav-options">
-                <button onclick="window.location.href='cadastro_guias.php'" class="item">
-                    <p>Cadastrar Guia</p>
-                </button>
-                <button onclick="window.location.href='sobrenos.php'" class="item">
-                    <p>Sobre Nós</p>
-                </button>
-                <button onclick="window.location.href='suporte.php'" class="item">
-                    <p>Suporte</p>
-                </button>
-            </nav>
-        <?php } ?>
+        <nav class="nav-options" aria-label="Navegação principal">
+            <a class="item" href="guias.php">
+                <p>Explorar guias</p>
+            </a>
 
-        <nav class="nav-btns">
             <?php if (isset($_SESSION['id'])): ?>
+                <a class="item" href="cadastro_guias.php">
+                    <p>Cadastrar guia</p>
+                </a>
+            <?php endif; ?>
+
+            <a class="item" href="index.php#aspectos">
+                <p>Sobre o ATLAS</p>
+            </a>
+
+            <a class="item" href="suporte.php">
+                <p>Suporte</p>
+            </a>
+        </nav>
+
+        <nav class="nav-btns" aria-label="Conta">
+            <?php if (isset($_SESSION['id'])): ?>
+
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
-                        Olá, <?= $_SESSION['nome'] ?>
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? h($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= h($_SESSION['nome']) ?>
                     </p>
+
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
-                        <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
-                        <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
-                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
-                            <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
+                        <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
+                        <a class="perfil-option" href="configuracoes.php">Configurações</a>
+
+                        <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
+                            <a class="perfil-option" href="admin.php">Painel do administrador</a>
                         <?php endif; ?>
+
+                        <a class="perfil-option" href="sair.php">Sair</a>
                     </div>
                 </div>
+
             <?php else: ?>
-                <button class="entrar" onclick="window.location.href='login.php'"></button>
+                <a class="entrar" href="login.php">Entrar</a>
             <?php endif; ?>
         </nav>
     </header>
 
     <main class="pagina-cadastro">
-        <nav class="migalhas" aria-label="Você está aqui">
-            <a href="index.php">Início</a>
-            <i class="fa-solid fa-chevron-right"></i>
-            <span>Cadastrar guia</span>
-        </nav>
-
         <section class="cabecalho-pagina">
-            <h1>Cadastrar guia</h1>
-            <p>Monte um guia passo a passo para ajudar outras pessoas a aprenderem algo novo.</p>
+            <h1>Cadastrar Guia</h1>
         </section>
 
 

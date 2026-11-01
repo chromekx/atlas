@@ -163,3 +163,220 @@ main {
 .botao-primario:hover {
     background-color: var(--color-primary-light);
 }
+
+.lista-guias-perfil {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: var(--space-3);
+    width: 100%;
+}
+
+/* Card */
+
+.card-guia-perfil {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.card-guia-perfil:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+}
+
+/* Capa da guia */
+
+.card-guia-capa {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background-color: var(--color-bg);
+}
+
+.card-guia-capa img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform var(--transition-fast);
+}
+
+.card-guia-perfil:hover .card-guia-capa img {
+    transform: scale(1.03);
+}
+
+.card-guia-capa .capa-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--color-text-secondary);
+}
+
+.card-guia-capa .capa-placeholder i {
+    font-size: 2rem;
+}
+
+/* Conteúdo */
+
+.card-guia-conteudo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+}
+
+.card-guia-categoria {
+    align-self: flex-start;
+    padding: 4px 9px;
+    border-radius: 100px;
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.card-guia-titulo {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.card-guia-descricao {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.card-guia-detalhes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-1);
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+}
+
+.card-guia-detalhes span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.card-guia-detalhes i {
+    color: var(--color-primary);
+}
+
+/* Ações do card */
+
+.card-guia-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-top: 1px solid var(--color-border);
+}
+
+.card-guia-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.card-guia-link:hover {
+    text-decoration: underline;
+}
+
+/* Botão de favoritar */
+
+.botao-favorito {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.botao-favorito:hover {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.botao-favorito.favoritado {
+    border-color: #dc3545;
+    background-color: #fff0f1;
+    color: #dc3545;
+}
+
+/* Informação adicional para histórico */
+
+.card-guia-visualizacao {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Informação adicional para guias criadas */
+
+.card-guia-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.card-guia-status.publicada {
+    color: #198754;
+}
+
+.card-guia-status.rascunho {
+    color: #b7791f;
+}
+
+/* Mensagem de lista vazia */
+
+.painel-perfil .estado-vazio {
+    width: 100%;
+    min-height: 200px;
+}

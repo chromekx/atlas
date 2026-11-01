@@ -6,7 +6,7 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-include('conexao.php');
+require_once __DIR__ . "/conexao.php";
 
 $sql = "SELECT id_usuario, foto, nome, email, preferencia, data_criacao FROM usuario WHERE id_usuario = " . $_SESSION['id'];
 $query = $conn->query($sql);
@@ -52,6 +52,14 @@ if (!empty($usuario['data_criacao'])) {
     $data = new DateTime($usuario['data_criacao']);
     $membroDesde = $data->format('d') . ' de ' . $meses[(int) $data->format('n')] . ' de ' . $data->format('Y');
 }
+
+$sql = "SELECT id_guia, data_favorito FROM favoritos WHERE id_usuario = " . $_SESSION['id'];
+$resultado = $conn->query($sql);
+
+function h($valor): string
+{
+    return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
+}
 ?>
 
 <!DOCTYPE html>
@@ -71,42 +79,55 @@ if (!empty($usuario['data_criacao'])) {
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="index.php" aria-label="Página inicial">
+            <img src="imgs_website/logotipoatlas.png" alt="ATLAS">
+        </a>
 
-        <?php if (isset($_SESSION['id'])) { ?>
-            <nav class="nav-options">
-                <button onclick="window.location.href='cadastro_guias.php'" class="item">
-                    <p>Cadastrar Guia</p>
-                </button>
-                <button onclick="window.location.href='sobrenos.php'" class="item">
-                    <p>Sobre Nós</p>
-                </button>
-                <button onclick="window.location.href='suporte.php'" class="item">
-                    <p>Suporte</p>
-                </button>
-            </nav>
-        <?php } ?>
+        <nav class="nav-options" aria-label="Navegação principal">
+            <a class="item" href="guias.php">
+                <p>Explorar guias</p>
+            </a>
 
-        <nav class="nav-btns">
             <?php if (isset($_SESSION['id'])): ?>
+                <a class="item" href="cadastro_guias.php">
+                    <p>Cadastrar guia</p>
+                </a>
+            <?php endif; ?>
+
+            <a class="item" href="index.php#aspectos">
+                <p>Sobre o ATLAS</p>
+            </a>
+
+            <a class="item" href="suporte.php">
+                <p>Suporte</p>
+            </a>
+        </nav>
+
+        <nav class="nav-btns" aria-label="Conta">
+            <?php if (isset($_SESSION['id'])): ?>
+
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
-                        Olá, <?= $_SESSION['nome'] ?>
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? h($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= h($_SESSION['nome']) ?>
                     </p>
+
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
-                        <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
-                        <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
-                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
-                            <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
+                        <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
+                        <a class="perfil-option" href="configuracoes.php">Configurações</a>
+
+                        <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
+                            <a class="perfil-option" href="admin.php">Painel do administrador</a>
                         <?php endif; ?>
+
+                        <a class="perfil-option" href="sair.php">Sair</a>
                     </div>
                 </div>
+
             <?php else: ?>
-                <button class="entrar" onclick="window.location.href='login.php'"></button>
+                <a class="entrar" href="login.php">Entrar</a>
             <?php endif; ?>
         </nav>
     </header>
@@ -150,10 +171,41 @@ if (!empty($usuario['data_criacao'])) {
         </section>
 
         <section class="painel-perfil" id="painel-favoritos" hidden>
-            <div class="estado-vazio">
-                <i class="fa-solid fa-heart"></i>
-                <p>Você ainda não favoritou nenhuma tarefa.</p>
-            </div>
+            <?php if ($resultado->num_rows == 0) { ?>
+                <div class="estado-vazio">
+                    <i class="fa-solid fa-heart"></i>
+                    <p>Você ainda não favoritou nenhuma tarefa.</p>
+                </div>
+            <?php } else { ?>
+                <section class="painel-perfil" id="painel-favoritos" hidden>
+                    <div class="lista-guias-perfil">
+                        <article class="card-guia-perfil">
+                            <div class="card-guia-capa">
+                                <img src="imgs_guias/exemplo.jpg" alt="Capa da guia">
+                            </div>
+
+                            <div class="card-guia-conteudo">
+                                <span class="card-guia-categoria">Culinária</span>
+                                <h3 class="card-guia-titulo">Como preparar receitas simples</h3>
+                                <p class="card-guia-descricao">Aprenda a preparar receitas práticas para o dia a dia.</p>
+                                <div class="card-guia-detalhes">
+                                    <span><i class="fa-solid fa-signal"></i>Fácil</span>
+                                    <span><i class="fa-solid fa-user"></i>Nome do autor</span>
+                                </div>
+                            </div>
+
+                            <div class="card-guia-acoes">
+                                <a href="guia.php?id=1" class="card-guia-link">
+                                    Ver guia
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+
+                                <button type="button"class="botao-favorito favoritado"aria-label="Remover dos favoritos"><i class="fa-solid fa-heart"></i></button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            <?php } ?>
         </section>
 
         <section class="painel-perfil" id="painel-historico" hidden>

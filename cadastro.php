@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['cadastrar'])) {
-    include('conexao.php');
+    require_once __DIR__ . "/conexao.php";
 
     $nome = $_POST['nome'];
     $email = $_POST['email'];

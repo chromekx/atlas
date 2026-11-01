@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_POST['entrar'])) {
-    include('conexao.php');
+    require_once __DIR__ . "/conexao.php";
 
     $email = $_POST['email'];
     $senha = $_POST['senha'];

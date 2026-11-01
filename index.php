@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+function h($valor): string
+{
+    return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,42 +24,55 @@ session_start();
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="index.php" aria-label="Página inicial">
+            <img src="imgs_website/logotipoatlas.png" alt="ATLAS">
+        </a>
 
-        <?php if (isset($_SESSION['id'])) { ?>
-            <nav class="nav-options">
-                <button onclick="window.location.href='cadastro_guias.php'" class="item">
-                    <p>Cadastrar Guia</p>
-                </button>
-                <button onclick="window.location.href='#sobrenos'" class="item">
-                    <p>Sobre Nós</p>
-                </button>
-                <button onclick="window.location.href='suporte.php'" class="item">
-                    <p>Suporte</p>
-                </button>
-            </nav>
-        <?php } ?>
+        <nav class="nav-options" aria-label="Navegação principal">
+            <a class="item" href="guias.php">
+                <p>Explorar guias</p>
+            </a>
 
-        <nav class="nav-btns">
             <?php if (isset($_SESSION['id'])): ?>
+                <a class="item" href="cadastro_guias.php">
+                    <p>Cadastrar guia</p>
+                </a>
+            <?php endif; ?>
+
+            <a class="item" href="index.php#aspectos">
+                <p>Sobre o ATLAS</p>
+            </a>
+
+            <a class="item" href="suporte.php">
+                <p>Suporte</p>
+            </a>
+        </nav>
+
+        <nav class="nav-btns" aria-label="Conta">
+            <?php if (isset($_SESSION['id'])): ?>
+
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
-                        Olá, <?= $_SESSION['nome'] ?>
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? h($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= h($_SESSION['nome']) ?>
                     </p>
+
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
-                        <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
-                        <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
-                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
-                            <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
+                        <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
+                        <a class="perfil-option" href="configuracoes.php">Configurações</a>
+
+                        <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
+                            <a class="perfil-option" href="admin.php">Painel do administrador</a>
                         <?php endif; ?>
+
+                        <a class="perfil-option" href="sair.php">Sair</a>
                     </div>
                 </div>
+
             <?php else: ?>
-                <button class="entrar" onclick="window.location.href='login.php'"></button>
+                <a class="entrar" href="login.php">Entrar</a>
             <?php endif; ?>
         </nav>
     </header>
@@ -109,17 +127,9 @@ session_start();
     <section id="preferencias">
         <h1 class="titulo" id="sobrenos">Sobre Nós</h1>
         <p class="sobrenos-intro">O ATLAS nasceu pra ajudar pessoas a compartilharem o que sabem fazer, de forma simples e sem complicação.</p>
-        
-        <div class="hero-sobrenos">
-            <div class="foto-card" style="background-color: #44c0fa;"></div>
-            <div class="cartao-texto">
-                <h2>Conhecimento compartilhado</h2>
-                <p>Qualquer pessoa pode publicar um guia passo a passo e ajudar quem está aprendendo.</p>
-            </div>
-        </div>
-        
+
         <div class="cartoes">
-            <div class="cartao ">
+            <div class="cartao entrou">
                 <div class="foto-card" style="background-color: #44c0fa;"></div>
                 <div class="cartao-texto">
                     <h2>Conhecimento compartilhado</h2>
@@ -127,7 +137,7 @@ session_start();
                 </div>
             </div>
 
-            <div class="cartao">
+            <div class="cartao entrou">
                 <div class="foto-card" style="background-color: #ffcb3d;"></div>
                 <div class="cartao-texto">
                     <h2>De graça, pra todo mundo</h2>
@@ -135,7 +145,7 @@ session_start();
                 </div>
             </div>
 
-            <div class="cartao">
+            <div class="cartao entrou">
                 <div class="foto-card" style="background-color: #ff6464;"></div>
                 <div class="cartao-texto">
                     <h2>Feito pela comunidade</h2>

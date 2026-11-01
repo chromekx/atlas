@@ -99,7 +99,7 @@ section {
     height: 44px;
     border: none;
     border-radius: 50%;
-    background-color: var(--color-primary-light);
+    background-color: var(--color-primary);
     color: var(--color-text-inverse);
     font-size: 1.1rem;
     cursor: pointer;
@@ -107,7 +107,7 @@ section {
 }
 
 .carrossel-seta:hover:not(:disabled) {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-light);
 }
 
 .carrossel-seta:disabled {
@@ -162,8 +162,9 @@ section {
 }
 
 .categoria:hover {
-    background-color: #d1d7e4;
-    border-color: #c1c9dc;
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+    color: var(--color-text-inverse);
     transform: translateY(-2px);
 }
 

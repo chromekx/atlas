@@ -83,15 +83,22 @@ function h($valor): string
             <a class="item" href="index.php#aspectos">
                 <p>Sobre o ATLAS</p>
             </a>
+
+            <a class="item" href="suporte.php">
+                <p>Suporte</p>
+            </a>
         </nav>
 
         <nav class="nav-btns" aria-label="Conta">
             <?php if (isset($_SESSION['id'])): ?>
 
                 <div class="perfil" id="perfil">
-                    <p>Olá, <?= h($_SESSION['nome'] ?? 'usuário') ?></p>
+                    <p>
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? h($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= h($_SESSION['nome']) ?>
+                    </p>
 
-                    <i class="fa-solid fa-caret-down" id="seta"></i>
+                    <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
                         <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
@@ -326,11 +333,13 @@ function h($valor): string
                             </strong>
                         </p>
                     </div>
-
-                    <a href="favoritar_guia.php?id=<?= $guia['id'] ?>">
-                        Favoritar Guia ?>
-                        <i class="fa-regular fa-heart"></i>
-                    </a>
+                    <?php if (!isset($_SESSION['id'])) { ?>
+                        <a href="login.php">Entre para favoritar essa guia.</a>
+                    <?php } else { ?>
+                        <form action="favoritar_guia.php?id=<?= $guia['id_guia'] ?>" method="post">
+                            <button><?= $coracao ?></button>
+                        </form>
+                    <?php } ?>
                 </div>
 
                 <div class="cartao-dica">
