@@ -6,9 +6,11 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-require_once __DIR__ . "/conexao.php";
+include('conexao.php');
 
-$sql = "SELECT id_usuario, foto, nome, email, preferencia, data_criacao FROM usuario WHERE id_usuario = " . $_SESSION['id'];
+$id_usuario = (int)$_SESSION['id'];
+
+$sql = "SELECT id_usuario, foto, nome, email, preferencia, data_criacao FROM usuario WHERE id_usuario = '$id_usuario'";
 $query = $conn->query($sql);
 $usuario = $query->fetch_assoc();
 
@@ -53,12 +55,24 @@ if (!empty($usuario['data_criacao'])) {
     $membroDesde = $data->format('d') . ' de ' . $meses[(int) $data->format('n')] . ' de ' . $data->format('Y');
 }
 
-$sql = "SELECT id_guia, data_favorito FROM favoritos WHERE id_usuario = " . $_SESSION['id'];
-$resultado = $conn->query($sql);
+$sql = "SELECT id_guia, id_usuario, titulo, descricao, categoria, dificuldade, data_criacao FROM guia WHERE id_usuario = '$id_usuario' ORDER BY data_criacao DESC";
+$resultadoCriadas = $conn->query($sql);
+
+$sql = "SELECT f.id_usuario, g.id_guia, g.id_usuario, g.titulo, g.descricao, g.categoria, g.dificuldade, g.data_criacao, u.nome AS autor 
+        FROM favoritos f 
+        LEFT JOIN guia g ON f.id_guia = g.id_guia 
+        LEFT JOIN usuario u ON g.id_usuario = u.id_usuario WHERE f.id_usuario = '$id_usuario'";
+$resultadoFavoritas = $conn->query($sql);
+
+$sql = "SELECT h.data_visualizacao, h.id_usuario, g.id_guia, g.id_usuario, g.titulo, g.descricao, g.categoria, g.dificuldade, g.data_criacao, u.nome AS autor
+         FROM historico_guias h
+        LEFT JOIN guia g ON h.id_guia = g.id_guia 
+        LEFT JOIN usuario u ON g.id_usuario = u.id_usuario ORDER BY h.data_visualizacao DESC LIMIT 12";
+$resultadoHistorico = $conn->query($sql);
 
 function h($valor): string
 {
-    return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
 }
 ?>
 
@@ -85,19 +99,16 @@ function h($valor): string
 
         <nav class="nav-options" aria-label="Navegação principal">
             <a class="item" href="guias.php">
-                <p>Explorar guias</p>
+                <p>Explorar Guias</p>
             </a>
-
             <?php if (isset($_SESSION['id'])): ?>
                 <a class="item" href="cadastro_guias.php">
-                    <p>Cadastrar guia</p>
+                    <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
-
             <a class="item" href="index.php#aspectos">
                 <p>Sobre o ATLAS</p>
             </a>
-
             <a class="item" href="suporte.php">
                 <p>Suporte</p>
             </a>
@@ -151,67 +162,140 @@ function h($valor): string
                 </div>
             </div>
 
-            <a class="botao-secundario" href="editar_perfil.php">
+            <a class="botao-primario" href="editar_perfil.php">
                 <i class="fa-solid fa-pen"></i> Editar perfil
             </a>
         </section>
 
         <nav class="abas-perfil" id="abas-perfil">
-            <button class="aba-perfil ativa" data-aba="tarefas">Minhas tarefas</button>
+            <button class="aba-perfil ativa" data-aba="guias">Guias</button>
             <button class="aba-perfil" data-aba="favoritos">Favoritos</button>
             <button class="aba-perfil" data-aba="historico">Histórico</button>
         </nav>
 
-        <section class="painel-perfil" id="painel-tarefas">
-            <div class="estado-vazio">
-                <i class="fa-solid fa-clipboard-list"></i>
-                <p>Você ainda não publicou nenhuma tarefa.</p>
-                <a class="botao-primario" href="cadastro_guias.php">Cadastrar Guia</a>
+        <section class="painel-perfil" id="painel-guias">
+            <div class="lista-guias-perfil">
+                <?php if ($resultadoCriadas->num_rows < 1) { ?>
+                    <div class="estado-vazio">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <p>Você ainda não publicou nenhum guia.</p>
+                        <a class="botao-primario" href="cadastro_guias.php">Cadastrar Guia</a>
+                    </div>
+                <?php } else { ?>
+                    <?php while ($guia_criada = $resultadoCriadas->fetch_assoc()) { ?>
+                        <article class="guia-card">
+                            <div class="guia-capa">
+                                <img
+                                    src="exibir_imagem_guia.php?tipo=capa&id=<?= (int) $guia_criada['id_guia'] ?>"
+                                    alt="Capa do guia <?= h($guia_criada['titulo']) ?>"
+                                    loading="lazy"
+                                    onerror="this.style.display='none'; this.parentElement.classList.add('sem-imagem');">
+                            </div>
+                            <div class="guia-corpo">
+                                <div class="guia-meta1">
+                                    <span class="tag-dificuldade <?= h(mb_strtolower($guia_criada['dificuldade'], 'UTF-8')) ?>"><?= h($guia_criada['dificuldade']) ?></span>
+                                    <a class="acao-icone editar" title="Visitar guia" href="guia.php?id=<?= (int) $guia_criada['id_guia'] ?>"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                </div>
+                                <h3><?= h($guia_criada['titulo']) ?></h3>
+                                <p><?= h(mb_strimwidth(trim($guia_criada['descricao']), 0, 110, '…', 'UTF-8')) ?></p>
+                                <div class="guia-meta">
+                                    <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_criada['data_criacao']))) ?></span>
+                                    <div class="acoes-guia">
+                                        <a class="acao-icone editar" href="editar_guia.php?id=<?= (int) $guia_criada['id_guia'] ?>" title="Editar guia" aria-label="Editar guia"><i class="fa-solid fa-pen"></i></a>
+                                        <form action="excluir_guia.php" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta guia?');">
+                                            <input type="hidden" name="id_guia" value="<?= (int) $guia_criada['id_guia'] ?>">
+                                            <button type="submit" class="acao-icone excluir" title="Excluir guia" aria-label="Excluir guia"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </section>
 
         <section class="painel-perfil" id="painel-favoritos" hidden>
-            <?php if ($resultado->num_rows == 0) { ?>
-                <div class="estado-vazio">
-                    <i class="fa-solid fa-heart"></i>
-                    <p>Você ainda não favoritou nenhuma tarefa.</p>
-                </div>
-            <?php } else { ?>
-                <section class="painel-perfil" id="painel-favoritos" hidden>
-                    <div class="lista-guias-perfil">
-                        <article class="card-guia-perfil">
-                            <div class="card-guia-capa">
-                                <img src="imgs_guias/exemplo.jpg" alt="Capa da guia">
+            <div class="lista-guias-perfil">
+                <?php if ($resultadoFavoritas->num_rows == 0) { ?>
+                    <div class="estado-vazio">
+                        <i class="fa-solid fa-heart"></i>
+                        <p>Você ainda não favoritou nenhum guia.</p>
+                        <a class="botao-primario" href="guias.php">Visitar Guias</a>
+                    </div>
+                <?php } else { ?>
+                    <?php while ($guia_favorita = $resultadoFavoritas->fetch_assoc()) { ?>
+                        <article class="guia-card">
+                            <div class="guia-capa">
+                                <img
+                                    src="exibir_imagem_guia.php?tipo=capa&id=<?= (int) $guia_favorita['id_guia'] ?>"
+                                    alt="Capa do guia <?= h($guia_favorita['titulo']) ?>"
+                                    loading="lazy"
+                                    onerror="this.style.display='none'; this.parentElement.classList.add('sem-imagem');">
                             </div>
-
-                            <div class="card-guia-conteudo">
-                                <span class="card-guia-categoria">Culinária</span>
-                                <h3 class="card-guia-titulo">Como preparar receitas simples</h3>
-                                <p class="card-guia-descricao">Aprenda a preparar receitas práticas para o dia a dia.</p>
-                                <div class="card-guia-detalhes">
-                                    <span><i class="fa-solid fa-signal"></i>Fácil</span>
-                                    <span><i class="fa-solid fa-user"></i>Nome do autor</span>
+                            <div class="guia-corpo">
+                                <div class="guia-meta1">
+                                    <span class="tag-dificuldade <?= h(mb_strtolower($guia_favorita['dificuldade'], 'UTF-8')) ?>"><?= h($guia_favorita['dificuldade']) ?></span>
+                                    <a class="acao-icone editar" title="Visitar guia" href="guia.php?id=<?= (int) $guia_favorita['id_guia'] ?>"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                </div>
+                                <h3><?= h($guia_favorita['titulo']) ?></h3>
+                                <p><?= h(mb_strimwidth(trim($guia_favorita['descricao']), 0, 110, '…', 'UTF-8')) ?></p>
+                                <div class="guia-meta">
+                                    <span><i class="fa-regular fa-user"></i> <?= h($guia_favorita['autor'] ?: 'Comunidade ATLAS') ?></span>
+                                    <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_favorita['data_criacao']))) ?></span>
+                                    <div class="acoes-guia">
+                                        <form action="remover_favorito.php" method="POST" onsubmit="return confirm('Deseja remover esta guia dos favoritos?');">
+                                            <input type="hidden" name="id_guia" value="<?= (int) $guia_favorita['id_guia'] ?>">
+                                            <button type="submit" class="acao-icone desfavoritar" title="Remover dos favoritos" aria-label="Remover dos favoritos"><i class="fa-solid fa-heart-crack"></i></button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="card-guia-acoes">
-                                <a href="guia.php?id=1" class="card-guia-link">
-                                    Ver guia
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </a>
-
-                                <button type="button"class="botao-favorito favoritado"aria-label="Remover dos favoritos"><i class="fa-solid fa-heart"></i></button>
-                            </div>
                         </article>
-                    </div>
-                </section>
-            <?php } ?>
+                    <?php } ?>
+                <?php } ?>
+            </div>
         </section>
 
         <section class="painel-perfil" id="painel-historico" hidden>
-            <div class="estado-vazio">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                <p>Nenhuma tarefa visualizada recentemente.</p>
+            <div class="lista-guias-perfil">
+                <?php if ($resultadoHistorico->num_rows == 0) { ?>
+                    <div class="estado-vazio">
+                        <i class="fa-solid fa-eye"></i>
+                        <p>Você ainda não visitou nenhum guia.</p>
+                        <a class="botao-primario" href="guias.php">Visitar Guias</a>
+                    </div>
+                <?php } else { ?>
+                    <?php while ($guia_historico = $resultadoHistorico->fetch_assoc()) { ?>
+                        <article class="guia-card">
+                            <div class="guia-capa">
+                                <img
+                                    src="exibir_imagem_guia.php?tipo=capa&id=<?= (int) $guia_historico['id_guia'] ?>"
+                                    alt="Capa do guia <?= h($guia_historico['titulo']) ?>"
+                                    loading="lazy"
+                                    onerror="this.style.display='none'; this.parentElement.classList.add('sem-imagem');">
+                            </div>
+                            <div class="guia-corpo">
+                                <div class="guia-meta1">
+                                    <span class="tag-dificuldade <?= h(mb_strtolower($guia_historico['dificuldade'], 'UTF-8')) ?>"><?= h($guia_historico['dificuldade']) ?></span>
+                                    <a class="acao-icone editar" title="Visitar guia" href="guia.php?id=<?= (int) $guia_historico['id_guia'] ?>"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                </div>
+                                <h3><?= h($guia_historico['titulo']) ?></h3>
+                                <p><?= h(mb_strimwidth(trim($guia_historico['descricao']), 0, 110, '…', 'UTF-8')) ?></p>
+                                <div class="guia-meta">
+                                    <span><i class="fa-regular fa-user"></i> <?= h($guia_historico['autor'] ?: 'Comunidade ATLAS') ?></span>
+                                    <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_historico['data_visualizacao']))) ?></span>
+                                    <div class="acoes-guia">
+                                        <form action="remover_historico.php" method="POST" onsubmit="return confirm('Deseja remover esta guia do histórico?');">
+                                            <input type="hidden" name="id_guia"value="<?= (int) $guia_historico['id_guia'] ?>">
+                                            <button type="submit" class="acao-icone remover" title="Remover do histórico" aria-label="Remover do histórico"><i class="fa-solid fa-xmark"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </section>
     </main>

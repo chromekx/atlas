@@ -95,12 +95,12 @@ function linkPagina($pagina, $categoriaValida, $busca): string
 
         <nav class="nav-options" aria-label="Navegação principal">
             <a class="item" href="guias.php">
-                <p>Explorar guias</p>
+                <p>Explorar Guias</p>
             </a>
 
             <?php if (isset($_SESSION['id'])): ?>
                 <a class="item" href="cadastro_guias.php">
-                    <p>Cadastrar guia</p>
+                    <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
 
@@ -196,8 +196,11 @@ function linkPagina($pagina, $categoriaValida, $busca): string
                     <?php while ($guia = $resultado->fetch_assoc()): ?>
                         <a class="guia-card" href="guia.php?id=<?= (int) $guia['id_guia'] ?>">
                             <div class="guia-capa">
-                                <img src="exibir_imagem_guia.php?tipo=capa&id=<?= (int) $guia['id_guia'] ?>" alt=""
-                                    loading="lazy" onerror="this.closest('.guia-capa').classList.add('sem-imagem')">
+                                <img
+                                    src="exibir_imagem_guia.php?tipo=capa&id=<?= (int) $guia['id_guia'] ?>"
+                                    alt="Capa do guia <?= h($guia['titulo']) ?>"
+                                    loading="lazy"
+                                    onerror="this.style.display='none'; this.parentElement.classList.add('sem-imagem');">
                             </div>
                             <div class="guia-corpo">
                                 <span class="tag-dificuldade <?= h(mb_strtolower($guia['dificuldade'], 'UTF-8')) ?>"><?= h($guia['dificuldade']) ?></span>

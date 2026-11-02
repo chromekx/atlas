@@ -30,12 +30,12 @@ function h($valor): string
 
         <nav class="nav-options" aria-label="Navegação principal">
             <a class="item" href="guias.php">
-                <p>Explorar guias</p>
+                <p>Explorar Guias</p>
             </a>
 
             <?php if (isset($_SESSION['id'])): ?>
                 <a class="item" href="cadastro_guias.php">
-                    <p>Cadastrar guia</p>
+                    <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
 
@@ -124,33 +124,79 @@ function h($valor): string
         </div>
     </section>
 
-    <section id="preferencias">
-        <h1 class="titulo" id="sobrenos">Sobre Nós</h1>
-        <p class="sobrenos-intro">O ATLAS nasceu pra ajudar pessoas a compartilharem o que sabem fazer, de forma simples e sem complicação.</p>
+    <section class="equipe-atlas" id="sobre-atlas">
+        <div class="equipe-container">
 
-        <div class="cartoes">
-            <div class="cartao entrou">
-                <div class="foto-card" style="background-color: #44c0fa;"></div>
-                <div class="cartao-texto">
-                    <h2>Conhecimento compartilhado</h2>
-                    <p>Qualquer pessoa pode publicar um guia passo a passo e ajudar quem está aprendendo.</p>
+            <div class="equipe-introducao">
+                <div class="intro-texto">
+                    <h1 class="titulo">Sobre o ATLAS</h1>
+                    <p>
+                        O ATLAS nasceu da ideia de tornar o conhecimento mais acessível
+                        e incentivar o compartilhamento de experiências. Nosso objetivo
+                        é reunir pessoas, ideias e tutoriais em um só lugar, criando um
+                        espaço onde todos possam aprender, desenvolver habilidades e
+                        compartilhar aquilo que sabem. Por trás do projeto, existe uma
+                        equipe que trabalha para transformar essa ideia em realidade.
+                    </p>
+                </div>
+
+                <div class="equipe-foto-grupo">
+                    <img src="imgs/equipe-atlas.jpg" alt="Foto de todos os integrantes da equipe ATLAS">
                 </div>
             </div>
 
-            <div class="cartao entrou">
-                <div class="foto-card" style="background-color: #ffcb3d;"></div>
-                <div class="cartao-texto">
-                    <h2>De graça, pra todo mundo</h2>
-                    <p>Criar uma conta, publicar e explorar guias no ATLAS não custa nada.</p>
+            <div class="integrantes-cabecalho">
+                <div>
+                    <h1 class="titulo">Integrantes</h1>
                 </div>
             </div>
 
-            <div class="cartao entrou">
-                <div class="foto-card" style="background-color: #ff6464;"></div>
-                <div class="cartao-texto">
-                    <h2>Feito pela comunidade</h2>
-                    <p>Cada guia vem de alguém que já passou pelo processo e quer poupar seu tempo.</p>
-                </div>
+            <div class="integrantes-grid">
+
+                <article class="integrante-card">
+                    <div class="integrante-foto">
+                        <img src="imgs/equipe/integrante2.jpg" alt="Foto do segundo integrante">
+                    </div>
+
+                    <h4>Carlos Henrique Michalak</h4>
+                    <span class="integrante-funcao">?</span>
+                </article>
+
+                <article class="integrante-card">
+                    <div class="integrante-foto">
+                        <img src="imgs/equipe/integrante1.jpg" alt="Foto do primeiro integrante">
+                    </div>
+
+                    <h4>Davi Salvador Schubert</h4>
+                    <span class="integrante-funcao">Desenvolvedor Banco de Dados</span>
+                </article>
+
+                <article class="integrante-card">
+                    <div class="integrante-foto">
+                        <img src="imgs/equipe/integrante3.jpg" alt="Foto do terceiro integrante">
+                    </div>
+
+                    <h4>Felipe de Oliveira Dias</h4>
+                    <span class="integrante-funcao">?</span>
+                </article>
+
+                <article class="integrante-card">
+                    <div class="integrante-foto">
+                        <img src="imgs/equipe/integrante4.jpg" alt="Foto do quarto integrante">
+                    </div>
+
+                    <h4>Luyza Venâncio Marcelino</h4>
+                    <span class="integrante-funcao">?</span>
+                </article>
+
+                <article class="integrante-card">
+                    <div class="integrante-foto">
+                        <img src="imgs/equipe/integrante5.jpg" alt="Foto do quinto integrante">
+                    </div>
+
+                    <h4>Victor Henrique Souza</h4>
+                    <span class="integrante-funcao">Desenvolvedor Front-End e Back-End</span>
+                </article>
             </div>
         </div>
     </section>

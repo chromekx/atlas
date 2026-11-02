@@ -1,6 +1,6 @@
 const abas = document.querySelectorAll('.aba-perfil')
 const paineis = {
-    tarefas: document.getElementById('painel-tarefas'),
+    guias: document.getElementById('painel-guias'),
     favoritos: document.getElementById('painel-favoritos'),
     historico: document.getElementById('painel-historico'),
 }

@@ -52,6 +52,10 @@ if (isset($_POST['editar'])) {
     }
 }
 
+function h($valor): string
+{
+    return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,40 +74,53 @@ if (isset($_POST['editar'])) {
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="index.php" aria-label="Página inicial">
+            <img src="imgs_website/logotipoatlas.png" alt="ATLAS">
+        </a>
 
-        <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Sobre Nós</p></button>
-            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
-            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
+        <nav class="nav-options" aria-label="Navegação principal">
+            <a class="item" href="guias.php">
+                <p>Explorar Guias</p>
+            </a>
+            <?php if (isset($_SESSION['id'])): ?>
+                <a class="item" href="cadastro_guias.php">
+                    <p>Cadastrar Guia</p>
+                </a>
+            <?php endif; ?>
+            <a class="item" href="index.php#aspectos">
+                <p>Sobre o ATLAS</p>
+            </a>
+            <a class="item" href="suporte.php">
+                <p>Suporte</p>
+            </a>
         </nav>
 
-        <nav class="nav-btns">
-            <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
-
+        <nav class="nav-btns" aria-label="Conta">
             <?php if (isset($_SESSION['id'])): ?>
+
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
-                        Olá, <?= $_SESSION['nome'] ?>
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? h($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= h($_SESSION['nome']) ?>
                     </p>
+
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
-                        <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
-                        <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
-                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
-                            <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
+                        <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
+                        <a class="perfil-option" href="configuracoes.php">Configurações</a>
+
+                        <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
+                            <a class="perfil-option" href="admin.php">Painel do administrador</a>
                         <?php endif; ?>
+
+                        <a class="perfil-option" href="sair.php">Sair</a>
                     </div>
                 </div>
-            <?php else: ?>
-                <button class="entrar" onclick="window.location.href='login.php'"></button>
-            <?php endif; ?>
 
-            <a class="icon" onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
+            <?php else: ?>
+                <a class="entrar" href="login.php">Entrar</a>
+            <?php endif; ?>
         </nav>
     </header>
 

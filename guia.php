@@ -2,18 +2,32 @@
 session_start();
 require_once __DIR__ . '/conexao.php';
 
-$idGuia = (int)($_GET['id'] ?? 0);
+$id_usuario = (int) $_SESSION['id'];
+$id_guia = (int)($_GET['id'] ?? 0);
 
-if (!$idGuia || $idGuia < 1) {
+if (!$id_guia || $id_guia < 1) {
     http_response_code(400);
     exit('Guia inválido.');
+}
+
+$favoritada = false;
+
+if (isset($_SESSION['id'])) {
+    $sqlFavoritos = "SELECT id_guia
+            FROM favoritos
+            WHERE id_usuario = '$id_usuario' AND id_guia = '$id_guia'";
+    $resultadoFavoritos = $conn->query($sqlFavoritos);
+    $favoritada = $resultadoFavoritos->num_rows > 0;
+    
+    $sqlHistorico = "INSERT INTO historico_guias (id_guia, id_usuario) VALUES ('$id_guia', '$id_usuario')";
+    $resultadoHistorico = $conn->query($sqlHistorico);
 }
 
 $sql = "SELECT g.id_guia, g.id_usuario, g.titulo, g.descricao,
                g.categoria, g.dificuldade, g.data_criacao, g.video, u.nome AS autor
         FROM guia g
         LEFT JOIN usuario u ON u.id_usuario = g.id_usuario
-        WHERE g.id_guia = $idGuia";
+        WHERE g.id_guia = $id_guia";
 
 $resultadoGuia = mysqli_query($conn, $sql);
 $guia = mysqli_fetch_assoc($resultadoGuia);
@@ -26,7 +40,7 @@ if (!$guia) {
 $sqlMateriais = "SELECT m.nome
      FROM materiais ms
      INNER JOIN material m ON m.id_materiais = ms.id_materiais
-     WHERE ms.id_guia = $idGuia
+     WHERE ms.id_guia = $id_guia
      ORDER BY m.id_material";
 
 $resultadoMateriais = mysqli_query($conn, $sqlMateriais);
@@ -35,7 +49,7 @@ $materiais = mysqli_fetch_all($resultadoMateriais, MYSQLI_ASSOC);
 $sqlEtapas = "SELECT e.id_etapa, e.descricao, e.midia
      FROM etapas es
      INNER JOIN etapa e ON e.id_etapas = es.id_etapas
-     WHERE es.id_guia = $idGuia
+     WHERE es.id_guia = $id_guia
      ORDER BY e.id_etapa";
 
 $resultadoEtapas = mysqli_query($conn, $sqlEtapas);
@@ -63,30 +77,18 @@ function h($valor): string
 </head>
 
 <body>
-
     <header>
         <a class="logo" href="index.php" aria-label="Página inicial">
             <img src="imgs_website/logotipoatlas.png" alt="ATLAS">
         </a>
 
         <nav class="nav-options" aria-label="Navegação principal">
-            <a class="item" href="guias.php">
-                <p>Explorar guias</p>
-            </a>
-
+            <a class="item" href="guias.php"><p>Explorar Guias</p></a>
             <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php">
-                    <p>Cadastrar guia</p>
-                </a>
+                <a class="item" href="cadastro_guias.php"><p>Cadastrar Guia</p></a>
             <?php endif; ?>
-
-            <a class="item" href="index.php#aspectos">
-                <p>Sobre o ATLAS</p>
-            </a>
-
-            <a class="item" href="suporte.php">
-                <p>Suporte</p>
-            </a>
+            <a class="item" href="index.php#aspectos"><p>Sobre o ATLAS</p></a>
+            <a class="item" href="suporte.php"><p>Suporte</p></a>
         </nav>
 
         <nav class="nav-btns" aria-label="Conta">
@@ -138,7 +140,7 @@ function h($valor): string
         <section class="guia-capa">
             <img
                 class="guia-capa-imagem"
-                src="exibir_imagem_guia.php?tipo=capa&id=<?= (int)$idGuia ?>"
+                src="exibir_imagem_guia.php?tipo=capa&id=<?= (int)$id_guia ?>"
                 alt="Capa do guia <?= h($guia['titulo']) ?>"
                 loading="eager"
                 onerror="this.style.display='none';this.parentElement.classList.add('sem-capa')">
@@ -333,13 +335,22 @@ function h($valor): string
                             </strong>
                         </p>
                     </div>
-                    <?php if (!isset($_SESSION['id'])) { ?>
+                    <?php if (!isset($_SESSION['id'])): ?>
                         <a href="login.php">Entre para favoritar essa guia.</a>
-                    <?php } else { ?>
-                        <form action="favoritar_guia.php?id=<?= $guia['id_guia'] ?>" method="post">
-                            <button><?= $coracao ?></button>
+                    <?php else: ?>
+                        <form action="favoritar_guia.php" method="POST">
+                            <input type="hidden" name="id_guia" value="<?= (int) $guia['id_guia'] ?>">
+                            <button type="submit" class="btn-favoritar">
+                                <?php if ($favoritada): ?>
+                                    Desfavoritar Guia
+                                    <i class="fa-solid fa-heart"></i>
+                                <?php else: ?>
+                                    Favoritar Guia
+                                    <i class="fa-regular fa-heart"></i>
+                                <?php endif; ?>
+                            </button>
                         </form>
-                    <?php } ?>
+                    <?php endif; ?>
                 </div>
 
                 <div class="cartao-dica">

@@ -3,28 +3,38 @@ session_start();
 require_once __DIR__ . "/conexao.php";
 
 if (!isset($_SESSION['id'])) {
-    header("Location: index.php");
-    exit();
+    header('Location: login.php');
+    exit;
 }
 
-$id_guia = (int) $_GET['id'];
-$id_usuario = (int) $_SESSION['id'];
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: guias.php');
+    exit;
+}
 
-$sql = "SELECT id_guia FROM favoritos
+$id_usuario = (int) $_SESSION['id'];
+$id_guia = (int) $_POST['id_guia'];
+
+if ($id_guia < 1) {
+    header('Location: guias.php');
+    exit;
+}
+
+$sql = "SELECT id_guia
+        FROM favoritos
         WHERE id_usuario = '$id_usuario' AND id_guia = '$id_guia'";
 $resultado = $conn->query($sql);
+$favoritada = $resultado->num_rows > 0;
 
-$coracao = '';
-
-if ($resultado->num_rows == 0) {
-    $sql = "INSERT INTO favoritos (id_guia, id_usuario) VALUES ('$id_guia', '$id_usuario')";
+if (!$favoritada) {
+    $sql = "INSERT INTO favoritos (id_usuario, id_guia)
+            VALUES ('$id_usuario', '$id_guia')";
     $resultado = $conn->query($sql);
-    $coracao = "Favoritar Guia<i class='fa-regular fa-heart'></i>";
 } else {
-    $sql = "DELETE FROM favoritos WHERE id_guia = '$id_guia' AND id_usuario = '$id_usuario'";
+    $sql = "DELETE FROM favoritos
+            WHERE id_usuario = '$id_usuario' AND id_guia = '$id_guia'";
     $resultado = $conn->query($sql);
-    $coracao = "Desfavoritar Guia<i class='fa-solid fa-heart'></i>";
 }
 
 header('Location: guia.php?id=' . $id_guia);
-return $coracao;
+exit();

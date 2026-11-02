@@ -7,7 +7,7 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 880px;
+    max-width: 1100px;
     margin: 0 auto;
     gap: var(--space-4);
 }
@@ -26,9 +26,11 @@ main {
 .foto-grande {
     width: 88px;
     height: 88px;
+    flex: 0 0 auto;
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
+    background-color: var(--color-bg);
 }
 
 .info-perfil {
@@ -36,20 +38,26 @@ main {
     flex: 1 1 220px;
     flex-direction: column;
     gap: var(--space-1);
+    min-width: 0;
 }
 
 .info-perfil h1 {
+    margin: 0;
+    color: var(--color-text);
     font-size: 1.5rem;
+    overflow-wrap: anywhere;
 }
 
 .email-perfil {
+    margin: 0;
     color: var(--color-text-secondary);
+    overflow-wrap: anywhere;
 }
 
 .detalhes-perfil {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: flex-start;
     gap: var(--space-2);
     margin-top: var(--space-1);
 }
@@ -71,6 +79,7 @@ main {
 
 .abas-perfil {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-1);
     border-bottom: 1px solid var(--color-border);
 }
@@ -93,12 +102,13 @@ main {
 }
 
 .aba-perfil.ativa {
-    border-color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
     color: var(--color-primary);
 }
 
 .painel-perfil {
     display: flex;
+    min-width: 0;
     min-height: 240px;
     padding: var(--space-4);
     background-color: var(--color-surface);
@@ -110,37 +120,223 @@ main {
     display: none;
 }
 
+.lista-guias-perfil {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-content: start;
+    align-items: stretch;
+    gap: var(--space-4);
+    width: 100%;
+    min-width: 0;
+}
+
+.guia-card {
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+    box-shadow: var(--shadow-card);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.guia-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.guia-capa {
+    position: relative;
+    display: block;
+    width: 100%;
+    flex: 0 0 auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-bg);
+}
+
+.guia-capa img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.guia-capa.sem-imagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg);
+}
+
+.guia-capa.sem-imagem::after {
+    content: "\f02d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--color-text-secondary);
+    font-size: 2.4rem;
+}
+
+.guia-corpo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    min-width: 0;
+    padding: var(--space-4);
+}
+
+.tag-dificuldade {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 5px 9px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+    font-size: 0.73rem;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.tag-dificuldade.fácil,
+.tag-dificuldade.facil {
+    background-color: #e7f5e9;
+    color: #28753c;
+}
+
+.tag-dificuldade.médio,
+.tag-dificuldade.medio {
+    background-color: #fff1d9;
+    color: #926018;
+}
+
+.tag-dificuldade.difícil,
+.tag-dificuldade.dificil {
+    background-color: #fbe8e8;
+    color: #a23c3c;
+}
+
+.guia-corpo h3 {
+    width: 100%;
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.guia-corpo>p {
+    display: -webkit-box;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+.guia-meta {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.guia-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fa-calendar, .fa-user {
+    color: var(--color-text-secondary);
+}
+
 .estado-vazio {
     display: flex;
+    grid-column: 1 / -1;
     flex: 1 1 auto;
+    min-height: 280px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-6);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
     color: var(--color-text-secondary);
     text-align: center;
 }
 
-.estado-vazio i {
-    font-size: 2rem;
-    color: var(--color-border);
+.estado-vazio>i {
+    margin-bottom: var(--space-2);
+    color: var(--color-text-secondary);
+    font-size: 2.5rem;
 }
 
-/* Botões (compartilhados com cadastro_guias.css) */
+.estado-vazio h3 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1.2rem;
+}
+
+.estado-vazio p {
+    margin: 0 0 var(--space-2);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
 
 .botao-primario,
 .botao-secundario {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-1);
+    gap: var(--space-2);
     border: none;
     border-radius: var(--radius-sm);
     font-family: inherit;
     font-size: 0.9375rem;
+    text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.botao-primario {
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--color-accent);
+    color: var(--color-primary) !important;
+    font-weight: 600;
+}
+
+.botao-primario:hover {
+    background-color: var(--color-accent-dark);
 }
 
 .botao-secundario {
@@ -153,230 +349,67 @@ main {
     background-color: var(--color-surface-hover);
 }
 
-.botao-primario {
-    padding: var(--space-2) var(--space-5);
-    background-color: var(--color-primary);
+.estado-vazio a {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.estado-vazio .botao-primario {
     color: var(--color-text-inverse);
-    font-weight: 600;
-}
-
-.botao-primario:hover {
-    background-color: var(--color-primary-light);
-}
-
-.lista-guias-perfil {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content: start;
-    gap: var(--space-3);
-    width: 100%;
-}
-
-/* Card */
-
-.card-guia-perfil {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    overflow: hidden;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    transition: border-color var(--transition-fast),
-        box-shadow var(--transition-fast),
-        transform var(--transition-fast);
-}
-
-.card-guia-perfil:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-card);
-    transform: translateY(-2px);
-}
-
-/* Capa da guia */
-
-.card-guia-capa {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 150px;
-    overflow: hidden;
-    background-color: var(--color-bg);
-}
-
-.card-guia-capa img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transition: transform var(--transition-fast);
-}
-
-.card-guia-perfil:hover .card-guia-capa img {
-    transform: scale(1.03);
-}
-
-.card-guia-capa .capa-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: var(--color-text-secondary);
-}
-
-.card-guia-capa .capa-placeholder i {
-    font-size: 2rem;
-}
-
-/* Conteúdo */
-
-.card-guia-conteudo {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-3);
-}
-
-.card-guia-categoria {
-    align-self: flex-start;
-    padding: 4px 9px;
-    border-radius: 100px;
-    background-color: var(--color-bg);
-    color: var(--color-primary);
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.card-guia-titulo {
-    margin: 0;
-    color: var(--color-text);
-    font-size: 1.05rem;
-    font-weight: 700;
-    line-height: 1.4;
-    overflow-wrap: anywhere;
-}
-
-.card-guia-descricao {
-    display: -webkit-box;
-    overflow: hidden;
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    line-height: 1.5;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-}
-
-.card-guia-detalhes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: auto;
-    padding-top: var(--space-1);
-    color: var(--color-text-secondary);
-    font-size: 0.8rem;
-}
-
-.card-guia-detalhes span {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.card-guia-detalhes i {
-    color: var(--color-primary);
-}
-
-/* Ações do card */
-
-.card-guia-acoes {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
-    border-top: 1px solid var(--color-border);
-}
-
-.card-guia-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
-    color: var(--color-primary);
-    font-size: 0.875rem;
-    font-weight: 600;
     text-decoration: none;
 }
 
-.card-guia-link:hover {
-    text-decoration: underline;
+.estado-vazio .botao-primario:hover {
+    text-decoration: none;
 }
 
-/* Botão de favoritar */
-
-.botao-favorito {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    background-color: var(--color-surface);
-    color: var(--color-text-secondary);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color var(--transition-fast),
-        color var(--transition-fast),
-        border-color var(--transition-fast);
+.acoes-guia {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
-.botao-favorito:hover {
-    border-color: #dc3545;
-    color: #dc3545;
-}
-
-.botao-favorito.favoritado {
-    border-color: #dc3545;
-    background-color: #fff0f1;
-    color: #dc3545;
-}
-
-/* Informação adicional para histórico */
-
-.card-guia-visualizacao {
+.acao-icone {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
-    color: var(--color-text-secondary);
-    font-size: 0.8rem;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 auto;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-/* Informação adicional para guias criadas */
-
-.card-guia-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.8rem;
-    font-weight: 600;
+.acao-icone.editar:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
 }
 
-.card-guia-status.publicada {
-    color: #198754;
+.acao-icone.excluir:hover,
+.acao-icone.remover:hover {
+    background-color: var(--color-danger);
+    color: var(--color-text-inverse);
 }
 
-.card-guia-status.rascunho {
-    color: #b7791f;
+.acao-icone.desfavoritar {
+    background-color: var(--color-accent);
+    color: var(--color-primary);
 }
 
-/* Mensagem de lista vazia */
+.acao-icone.desfavoritar:hover {
+    background-color: var(--color-danger);
+    color: var(--color-text-inverse);
+}
 
-.painel-perfil .estado-vazio {
+.guia-meta1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
-    min-height: 200px;
 }

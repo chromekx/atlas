@@ -216,12 +216,12 @@ function h($valor): string
 
         <nav class="nav-options" aria-label="Navegação principal">
             <a class="item" href="guias.php">
-                <p>Explorar guias</p>
+                <p>Explorar Guias</p>
             </a>
 
             <?php if (isset($_SESSION['id'])): ?>
                 <a class="item" href="cadastro_guias.php">
-                    <p>Cadastrar guia</p>
+                    <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
 
