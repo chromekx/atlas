@@ -14,7 +14,7 @@ if (isset($_POST['publicar'])) {
     // Faz o query retornar false quando houver erro, em vez de lançar exceção.
     mysqli_report(MYSQLI_REPORT_OFF);
 
-    $idUsuario = $_SESSION['id'];
+    $id_usuario = $_SESSION['id'];
     $titulo = $_POST['titulo'];
     $descricao = $_POST['descricao'];
     $categoria = $_POST['categoria'];
@@ -73,10 +73,10 @@ if (isset($_POST['publicar'])) {
     if ($erro == '') {
         // A coluna foto continua NOT NULL no banco, então recebe um valor vazio.
         $sql = "INSERT INTO guia (id_usuario, titulo, descricao, categoria, dificuldade, capa, video)
-                VALUES ('$idUsuario', '$titulo', '$descricao', '$categoria', '$dificuldade', $capaSQL, '$video')";
+                VALUES ('$id_usuario', '$titulo', '$descricao', '$categoria', '$dificuldade', $capaSQL, '$video')";
 
         if ($conn->query($sql)) {
-            $idGuia = $conn->insert_id;
+            $id_guia = $conn->insert_id;
         } else {
             $erro = 'Erro ao cadastrar a guia: ' . $conn->error;
         }
@@ -84,7 +84,7 @@ if (isset($_POST['publicar'])) {
 
     // Cadastra o agrupamento dos materiais.
     if ($erro == '') {
-        $sql = "INSERT INTO materiais (id_guia) VALUES ('$idGuia')";
+        $sql = "INSERT INTO materiais (id_guia) VALUES ('$id_guia')";
 
         if ($conn->query($sql)) {
             $idMateriais = $conn->insert_id;
@@ -116,7 +116,7 @@ if (isset($_POST['publicar'])) {
 
     // Cadastra o agrupamento das etapas.
     if ($erro == '') {
-        $sql = "INSERT INTO etapas (id_guia) VALUES ('$idGuia')";
+        $sql = "INSERT INTO etapas (id_guia) VALUES ('$id_guia')";
 
         if ($conn->query($sql)) {
             $idEtapas = $conn->insert_id;
