@@ -293,7 +293,6 @@ function h($valor): string
                             <span class="icone-bloco"><i class="fa-solid fa-pen-to-square"></i></span>
                             <div>
                                 <h2>Informações gerais</h2>
-                                <p>Apresente sua guia e escolha como ela será organizada.</p>
                             </div>
                         </div>
 
@@ -363,7 +362,6 @@ function h($valor): string
                             <span class="icone-bloco"><i class="fa-solid fa-toolbox"></i></span>
                             <div>
                                 <h2>Materiais necessários</h2>
-                                <p>Adicione os materiais usados para realizar a guia.</p>
                             </div>
                         </div>
                         <div class="entrada-materiais">
