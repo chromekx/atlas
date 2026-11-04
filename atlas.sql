@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/11/2026 às 06:20
+-- Tempo de geração: 04/11/2026 às 20:58
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -83,7 +83,7 @@ CREATE TABLE `favoritos` (
 INSERT INTO `favoritos` (`id_usuario`, `id_guia`, `data_favorito`) VALUES
 (7, 17, '2026-11-01'),
 (5, 17, '2026-11-02'),
-(4, 17, '2026-11-02');
+(4, 17, '2026-11-04');
 
 -- --------------------------------------------------------
 
@@ -124,6 +124,63 @@ CREATE TABLE `historico_guias` (
   `id_guia` int(11) NOT NULL,
   `data_visualizacao` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `historico_guias`
+--
+
+INSERT INTO `historico_guias` (`id_usuario`, `id_guia`, `data_visualizacao`) VALUES
+(4, 17, '2026-11-04 13:36:47'),
+(4, 16, '2026-11-04 13:37:05'),
+(4, 17, '2026-11-04 13:37:15'),
+(4, 17, '2026-11-04 13:37:49'),
+(4, 17, '2026-11-04 13:38:04'),
+(4, 17, '2026-11-04 13:38:04'),
+(4, 17, '2026-11-04 13:38:04'),
+(4, 17, '2026-11-04 13:38:09'),
+(4, 17, '2026-11-04 13:38:09'),
+(4, 17, '2026-11-04 13:38:29'),
+(4, 17, '2026-11-04 13:38:35'),
+(4, 17, '2026-11-04 13:38:35'),
+(4, 17, '2026-11-04 13:38:35'),
+(4, 17, '2026-11-04 13:38:41'),
+(4, 17, '2026-11-04 13:38:41'),
+(4, 17, '2026-11-04 13:38:42'),
+(4, 17, '2026-11-04 13:38:54'),
+(4, 17, '2026-11-04 13:38:54'),
+(4, 17, '2026-11-04 13:38:55'),
+(4, 17, '2026-11-04 13:39:04'),
+(4, 17, '2026-11-04 13:39:04'),
+(4, 17, '2026-11-04 13:39:04'),
+(4, 17, '2026-11-04 13:39:07'),
+(4, 17, '2026-11-04 13:39:07'),
+(4, 17, '2026-11-04 13:39:36'),
+(4, 17, '2026-11-04 13:39:36'),
+(4, 16, '2026-11-04 13:55:51'),
+(4, 17, '2026-11-04 15:46:24'),
+(4, 17, '2026-11-04 15:46:30'),
+(4, 17, '2026-11-04 15:47:12'),
+(4, 17, '2026-11-04 15:47:23'),
+(4, 17, '2026-11-04 15:47:34'),
+(4, 17, '2026-11-04 15:47:34'),
+(4, 17, '2026-11-04 15:47:36'),
+(4, 17, '2026-11-04 15:47:43'),
+(4, 17, '2026-11-04 15:47:47'),
+(4, 17, '2026-11-04 15:47:49'),
+(4, 17, '2026-11-04 15:47:50'),
+(4, 17, '2026-11-04 15:47:51'),
+(4, 17, '2026-11-04 15:55:49'),
+(4, 17, '2026-11-04 15:55:53'),
+(4, 17, '2026-11-04 16:01:07'),
+(4, 17, '2026-11-04 16:01:08'),
+(4, 17, '2026-11-04 16:01:59'),
+(4, 17, '2026-11-04 16:02:05'),
+(4, 17, '2026-11-04 16:02:05'),
+(4, 17, '2026-11-04 16:11:24'),
+(4, 17, '2026-11-04 16:11:24'),
+(4, 17, '2026-11-04 16:12:53'),
+(4, 16, '2026-11-04 16:39:23'),
+(4, 16, '2026-11-04 16:43:41');
 
 -- --------------------------------------------------------
 
@@ -210,13 +267,13 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `foto`, `nome`, `email`, `senha`, `preferencia`, `nivel`, `estado`, `data_criacao`) VALUES
 (1, NULL, 'Tung Tung Sahur 3°', 'tungsteniofilho@gmail.com', '$2y$10$jo.jURxYOvJDvpHdhUo9geaL5XgSLnhYsqXVKR2K.4wnNUIHxxLtq', '', '3', 'inativo', '2026-07-15 16:45:43'),
-(2, NULL, 'Victor', 'victor.souza1@alunos.sc.senac.br', '$2y$10$7s5/cD5e4pbu22LLbeoz5ukaJDpCsoFbULggp3wanBDikmlQA4UB.', '', '1', 'ativo', '2026-08-10 09:25:53'),
+(2, NULL, 'Victor', 'victor.souza1@alunos.sc.senac.br', '$2y$10$7s5/cD5e4pbu22LLbeoz5ukaJDpCsoFbULggp3wanBDikmlQA4UB.', '', '1', 'inativo', '2026-08-10 09:25:53'),
 (3, NULL, 'Claudinha', 'claudia.werlich@gmail.com', '$2y$10$vIGTKaRhgijlEnIzViVA6.7NA3PqOcthVR.whI7OcdnnpjFs/kakO', '', '1', 'ativo', '2026-08-28 08:09:24'),
-(4, NULL, 'Victor', 'victor@gmail.com', '$2y$10$9yK1FK4ndJikrj/tBSyE2eYWUYXFZx38E.opyTHK210ICq.RVlHuW', 'Culinária', '1', 'ativo', '2026-08-14 10:39:11'),
-(5, NULL, 'Luyza', 'luyza@gmail.com', '$2y$10$L.M./AaCzjfn2IdlTdzsguR1Sqs24WKcMVNoHft8vAR9USrIdARga', '', '3', 'ativo', '2026-08-28 08:06:20'),
+(4, '', 'Victor', 'victor@gmail.com', '$2y$10$9yK1FK4ndJikrj/tBSyE2eYWUYXFZx38E.opyTHK210ICq.RVlHuW', 'Culinária', '1', 'ativo', '2026-08-14 10:39:11'),
+(5, NULL, 'Luyza', 'luyza@gmail.com', '$2y$10$L.M./AaCzjfn2IdlTdzsguR1Sqs24WKcMVNoHft8vAR9USrIdARga', '', '3', 'inativo', '2026-08-28 08:06:20'),
 (6, NULL, 'Davi', 'davi@gmail.com', '$2y$10$koAWHESsRZ9OkEn5QIDXW.Wjr.ot.PrUyk9COLTu729nzpUJqgtDm', '', '3', 'ativo', '2026-08-28 08:06:48'),
 (7, NULL, 'Felipe', 'felipe@gmail.com', '$2y$10$RH4Nx4bFoL/hNg6BhaGc5uMjoh9jJtQEV/EWUR/ioUluxBRCxTPHO', '', '3', 'ativo', '2026-08-28 08:07:12'),
-(10, NULL, 'teste', 'teste@gmail.com', '$2y$10$dnCs2R/bOtv1UAegk4niXOAa/wwrfEUi9JOxMaG/cl2hb1xTk6Wyq', '', '3', 'inativo', '2026-08-28 08:17:39'),
+(10, NULL, 'teste', 'teste@gmail.com', '$2y$10$dnCs2R/bOtv1UAegk4niXOAa/wwrfEUi9JOxMaG/cl2hb1xTk6Wyq', '', '3', 'ativo', '2026-08-28 08:17:39'),
 (11, NULL, 'teste2', 'teste2@gmail.com', '$2y$10$d2ZP2cwCTttXTfAa/dxKBeuuITpt3UgvISQaCuMCp3HZnl4AB.5eK', '', '3', 'ativo', '2026-08-28 08:36:26');
 
 --
@@ -241,8 +298,8 @@ ALTER TABLE `etapas`
 -- Índices de tabela `favoritos`
 --
 ALTER TABLE `favoritos`
-  ADD KEY `fk_favoritos_usuario` (`id_usuario`),
-  ADD KEY `fk_favoritos_guia` (`id_guia`);
+  ADD KEY `fk_favoritos_guia` (`id_guia`),
+  ADD KEY `fk_favoritos_usuario` (`id_usuario`);
 
 --
 -- Índices de tabela `guia`
@@ -255,22 +312,20 @@ ALTER TABLE `guia`
 -- Índices de tabela `historico_guias`
 --
 ALTER TABLE `historico_guias`
-  ADD KEY `fk_historico_usuario` (`id_usuario`),
-  ADD KEY `fk_historico_guia` (`id_guia`);
+  ADD KEY `fk_historico_guia` (`id_guia`),
+  ADD KEY `fk_historico_usuario` (`id_usuario`);
 
 --
 -- Índices de tabela `materiais`
 --
 ALTER TABLE `materiais`
-  ADD PRIMARY KEY (`id_materiais`),
-  ADD KEY `fk_materiais_guia` (`id_guia`);
+  ADD PRIMARY KEY (`id_materiais`);
 
 --
 -- Índices de tabela `material`
 --
 ALTER TABLE `material`
-  ADD PRIMARY KEY (`id_material`),
-  ADD KEY `fk_material_materiais` (`id_materiais`) USING BTREE;
+  ADD PRIMARY KEY (`id_material`);
 
 --
 -- Índices de tabela `usuario`
@@ -326,33 +381,33 @@ ALTER TABLE `usuario`
 -- Restrições para tabelas `etapa`
 --
 ALTER TABLE `etapa`
-  ADD CONSTRAINT `fk_etapa_etapas` FOREIGN KEY (`id_etapas`) REFERENCES `etapas` (`id_etapas`);
+  ADD CONSTRAINT `fk_etapa_etapas` FOREIGN KEY (`id_etapas`) REFERENCES `etapas` (`id_etapas`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `etapas`
 --
 ALTER TABLE `etapas`
-  ADD CONSTRAINT `fk_etapas_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`);
+  ADD CONSTRAINT `fk_etapas_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `favoritos`
 --
 ALTER TABLE `favoritos`
-  ADD CONSTRAINT `fk_favoritos_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`),
-  ADD CONSTRAINT `fk_favoritos_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `fk_favoritos_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_favoritos_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `guia`
 --
 ALTER TABLE `guia`
-  ADD CONSTRAINT `fk_guia_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `fk_guia_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `historico_guias`
 --
 ALTER TABLE `historico_guias`
-  ADD CONSTRAINT `fk_historico_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`),
-  ADD CONSTRAINT `fk_historico_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `fk_historico_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_historico_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

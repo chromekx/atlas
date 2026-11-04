@@ -366,7 +366,7 @@ function h($valor): string
                 showCancelButton: true,
                 confirmButtonColor: "#1bb155",
                 cancelButtonColor: "#cc2828",
-                confirmButtonText: "Sim, desfavortar",
+                confirmButtonText: "Sim, desfavoritar",
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {

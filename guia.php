@@ -250,13 +250,9 @@ function h($valor): string
                                 </video>
                             <?php else: ?>
                                 <div class="guia-video">
-                                    <iframe
-                                        src="<?= h($urlVideoEmbed) ?>"
-                                        title="Vídeo do guia <?= h($guia['titulo']) ?>"
-                                        loading="lazy"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        referrerpolicy="strict-origin-when-cross-origin"
-                                        allowfullscreen></iframe>
+                                    <iframe src="<?= str_replace("watch?v=","embed/", $guia['video']) ?>"
+                                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                                 </div>
                             <?php endif; ?>
                         </section>

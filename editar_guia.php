@@ -7,9 +7,14 @@ if (!isset($_SESSION['id'])) {
 }
 
 require_once __DIR__ . "/conexao.php";
-$erro = '';
+$id_guia = $_GET['id'];
+
+$sql = "SELECT id_guia, titulo, descricao, categoria, dificuldade, capa FROM guia WHERE id_guia = '$id_guia'";
+$resultado = $conn->query($sql);
+$guia = $resultado->fetch_assoc();
 
 if (isset($_POST['publicar'])) {
+    $erro = '';
 
     // Faz o query retornar false quando houver erro, em vez de lançar exceção.
     mysqli_report(MYSQLI_REPORT_OFF);
@@ -71,13 +76,11 @@ if (isset($_POST['publicar'])) {
 
     // Cadastra a guia.
     if ($erro == '') {
-        // A coluna foto continua NOT NULL no banco, então recebe um valor vazio.
         $sql = "INSERT INTO guia (id_usuario, titulo, descricao, categoria, dificuldade, capa, video)
                 VALUES ('$id_usuario', '$titulo', '$descricao', '$categoria', '$dificuldade', $capaSQL, '$video')";
 
         if ($conn->query($sql)) {
             $id_guia = $conn->insert_id;
-            global $id_guia;
         } else {
             $erro = 'Erro ao cadastrar a guia: ' . $conn->error;
         }
@@ -85,7 +88,7 @@ if (isset($_POST['publicar'])) {
 
     // Cadastra o agrupamento dos materiais.
     if ($erro == '') {
-        $sql = "INSERT INTO materiais (id_guia) VALUES ('$id_guia')";
+        $sql = "UPDATE INTO materiais (id_guia) VALUES ('$id_guia')";
 
         if ($conn->query($sql)) {
             $idMateriais = $conn->insert_id;
@@ -266,21 +269,23 @@ function h($valor): string
 
     <main class="pagina-cadastro">
         <section class="cabecalho-pagina">
-            <h1>Cadastrar Guia</h1>
+            <h1>Editar Guia</h1>
         </section>
 
 
         <section class="guia-capa preview-capa sem-capa" id="preview-capa">
-            <img class="guia-capa-imagem" id="preview-capa-imagem" alt="Prévia da capa da guia" hidden>
+            <img class="guia-capa-imagem"
+                src="exibir_imagem_guia.php?tipo=capa&id=<?= (int)$id_guia ?>"
+                loading="eager"
+                onerror="this.style.display='none';this.parentElement.classList.add('sem-capa')">
             <div class="guia-capa-sombra"></div>
             <div class="guia-capa-conteudo">
                 <span class="guia-categoria"><i class="fa-solid fa-book-open"></i> <span id="preview-categoria">Categoria</span></span>
-                <h2 id="preview-titulo"><?= $guia[''] ?></h2>
-                <p id="preview-descricao">A descrição da sua guia aparecerá aqui enquanto você preenche o formulário.</p>
+                <h2 id="preview-titulo"></h2>
+                <p id="preview-descricao"></p>
                 <div class="guia-capa-meta">
                     <span><i class="fa-solid fa-signal"></i> <span id="preview-dificuldade">Dificuldade</span></span>
                     <span><i class="fa-regular fa-user"></i> <?= htmlspecialchars($_SESSION['nome'] ?? 'Comunidade ATLAS', ENT_QUOTES, 'UTF-8') ?></span>
-                    <span><i class="fa-regular fa-eye"></i> Prévia ao vivo</span>
                 </div>
             </div>
             <div class="capa-placeholder" id="capa-placeholder"><i class="fa-solid fa-image"></i></div>
@@ -299,11 +304,11 @@ function h($valor): string
 
                         <div class="campo">
                             <label for="titulo">Título</label>
-                            <input type="text" id="titulo" name="titulo" maxlength="200" placeholder="Ex.: Como fazer um bolo de chocolate" required>
+                            <input type="text" value="<?= $guia['titulo'] ?>" id="titulo" name="titulo" maxlength="200" placeholder="Ex.: Como fazer um bolo de chocolate" required>
                         </div>
                         <div class="campo">
                             <label for="descricao">Descrição</label>
-                            <textarea id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa guia ensina" required></textarea>
+                            <input type="text" id="descricao" value="<?= $guia['descricao'] ?>" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa guia ensina" required></textarea>
                         </div>
                         <div class="linha-campos">
                             <div class="campo">
@@ -463,7 +468,6 @@ function h($valor): string
     </footer>
 
     <script src="js/header.js"></script>
-    <script src="js/cadastro_guias.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?php if (!empty($erro)): ?>
         <script>
@@ -473,6 +477,210 @@ function h($valor): string
                 padding: '25px',
                 confirmButtonText: "Ok",
             })
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const $ = (seletor, contexto = document) => contexto.querySelector(seletor);
+                const formulario = $('#formulario-tarefa');
+                if (!formulario) return;
+
+                const titulo = $('#titulo');
+                const descricao = $('#descricao');
+                const categoria = $('#categoria');
+                const dificuldade = $('#dificuldade');
+                const capaInput = $('#capa');
+                const capaPreview = $('#preview-capa');
+                const capaImagem = $('#preview-capa-imagem');
+                const placeholder = $('#capa-placeholder');
+                const listaMateriais = $('#lista-materiais');
+                const inputMaterial = $('#input-material');
+                const listaEtapas = $('#lista-etapas');
+                const templateEtapa = $('#template-etapa');
+                let urlCapaAtual = null;
+                const urlsEtapas = [];
+
+                function textoSeguro(valor) {
+                    return valor && valor.trim() ? valor.trim() : '';
+                }
+
+                function atualizarTexto() {
+                    $('#preview-titulo').textContent = textoSeguro(titulo.value) || "<?= $guia['titulo'] ?>";
+                    $('#preview-descricao').textContent = textoSeguro(descricao.value) || "<?= $guia['descricao'] ?>";
+
+                    const cat = categoria.value || 'Categoria';
+                    const dif = dificuldade.value || 'Dificuldade';
+
+                    $('#preview-categoria').textContent = cat;
+                    $('#preview-dificuldade').textContent = dif;
+                    $('#resumo-categoria').textContent = categoria.value || 'Ainda não selecionada';
+                    $('#resumo-dificuldade').textContent = dificuldade.value || 'Ainda não selecionada';
+                }
+
+                [titulo, descricao, categoria, dificuldade].forEach(campo => {
+                    campo.addEventListener('input', atualizarTexto);
+                    campo.addEventListener('change', atualizarTexto);
+                });
+
+                capaInput.addEventListener('change', () => {
+                    const arquivo = capaInput.files && capaInput.files[0];
+
+                    if (urlCapaAtual) {
+                        URL.revokeObjectURL(urlCapaAtual);
+                        urlCapaAtual = null;
+                    }
+
+                    if (!arquivo) {
+                        capaImagem.removeAttribute('src');
+                        capaImagem.hidden = true;
+                        capaPreview.classList.add('sem-capa');
+                        placeholder.hidden = false;
+                        return;
+                    }
+
+                    if (!arquivo.type.startsWith('image/')) {
+                        capaInput.value = '';
+                        alert('Selecione um arquivo de imagem para a capa.');
+                        return;
+                    }
+
+                    urlCapaAtual = URL.createObjectURL(arquivo);
+                    capaImagem.src = urlCapaAtual;
+                    capaImagem.hidden = false;
+                    capaPreview.classList.remove('sem-capa');
+                    placeholder.hidden = true;
+                });
+
+                function atualizarContagem() {
+                    const materiais = listaMateriais.querySelectorAll('input[name="material[]"]');
+                    const etapas = listaEtapas.querySelectorAll('.bloco-etapa');
+
+                    $('#resumo-materiais').textContent = `${materiais.length} ${materiais.length === 1 ? 'material' : 'materiais'}`;
+                    $('#resumo-etapas').textContent = `${etapas.length} ${etapas.length === 1 ? 'passo' : 'passos'}`;
+                }
+
+                function adicionarMaterial() {
+                    const nome = inputMaterial.value.trim();
+                    if (!nome) {
+                        inputMaterial.focus();
+                        return;
+                    }
+
+                    const item = document.createElement('li');
+                    const icone = document.createElement('i');
+                    icone.className = 'fa-solid fa-check';
+
+                    const texto = document.createElement('span');
+                    texto.textContent = nome;
+
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'material[]';
+                    input.value = nome;
+
+                    const remover = document.createElement('button');
+                    remover.type = 'button';
+                    remover.setAttribute('aria-label', 'Remover material');
+                    remover.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                    remover.addEventListener('click', () => {
+                        item.remove();
+                        atualizarContagem();
+                    });
+
+                    item.append(icone, texto, input, remover);
+                    listaMateriais.append(item);
+                    inputMaterial.value = '';
+                    inputMaterial.focus();
+                    atualizarContagem();
+                }
+
+                $('#botao-add-material').addEventListener('click', adicionarMaterial);
+                inputMaterial.addEventListener('keydown', evento => {
+                    if (evento.key === 'Enter') {
+                        evento.preventDefault();
+                        adicionarMaterial();
+                    }
+                });
+
+                function atualizarEtapas() {
+                    [...listaEtapas.querySelectorAll('.bloco-etapa')].forEach((etapa, indice) => {
+                        const numero = indice + 1;
+                        $('.etapa-numero', etapa).textContent = numero;
+                        $('.cabecalho-secao h3', etapa).textContent = `Etapa ${numero}`;
+                        $('.campo-etapa-descricao', etapa).name = `etapas[${indice}][descricao]`;
+                        $('.campo-etapa-midia', etapa).name = `etapas[${indice}][midia]`;
+                    });
+
+                    atualizarContagem();
+                }
+
+                function adicionarEtapa() {
+                    const fragmento = templateEtapa.content.cloneNode(true);
+                    const etapa = $('.bloco-etapa', fragmento);
+                    const textarea = $('.campo-etapa-descricao', etapa);
+                    const inputArquivo = $('.campo-etapa-midia', etapa);
+
+                    $('.botao-remover-etapa', etapa).addEventListener('click', () => {
+                        etapa.remove();
+                        atualizarEtapas();
+                    });
+
+                    inputArquivo.addEventListener('change', () => {
+                        const wrapper = $('.etapa-preview', etapa);
+                        wrapper.replaceChildren();
+
+                        const arquivo = inputArquivo.files && inputArquivo.files[0];
+                        wrapper.hidden = !arquivo;
+                        if (!arquivo) return;
+
+                        const url = URL.createObjectURL(arquivo);
+                        urlsEtapas.push(url);
+                        let midia;
+
+                        if (arquivo.type.startsWith('video/') || arquivo.name.toLowerCase().endsWith('.mp4')) {
+                            midia = document.createElement('video');
+                            midia.controls = true;
+                            midia.preload = 'metadata';
+                            midia.src = url;
+                        } else if (arquivo.type.startsWith('image/')) {
+                            midia = document.createElement('img');
+                            midia.alt = 'Prévia da mídia da etapa';
+                            midia.src = url;
+                        } else {
+                            wrapper.hidden = true;
+                            inputArquivo.value = '';
+                            alert('Use uma imagem ou um vídeo MP4 na etapa.');
+                            return;
+                        }
+
+                        wrapper.append(midia);
+                    });
+
+                    listaEtapas.append(fragmento);
+                    atualizarEtapas();
+                    textarea.focus();
+                }
+
+                $('#botao-add-etapa').addEventListener('click', adicionarEtapa);
+
+                formulario.addEventListener('submit', evento => {
+                    const descricoes = [...listaEtapas.querySelectorAll('.campo-etapa-descricao')];
+                    const etapaVazia = descricoes.find(campo => !campo.value.trim());
+
+                    if (etapaVazia) {
+                        evento.preventDefault();
+                        etapaVazia.focus();
+                        alert('Preencha a descrição de todas as etapas adicionadas ou remova as etapas vazias.');
+                    }
+                });
+
+                window.addEventListener('beforeunload', () => {
+                    if (urlCapaAtual) URL.revokeObjectURL(urlCapaAtual);
+                    urlsEtapas.forEach(url => URL.revokeObjectURL(url));
+                });
+
+                atualizarTexto();
+                atualizarContagem();
+                adicionarEtapa();
+            });
         </script>
     <?php endif; ?>
 </body>

@@ -273,14 +273,7 @@ function h($valor): string
             <img class="guia-capa-imagem" id="preview-capa-imagem" alt="Prévia da capa da guia" hidden>
             <div class="guia-capa-sombra"></div>
             <div class="guia-capa-conteudo">
-                <span class="guia-categoria"><i class="fa-solid fa-book-open"></i> <span id="preview-categoria">Categoria</span></span>
-                <h2 id="preview-titulo">Título da sua guia</h2>
-                <p id="preview-descricao">A descrição da sua guia aparecerá aqui enquanto você preenche o formulário.</p>
-                <div class="guia-capa-meta">
-                    <span><i class="fa-solid fa-signal"></i> <span id="preview-dificuldade">Dificuldade</span></span>
-                    <span><i class="fa-regular fa-user"></i> <?= htmlspecialchars($_SESSION['nome'] ?? 'Comunidade ATLAS', ENT_QUOTES, 'UTF-8') ?></span>
-                    <span><i class="fa-regular fa-eye"></i> Prévia ao vivo</span>
-                </div>
+                <h2>Imagem da Guia</h2>
             </div>
             <div class="capa-placeholder" id="capa-placeholder"><i class="fa-solid fa-image"></i></div>
         </section>
@@ -302,7 +295,7 @@ function h($valor): string
                         </div>
                         <div class="campo">
                             <label for="descricao">Descrição</label>
-                            <textarea id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa guia ensina" required></textarea>
+                            <textarea type="text" id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa guia ensina" required></textarea>
                         </div>
                         <div class="linha-campos">
                             <div class="campo">
@@ -353,7 +346,7 @@ function h($valor): string
                         <div class="campo">
                             <label for="video">Vídeo da guia</label>
                             <input type="url" class="campo-midia" name="video" id="video" maxlength="500" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url" required>
-                            <small>Insira o link do vídeo (YouTube, Vimeo ou outro endereço válido).</small>
+                            <small>Insira o link do vídeo do Youtube.</small>
                         </div>
                     </section>
 

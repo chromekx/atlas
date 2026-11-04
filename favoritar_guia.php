@@ -2,8 +2,6 @@
 session_start();
 require_once __DIR__ . "/conexao.php";
 
-
-
 if (!isset($_SESSION['id'])) {
     header('Location: login.php');
     exit;
@@ -16,9 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $id_usuario = (int) $_SESSION['id'];
 $id_guia = (int) $_POST['id_guia'];
-$id_guia = (int) $_GET['id'];
 
-if ($id_guia < 1) {
+if ($id_guia == 0) {
     header('Location: guias.php');
     exit;
 }
