@@ -374,18 +374,12 @@
     display: block;
     width: auto;
     max-width: 100%;
-    max-height: 520px;
+    max-height: 350px;
     margin-top: 15px;
     border: 1px solid #e5e7e0;
     border-radius: 10px;
     object-fit: contain;
     background: #f6f7f2;
-}
-
-video.midia-etapa {
-    width: 100%;
-    max-height: 520px;
-    background: #171717;
 }
 
 .sem-etapas {

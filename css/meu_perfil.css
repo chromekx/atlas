@@ -413,3 +413,11 @@ main {
     justify-content: space-between;
     width: 100%;
 }
+
+div:where(.swal2-container).swal2-center>.swal2-popup {
+    box-shadow: var(--shadow-card);
+} 
+
+div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+    font-family: 'Google Sans' !important;
+}

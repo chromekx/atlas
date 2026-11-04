@@ -490,3 +490,7 @@ body {
 [hidden] {
     display: none !important;
 }
+
+div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+    font-family: 'Google Sans' !important;
+}

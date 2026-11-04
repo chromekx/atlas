@@ -202,10 +202,7 @@ function h($valor): string
                                     <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_criada['data_criacao']))) ?></span>
                                     <div class="acoes-guia">
                                         <a class="acao-icone editar" href="editar_guia.php?id=<?= (int) $guia_criada['id_guia'] ?>" title="Editar guia" aria-label="Editar guia"><i class="fa-solid fa-pen"></i></a>
-                                        <form action="excluir_guia.php" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta guia?');">
-                                            <input type="hidden" name="id_guia" value="<?= (int) $guia_criada['id_guia'] ?>">
-                                            <button type="submit" class="acao-icone excluir" title="Excluir guia" aria-label="Excluir guia"><i class="fa-solid fa-trash"></i></button>
-                                        </form>
+                                        <button type="submit" onclick="deletarGuia(<?= $guia_criada['id_guia'] ?>)" class="acao-icone excluir" title="Excluir guia" aria-label="Excluir guia"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -244,10 +241,7 @@ function h($valor): string
                                     <span><i class="fa-regular fa-user"></i> <?= h($guia_favorita['autor'] ?: 'Comunidade ATLAS') ?></span>
                                     <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_favorita['data_criacao']))) ?></span>
                                     <div class="acoes-guia">
-                                        <form action="remover_favorito.php" method="POST" onsubmit="return confirm('Deseja remover esta guia dos favoritos?');">
-                                            <input type="hidden" name="id_guia" value="<?= (int) $guia_favorita['id_guia'] ?>">
-                                            <button type="submit" class="acao-icone desfavoritar" title="Remover dos favoritos" aria-label="Remover dos favoritos"><i class="fa-solid fa-heart-crack"></i></button>
-                                        </form>
+                                        <button type="submit" onclick="desfavoritarGuia(<?= $guia_favorita['id_guia'] ?>)" class="acao-icone desfavoritar" title="Remover dos favoritos" aria-label="Remover dos favoritos"><i class="fa-solid fa-heart-crack"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -286,10 +280,7 @@ function h($valor): string
                                     <span><i class="fa-regular fa-user"></i> <?= h($guia_historico['autor'] ?: 'Comunidade ATLAS') ?></span>
                                     <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_historico['data_visualizacao']))) ?></span>
                                     <div class="acoes-guia">
-                                        <form action="remover_historico.php" method="POST" onsubmit="return confirm('Deseja remover esta guia do histórico?');">
-                                            <input type="hidden" name="id_guia"value="<?= (int) $guia_historico['id_guia'] ?>">
-                                            <button type="submit" class="acao-icone remover" title="Remover do histórico" aria-label="Remover do histórico"><i class="fa-solid fa-xmark"></i></button>
-                                        </form>
+                                        <button type="submit" onclick="removerGuia(<?= $guia_historico['id_guia'] ?>)" class="acao-icone remover" title="Remover do histórico" aria-label="Remover do histórico"><i class="fa-solid fa-xmark"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -331,6 +322,60 @@ function h($valor): string
 
     <script src="js/header.js"></script>
     <script src="js/meuperfil.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function deletarGuia(id) {
+            Swal.fire({
+                title: "Tem certeza que deseja deletar esta guia?",
+                padding: "25px",
+                color: '#000',
+                showCancelButton: true,
+                confirmButtonColor: "#1bb155",
+                cancelButtonColor: "#cc2828",
+                confirmButtonText: "Sim, deletar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'deletar_guia.php?id=' + id;
+                }
+            });
+        }
+
+        function removerGuia(id) {
+            Swal.fire({
+                title: "Tem certeza que deseja remover esta guia do histórico?",
+                padding: "25px",
+                color: '#000',
+                showCancelButton: true,
+                confirmButtonColor: "#1bb155",
+                cancelButtonColor: "#cc2828",
+                confirmButtonText: "Sim, remover",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'remover_guia.php?id=' + id;
+                }
+            });
+        }
+
+        function desfavoritarGuia(id) {
+            Swal.fire({
+                title: "Tem certeza que deseja desfavoritar esta guia?",
+                padding: "25px",
+                color: '#000',
+                showCancelButton: true,
+                confirmButtonColor: "#1bb155",
+                cancelButtonColor: "#cc2828",
+                confirmButtonText: "Sim, desfavortar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'favoritar_guia.php?id=' + id;
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>

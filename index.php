@@ -127,9 +127,9 @@ function h($valor): string
     <section class="equipe-atlas" id="sobre-atlas">
         <div class="equipe-container">
 
+            <h1 class="titulo">Sobre o ATLAS</h1>
             <div class="equipe-introducao">
                 <div class="intro-texto">
-                    <h1 class="titulo">Sobre o ATLAS</h1>
                     <p>
                         O ATLAS nasceu da ideia de tornar o conhecimento mais acessível
                         e incentivar o compartilhamento de experiências. Nosso objetivo

@@ -2,7 +2,6 @@
 session_start();
 require_once __DIR__ . '/conexao.php';
 
-$id_usuario = (int) $_SESSION['id'];
 $id_guia = (int)($_GET['id'] ?? 0);
 
 if (!$id_guia || $id_guia < 1) {
@@ -13,12 +12,14 @@ if (!$id_guia || $id_guia < 1) {
 $favoritada = false;
 
 if (isset($_SESSION['id'])) {
+    $id_usuario = (int) $_SESSION['id'];
+
     $sqlFavoritos = "SELECT id_guia
             FROM favoritos
             WHERE id_usuario = '$id_usuario' AND id_guia = '$id_guia'";
     $resultadoFavoritos = $conn->query($sqlFavoritos);
     $favoritada = $resultadoFavoritos->num_rows > 0;
-    
+
     $sqlHistorico = "INSERT INTO historico_guias (id_guia, id_usuario) VALUES ('$id_guia', '$id_usuario')";
     $resultadoHistorico = $conn->query($sqlHistorico);
 }
@@ -83,12 +84,20 @@ function h($valor): string
         </a>
 
         <nav class="nav-options" aria-label="Navegação principal">
-            <a class="item" href="guias.php"><p>Explorar Guias</p></a>
+            <a class="item" href="guias.php">
+                <p>Explorar Guias</p>
+            </a>
             <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php"><p>Cadastrar Guia</p></a>
+                <a class="item" href="cadastro_guias.php">
+                    <p>Cadastrar Guia</p>
+                </a>
             <?php endif; ?>
-            <a class="item" href="index.php#aspectos"><p>Sobre o ATLAS</p></a>
-            <a class="item" href="suporte.php"><p>Suporte</p></a>
+            <a class="item" href="index.php#aspectos">
+                <p>Sobre o ATLAS</p>
+            </a>
+            <a class="item" href="suporte.php">
+                <p>Suporte</p>
+            </a>
         </nav>
 
         <nav class="nav-btns" aria-label="Conta">
@@ -336,7 +345,7 @@ function h($valor): string
                         </p>
                     </div>
                     <?php if (!isset($_SESSION['id'])): ?>
-                        <a href="login.php">Entre para favoritar essa guia.</a>
+                        <a href="login.php" class="btn-favoritar"><i class="fa-solid fa-arrow-right"></i>Entre para favoritar essa guia.</a>
                     <?php else: ?>
                         <form action="favoritar_guia.php" method="POST">
                             <input type="hidden" name="id_guia" value="<?= (int) $guia['id_guia'] ?>">
