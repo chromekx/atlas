@@ -131,12 +131,13 @@ function h($valor): string
             <div class="equipe-introducao">
                 <div class="intro-texto">
                     <p>
-                        O ATLAS nasceu da ideia de tornar o conhecimento mais acessível
-                        e incentivar o compartilhamento de experiências. Nosso objetivo
-                        é reunir pessoas, ideias e tutoriais em um só lugar, criando um
-                        espaço onde todos possam aprender, desenvolver habilidades e
-                        compartilhar aquilo que sabem. Por trás do projeto, existe uma
-                        equipe que trabalha para transformar essa ideia em realidade.
+                        O projeto tem como objetivo ensinar habilidades 
+                        do dia a dia por meio de guias práticos, claros 
+                        e acessíveis. A plataforma oferece conteúdos 
+                        sobre temas como saúde, culinária, finanças e 
+                        tarefas domésticas, ajudando pessoas que buscam 
+                        aprender ou superar dificuldades cotidianas de 
+                        forma simples e intuitiva.
                     </p>
                 </div>
 

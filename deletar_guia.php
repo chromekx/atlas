@@ -9,7 +9,7 @@ if (!isset($_SESSION['id'])) {
 require_once __DIR__ . "/conexao.php";
 
 $id_usuario = (int) $_SESSION['id'];
-$id_guia = isset($_GET['id_guia']) ?? 0;
+$id_guia = $_GET['id'];
 
 if ($id_guia == 0) {
     header('Location: meu_perfil.php');

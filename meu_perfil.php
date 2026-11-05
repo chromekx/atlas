@@ -280,7 +280,7 @@ function h($valor): string
                                     <span><i class="fa-regular fa-user"></i> <?= h($guia_historico['autor'] ?: 'Comunidade ATLAS') ?></span>
                                     <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_historico['data_visualizacao']))) ?></span>
                                     <div class="acoes-guia">
-                                        <button type="submit" onclick="removerGuia(<?= $guia_historico['id_guia'] ?>)" class="acao-icone remover" title="Remover do histórico" aria-label="Remover do histórico"><i class="fa-solid fa-xmark"></i></button>
+                                        <button type="submit" onclick="excluirGuia(<?= $guia_historico['id_guia'] ?>)" class="acao-icone remover" title="Remover do histórico" aria-label="Remover do histórico"><i class="fa-solid fa-xmark"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -341,7 +341,7 @@ function h($valor): string
             });
         }
 
-        function removerGuia(id) {
+        function excluirGuia(id) {
             Swal.fire({
                 title: "Tem certeza que deseja remover esta guia do histórico?",
                 padding: "25px",
@@ -353,7 +353,7 @@ function h($valor): string
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'remover_guia.php?id=' + id;
+                    window.location.href = 'excluir_guia_hist.php?id=' + id;
                 }
             });
         }
@@ -370,7 +370,7 @@ function h($valor): string
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'favoritar_guia.php?id=' + id;
+                    window.location.href = 'desfavoritar_guia.php?id=' + id;
                 }
             });
         }

@@ -250,7 +250,7 @@ function h($valor): string
                                 </video>
                             <?php else: ?>
                                 <div class="guia-video">
-                                    <iframe src="<?= str_replace("watch?v=","embed/", $guia['video']) ?>"
+                                    <iframe src="<?= str_replace("watch?v=", "embed/", $guia['video']) ?>"
                                         title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                                 </div>
@@ -340,22 +340,27 @@ function h($valor): string
                             </strong>
                         </p>
                     </div>
-                    <?php if (!isset($_SESSION['id'])): ?>
-                        <a href="login.php" class="btn-favoritar"><i class="fa-solid fa-arrow-right"></i>Entre para favoritar essa guia.</a>
-                    <?php else: ?>
-                        <form action="favoritar_guia.php" method="POST">
-                            <input type="hidden" name="id_guia" value="<?= (int) $guia['id_guia'] ?>">
-                            <button type="submit" class="btn-favoritar">
-                                <?php if ($favoritada): ?>
-                                    Desfavoritar Guia
-                                    <i class="fa-solid fa-heart"></i>
-                                <?php else: ?>
-                                    Favoritar Guia
-                                    <i class="fa-regular fa-heart"></i>
-                                <?php endif; ?>
-                            </button>
-                        </form>
-                    <?php endif; ?>
+                    <div>
+                        <?php if (!isset($_SESSION['id'])): ?>
+                            <a href="login.php" class="btn-favoritar"><i class="fa-solid fa-arrow-right"></i>Entre para favoritar essa guia.</a>
+                        <?php else: ?>
+                            <form action="favoritar_guia.php" method="POST">
+                                <input type="hidden" name="id_guia" value="<?= (int) $guia['id_guia'] ?>">
+                                <button type="submit" class="btn-favoritar">
+                                    <?php if ($favoritada): ?>
+                                        Desfavoritar Guia
+                                        <i class="fa-solid fa-heart"></i>
+                                    <?php else: ?>
+                                        Favoritar Guia
+                                        <i class="fa-regular fa-heart"></i>
+                                    <?php endif; ?>
+                                </button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                    <div>
+                        <button onclick="window.location.href='suporte.php'" class="btn-denunciar">Denunciar Guia<i class="fa-solid fa-warning"></i></button>
+                    </div>
                 </div>
 
                 <div class="cartao-dica">
