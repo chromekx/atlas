@@ -113,7 +113,7 @@ function h($valor): string
 
                     <div class="perfil-options" id="perfil-options">
                         <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
-                        <a class="perfil-option" href="configuracoes.php">Configurações</a>
+                        
 
                         <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
                             <a class="perfil-option" href="admin.php">Painel do administrador</a>
@@ -349,7 +349,7 @@ function h($valor): string
                                 <button type="submit" class="btn-favoritar">
                                     <?php if ($favoritada): ?>
                                         Desfavoritar Guia
-                                        <i class="fa-solid fa-heart"></i>
+                                        <i class="fa-solid fa-heart-crack"></i>
                                     <?php else: ?>
                                         Favoritar Guia
                                         <i class="fa-regular fa-heart"></i>
@@ -358,15 +358,10 @@ function h($valor): string
                             </form>
                         <?php endif; ?>
                     </div>
-                    <div>
-                        <button onclick="window.location.href='suporte.php'" class="btn-denunciar">Denunciar Guia<i class="fa-solid fa-warning"></i></button>
-                    </div>
                 </div>
 
-                <div class="cartao-dica">
-                    <i class="fa-regular fa-lightbulb"></i>
-                    <h3>Dica ATLAS</h3>
-                    <p>Leia todas as etapas antes de começar e separe os materiais necessários.</p>
+                <div>
+                    <button onclick="window.location.href='suporte.php'" class="btn-denunciar">Denunciar Guia<i class="fa-solid fa-warning"></i></button>
                 </div>
             </aside>
         </div>

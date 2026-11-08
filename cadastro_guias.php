@@ -182,7 +182,7 @@ if (isset($_POST['publicar'])) {
 
     // Redireciona depois de cadastrar tudo sem erros.
     if ($erro == '') {
-        header('Location: guias_' . $categoria);
+        header('Location: guias.php?categoria=' . $categoria);
         exit();
     }
 }
@@ -247,7 +247,7 @@ function h($valor): string
 
                     <div class="perfil-options" id="perfil-options">
                         <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
-                        <a class="perfil-option" href="configuracoes.php">Configurações</a>
+                        
 
                         <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
                             <a class="perfil-option" href="admin.php">Painel do administrador</a>

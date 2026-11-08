@@ -75,9 +75,9 @@
 .guia-capa-sombra {
     z-index: -1;
     background: linear-gradient(90deg,
-            rgba(16, 23, 17, .88) 0%,
-            rgba(16, 23, 17, .64) 48%,
-            rgba(16, 23, 17, .08) 100%);
+            #000000e0 0%,
+            #000000a3 48%,
+            #00000014 100%);
 }
 
 .guia-capa-conteudo {
@@ -378,7 +378,7 @@
     margin-top: 15px;
     border: 1px solid #e5e7e0;
     border-radius: 10px;
-    object-fit: contain;
+    object-fit: cover !important;
     background: #f6f7f2;
 }
 
@@ -392,14 +392,15 @@
 /* Resumo lateral */
 .guia-lateral {
     position: sticky;
-    top: 20px;
+    display: flex;
+    flex-direction: column;
     min-width: 0;
+    gap: 30px;
 }
 
 .cartao-resumo {
     display: flex;
     flex-direction: column;
-    gap: 0;
     padding: 23px;
     border: 1px solid #e4e7df;
     border-top: 5px solid var(--color-primary);
@@ -451,11 +452,17 @@
     overflow-wrap: anywhere;
 }
 
-.btn-favoritar, .btn-denunciar {
+.cartao-resumo form {
+    display: flex;
+    justify-content: stretch;
+    width: 100% !important;
+}
+
+.btn-favoritar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100% !important;
+    width: 100%;
     gap: 10px;
     padding: 13px 15px;
     border: 1px solid var(--color-border);
@@ -468,18 +475,45 @@
     font-family: 'Google Sans';
 }
 
-.btn-favoritar:hover, .btn-denunciar:hover {
+.btn-favoritar:hover {
     filter: brightness(.96);
-    transform: translateX(2px);
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    background: var(--color-fav-dark);
+    color: var(--color-text-inverse);
+    border-color: var(--color-fav-dark);
+    transition: var(--transition-base);
+    cursor: pointer;
+}
+
+.btn-denunciar {
+    display: flex;
+    align-items: center;
+    justify-self: right !important;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 15px;
+    border: 1px solid var(--color-danger-dark);
+    border-radius: 9px;
+    background: var(--color-danger);
+    color: var(--color-text-inverse);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, filter .2s ease;
+    font-family: 'Google Sans';
+}
+
+.btn-denunciar:hover {
+    filter: brightness(.96);
+    transform: translateY(-2px);
+    background: var(--color-danger-dark);
+    color: var(--color-text-inverse);
+    border-color: var(--color-danger-dark);
     transition: var(--transition-base);
     cursor: pointer;
 }
 
 /* Dica */
 .cartao-dica {
-    margin-top: 18px;
     padding: 22px;
     border: 1px solid #dce8cc;
     border-radius: var(--radius-md, 14px);

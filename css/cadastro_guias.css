@@ -312,12 +312,12 @@ body {
     overflow-wrap: anywhere;
 }
 
-.lista-materiais li i .fa-trash{
-    color: var(--color-danger);
+.fa-trash{
+    color: var(--color-danger-dark);
 }
 
-.lista-materiais li i .fa-check::before {
-    color: var(--color-success-dark);
+.fa-check {
+    color: var(--color-success-dark) !important;
 }
 
 .lista-materiais li button {
@@ -396,6 +396,10 @@ body {
     margin: 0 0 10px;
     color: var(--color-primary);
     font-size: 1.35rem;
+}
+
+.cartao-resumo {
+    border-top: 5px solid var(--color-primary);
 }
 
 .cartao-resumo>div {

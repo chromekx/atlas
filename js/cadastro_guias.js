@@ -23,14 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function atualizarTexto() {
-        $('#preview-titulo').textContent = textoSeguro(titulo.value) || 'Título da sua guia';
-        $('#preview-descricao').textContent = textoSeguro(descricao.value) || 'A descrição da sua guia aparecerá aqui enquanto você preenche o formulário.';
-
-        const cat = categoria.value || 'Categoria';
-        const dif = dificuldade.value || 'Dificuldade';
-
-        $('#preview-categoria').textContent = cat;
-        $('#preview-dificuldade').textContent = dif;
         $('#resumo-categoria').textContent = categoria.value || 'Ainda não selecionada';
         $('#resumo-dificuldade').textContent = dificuldade.value || 'Ainda não selecionada';
     }
