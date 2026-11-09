@@ -160,7 +160,7 @@ function h($valor): string
                     </div>
 
                     <h4>Carlos Henrique Michalak</h4>
-                    <span class="integrante-funcao">?</span>
+                    <span class="integrante-funcao">Design e Layout</span>
                 </article>
 
                 <article class="integrante-card">
@@ -178,7 +178,7 @@ function h($valor): string
                     </div>
 
                     <h4>Felipe de Oliveira Dias</h4>
-                    <span class="integrante-funcao">?</span>
+                    <span class="integrante-funcao">Líder Coordenador</span>
                 </article>
 
                 <article class="integrante-card">
@@ -187,7 +187,7 @@ function h($valor): string
                     </div>
 
                     <h4>Luyza Venâncio Marcelino</h4>
-                    <span class="integrante-funcao">?</span>
+                    <span class="integrante-funcao">Documentadora Técnica</span>
                 </article>
 
                 <article class="integrante-card">

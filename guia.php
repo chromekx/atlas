@@ -113,7 +113,7 @@ function h($valor): string
 
                     <div class="perfil-options" id="perfil-options">
                         <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
-                        
+
 
                         <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
                             <a class="perfil-option" href="admin.php">Painel do administrador</a>
@@ -342,7 +342,7 @@ function h($valor): string
                     </div>
                     <div>
                         <?php if (!isset($_SESSION['id'])): ?>
-                            <a href="login.php" class="btn-favoritar"><i class="fa-solid fa-arrow-right"></i>Entre para favoritar essa guia.</a>
+                            <a href="login.php" class="btn-favoritar">Entre para favoritar essa guia<i class="fa-solid fa-arrow-right"></i></a>
                         <?php else: ?>
                             <form action="favoritar_guia.php" method="POST">
                                 <input type="hidden" name="id_guia" value="<?= (int) $guia['id_guia'] ?>">
@@ -358,6 +358,7 @@ function h($valor): string
                             </form>
                         <?php endif; ?>
                     </div>
+                    <a href="login.php" class="btn-favoritar">Compartilhar<i class="fa-solid fa-share"></i></a>
                 </div>
 
                 <div>
