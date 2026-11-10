@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/11/2026 às 23:15
+-- Tempo de geração: 10/11/2026 às 04:31
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -400,7 +400,30 @@ INSERT INTO `historico_guias` (`id_usuario`, `id_guia`, `data_visualizacao`) VAL
 (4, 19, '2026-11-07 22:51:08'),
 (4, 19, '2026-11-07 22:51:36'),
 (4, 19, '2026-11-07 22:51:46'),
-(4, 19, '2026-11-07 22:51:46');
+(4, 19, '2026-11-07 22:51:46'),
+(4, 17, '2026-11-09 21:58:26'),
+(4, 17, '2026-11-09 21:58:57'),
+(4, 17, '2026-11-09 21:58:57'),
+(4, 17, '2026-11-09 22:22:26'),
+(4, 17, '2026-11-09 22:22:32'),
+(4, 19, '2026-11-09 22:32:27'),
+(4, 19, '2026-11-09 22:32:28'),
+(4, 19, '2026-11-09 22:33:12'),
+(4, 19, '2026-11-09 22:35:42'),
+(4, 19, '2026-11-09 22:36:05'),
+(4, 19, '2026-11-09 22:37:21'),
+(4, 19, '2026-11-09 22:37:22'),
+(4, 19, '2026-11-09 22:37:22'),
+(4, 19, '2026-11-09 22:37:40'),
+(4, 19, '2026-11-09 22:37:40'),
+(4, 19, '2026-11-09 22:38:02'),
+(4, 19, '2026-11-09 22:38:02'),
+(4, 19, '2026-11-09 22:42:14'),
+(4, 19, '2026-11-09 22:53:59'),
+(4, 19, '2026-11-09 22:54:16'),
+(4, 19, '2026-11-09 22:54:17'),
+(4, 19, '2026-11-09 22:54:37'),
+(4, 16, '2026-11-09 23:22:18');
 
 -- --------------------------------------------------------
 
@@ -431,7 +454,8 @@ INSERT INTO `materiais` (`id_materiais`, `id_guia`) VALUES
 (11, 16),
 (12, 17),
 (13, 18),
-(14, 19);
+(14, 19),
+(15, 20);
 
 -- --------------------------------------------------------
 
@@ -468,7 +492,8 @@ INSERT INTO `material` (`id_material`, `id_materiais`, `nome`) VALUES
 (16, 14, 'Arco'),
 (17, 14, 'Flechas'),
 (18, 14, 'Nós'),
-(19, 14, 'Aliados');
+(19, 14, 'Aliados'),
+(20, 15, 'a');
 
 -- --------------------------------------------------------
 
@@ -493,15 +518,15 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `foto`, `nome`, `email`, `senha`, `preferencia`, `nivel`, `estado`, `data_criacao`) VALUES
-(1, NULL, 'Tung Tung Sahur 3°', 'tungsteniofilho@gmail.com', '$2y$10$jo.jURxYOvJDvpHdhUo9geaL5XgSLnhYsqXVKR2K.4wnNUIHxxLtq', '', '3', 'inativo', '2026-07-15 16:45:43'),
-(2, NULL, 'Victor', 'victor.souza1@alunos.sc.senac.br', '$2y$10$7s5/cD5e4pbu22LLbeoz5ukaJDpCsoFbULggp3wanBDikmlQA4UB.', '', '1', 'ativo', '2026-08-10 09:25:53'),
-(3, NULL, 'Claudinha', 'claudia.werlich@gmail.com', '$2y$10$vIGTKaRhgijlEnIzViVA6.7NA3PqOcthVR.whI7OcdnnpjFs/kakO', '', '1', 'ativo', '2026-08-28 08:09:24'),
+(1, NULL, 'Tung Tung Sahur 3°', 'tungsteniofilho@gmail.com', '$2y$10$jo.jURxYOvJDvpHdhUo9geaL5XgSLnhYsqXVKR2K.4wnNUIHxxLtq', 'Automóveis', '3', 'inativo', '2026-07-15 16:45:43'),
+(2, NULL, 'Victor', 'victor.souza1@alunos.sc.senac.br', '$2y$10$7s5/cD5e4pbu22LLbeoz5ukaJDpCsoFbULggp3wanBDikmlQA4UB.', 'Casa', '1', 'ativo', '2026-08-10 09:25:53'),
+(3, NULL, 'Claudinha', 'claudia.werlich@gmail.com', '$2y$10$vIGTKaRhgijlEnIzViVA6.7NA3PqOcthVR.whI7OcdnnpjFs/kakO', 'Cuidados', '1', 'ativo', '2026-08-28 08:09:24'),
 (4, NULL, 'Victor', 'victor@gmail.com', '$2y$10$9yK1FK4ndJikrj/tBSyE2eYWUYXFZx38E.opyTHK210ICq.RVlHuW', 'Culinária', '1', 'ativo', '2026-08-14 10:39:11'),
-(5, NULL, 'Luyza', 'luyza@gmail.com', '$2y$10$L.M./AaCzjfn2IdlTdzsguR1Sqs24WKcMVNoHft8vAR9USrIdARga', '', '3', 'ativo', '2026-08-28 08:06:20'),
-(6, NULL, 'Davi', 'davi@gmail.com', '$2y$10$koAWHESsRZ9OkEn5QIDXW.Wjr.ot.PrUyk9COLTu729nzpUJqgtDm', '', '3', 'ativo', '2026-08-28 08:06:48'),
-(7, NULL, 'Felipe', 'felipe@gmail.com', '$2y$10$RH4Nx4bFoL/hNg6BhaGc5uMjoh9jJtQEV/EWUR/ioUluxBRCxTPHO', '', '3', 'ativo', '2026-08-28 08:07:12'),
-(10, NULL, 'teste', 'teste@gmail.com', '$2y$10$dnCs2R/bOtv1UAegk4niXOAa/wwrfEUi9JOxMaG/cl2hb1xTk6Wyq', '', '3', 'inativo', '2026-08-28 08:17:39'),
-(11, NULL, 'teste2', 'teste2@gmail.com', '$2y$10$d2ZP2cwCTttXTfAa/dxKBeuuITpt3UgvISQaCuMCp3HZnl4AB.5eK', '', '3', 'ativo', '2026-08-28 08:36:26');
+(5, NULL, 'Luyza', 'luyza@gmail.com', '$2y$10$9ZVh7t99/oUIlijutR0D3uIY2p5/0kfgDkmnOgi6yohoZ1W6escR.', 'Moda', '1', 'ativo', '2026-08-28 08:06:20'),
+(6, NULL, 'Davi', 'davi@gmail.com', '$2y$10$s8sKHMLflUlfU.bAAdFe7.9aWY5kW1YMIgCTREZG/1fdwZcbdts4O', 'Tecnologia', '1', 'ativo', '2026-08-28 08:06:48'),
+(7, NULL, 'Felipe', 'felipe@gmail.com', '$2y$10$rZmmgAgyZC.y/8T0ZKsJB.yj6zEH7Ta/JzcljaxW9Ut5SilJoCyQe', 'Educação', '1', 'ativo', '2026-08-28 08:07:12'),
+(10, NULL, 'teste', 'teste@gmail.com', '$2y$10$dnCs2R/bOtv1UAegk4niXOAa/wwrfEUi9JOxMaG/cl2hb1xTk6Wyq', 'Trabalho', '3', 'inativo', '2026-08-28 08:17:39'),
+(11, NULL, 'teste2', 'teste2@gmail.com', '$2y$10$d2ZP2cwCTttXTfAa/dxKBeuuITpt3UgvISQaCuMCp3HZnl4AB.5eK', 'Transporte', '3', 'ativo', '2026-08-28 08:36:26');
 
 --
 -- Índices para tabelas despejadas
@@ -525,8 +550,8 @@ ALTER TABLE `etapas`
 -- Índices de tabela `favoritos`
 --
 ALTER TABLE `favoritos`
-  ADD KEY `fk_favoritos_usuario` (`id_usuario`),
-  ADD KEY `fk_favoritos_guia` (`id_guia`);
+  ADD KEY `fk_favoritos_guia` (`id_guia`),
+  ADD KEY `fk_favoritos_usuario` (`id_usuario`);
 
 --
 -- Índices de tabela `guia`
@@ -570,31 +595,31 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `etapa`
 --
 ALTER TABLE `etapa`
-  MODIFY `id_etapa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_etapa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `etapas`
 --
 ALTER TABLE `etapas`
-  MODIFY `id_etapas` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_etapas` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `guia`
 --
 ALTER TABLE `guia`
-  MODIFY `id_guia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_guia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `materiais`
 --
 ALTER TABLE `materiais`
-  MODIFY `id_materiais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_materiais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `material`
 --
 ALTER TABLE `material`
-  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
@@ -610,33 +635,33 @@ ALTER TABLE `usuario`
 -- Restrições para tabelas `etapa`
 --
 ALTER TABLE `etapa`
-  ADD CONSTRAINT `fk_etapa_etapas` FOREIGN KEY (`id_etapas`) REFERENCES `etapas` (`id_etapas`);
+  ADD CONSTRAINT `fk_etapa_etapas` FOREIGN KEY (`id_etapas`) REFERENCES `etapas` (`id_etapas`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `etapas`
 --
 ALTER TABLE `etapas`
-  ADD CONSTRAINT `fk_etapas_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`);
+  ADD CONSTRAINT `fk_etapas_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `favoritos`
 --
 ALTER TABLE `favoritos`
-  ADD CONSTRAINT `fk_favoritos_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`),
-  ADD CONSTRAINT `fk_favoritos_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `fk_favoritos_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_favoritos_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `guia`
 --
 ALTER TABLE `guia`
-  ADD CONSTRAINT `fk_guia_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `fk_guia_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `historico_guias`
 --
 ALTER TABLE `historico_guias`
-  ADD CONSTRAINT `fk_historico_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`),
-  ADD CONSTRAINT `fk_historico_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `fk_historico_guia` FOREIGN KEY (`id_guia`) REFERENCES `guia` (`id_guia`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_historico_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
