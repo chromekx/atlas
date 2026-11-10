@@ -5,7 +5,6 @@
 
 /* Página do guia */
 .pagina-guia {
-    padding-bottom: var(--space-7, 48px);
     color: var(--color-text, #252525);
 }
 
@@ -484,6 +483,7 @@
     width: 100%;
     gap: 10px;
     padding: 13px 15px;
+    text-align: left;
     border: 1px solid var(--color-border);
     border-radius: 9px;
     background: var(--color-bg);

@@ -194,7 +194,7 @@ function h($valor): string
 
                         <div class="integrante-texto">
                             <h4>Felipe de Oliveira Dias</h4>
-                            <span class="integrante-funcao">Líder do Projeto ATLAS</span>
+                            <span class="integrante-funcao">Design e Layout<br>Líder do Projeto ATLAS</span>
                         </div>
                     </article>
 
