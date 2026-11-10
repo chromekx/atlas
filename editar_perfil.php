@@ -87,7 +87,7 @@ function h($valor): string
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
             <a class="item" href="suporte.php">

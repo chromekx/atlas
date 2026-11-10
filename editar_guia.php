@@ -229,7 +229,7 @@ function h($valor): string
                 </a>
             <?php endif; ?>
 
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
 

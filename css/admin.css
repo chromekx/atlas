@@ -3,6 +3,10 @@
 @import "footer.css";
 @import "body.css";
 
+html {
+    scroll-behavior: smooth;
+}
+
 .titulo {
     display: flex;
     align-items: center;
@@ -165,7 +169,8 @@ tbody tr:hover {
 
 .editar,
 .inativar,
-.reativar {
+.reativar,
+.guias {
     display: flex;
     flex: 0 0 auto;
     align-items: center;
@@ -182,7 +187,8 @@ tbody tr:hover {
 
 .editar:hover,
 .inativar:hover,
-.reativar:hover {
+.reativar:hover,
+.guias:hover {
     transform: scale(1.1);
 }
 
@@ -208,6 +214,14 @@ tbody tr:hover {
 
 .reativar:hover {
     background-color: var(--color-success-dark);
+}
+
+.guias {
+    background-color: var(--color-accent-dark);
+}
+
+.guias:hover {
+    background-color: var(--color-accent);
 }
 
 div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {

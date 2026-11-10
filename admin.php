@@ -45,7 +45,7 @@ function h($valor): string
                 </a>
             <?php endif; ?>
 
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
 
@@ -124,7 +124,7 @@ function h($valor): string
             } else {
                 while ($linha = $resultado->fetch_assoc()) { ?>
                     <tr>
-                        <td id="id:<?= $linha['id_usuario'] ?>"><?= $linha['id_usuario'] ?></td>
+                        <td id="<?= $linha['id_usuario'] ?>"><?= $linha['id_usuario'] ?></td>
                         <td><img class="foto-bd" src="imgs_perfil/<?= !empty($linha['foto']) ? htmlspecialchars($linha['foto']) : 'foto_padrao.png' ?>"></td>
                         <td><?= htmlspecialchars($linha['nome']) ?></td>
                         <td><?= htmlspecialchars($linha['email']) ?></td>
@@ -135,7 +135,10 @@ function h($valor): string
                         <td><?= htmlspecialchars($linha['data_criacao']) ?></td>
                         <td class="celula-acoes">
                             <div class="acoes-linha">
-                                <button class="editar" onclick="window.location.href='editar_admin.php?id=' + <?= $linha['id_usuario'] ?>" title="Editar">
+                                <button class="guias" onclick="window.location.href='admin_guias_usuario.php?id=' + <?= $linha['id_usuario'] ?>" title="Acessar guias">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </button>
+                                <button class="editar" onclick="window.location.href='admin_editar_usuario.php?id=' + <?= $linha['id_usuario'] ?>" title="Editar">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
                                 <?php if ($linha['estado'] == "ativo") { ?>

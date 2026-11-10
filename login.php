@@ -12,12 +12,8 @@ if (isset($_POST['entrar'])) {
     $resultado = $conn->query($sql);
     $usuario = $resultado->fetch_assoc();
 
-    if (!$usuario) {
+    if (!$usuario || !password_verify($senha, $usuario['senha']) || $usuario['estado'] == 'inativo') {
         $erro = "Email ou senha incorretos.";
-    } else if (!password_verify($senha, $usuario['senha'])) {
-        $erro = "Email ou senha incorretos.";
-    } else if ($usuario['estado'] == 'inativo') {
-        $erro = "Este usuário está inativo.";
     } else {
         $_SESSION['id'] = $usuario['id_usuario'];
         $_SESSION['foto'] = $usuario['foto'];

@@ -1,9 +1,14 @@
+html {
+    scroll-behavior: smooth;
+}
+
 *,
 *::before,
 *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    transition: 0.5s ease;
 }
 
 body {

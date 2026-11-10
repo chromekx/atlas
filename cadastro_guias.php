@@ -225,7 +225,7 @@ function h($valor): string
                 </a>
             <?php endif; ?>
 
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
 
@@ -295,7 +295,7 @@ function h($valor): string
                         </div>
                         <div class="campo">
                             <label for="descricao">Descrição</label>
-                            <textarea type="text" id="descricao" name="descricao" maxlength="255" rows="4" placeholder="Conte rapidamente o que essa guia ensina" required></textarea>
+                            <textarea type="text" id="descricao" name="descricao" maxlength="120" rows="4" placeholder="Conte rapidamente o que essa guia ensina" required></textarea>
                         </div>
                         <div class="linha-campos">
                             <div class="campo">

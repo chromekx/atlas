@@ -92,7 +92,7 @@ function h($valor): string
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
             <a class="item" href="suporte.php">
@@ -342,7 +342,7 @@ function h($valor): string
                     </div>
                     <div>
                         <?php if (!isset($_SESSION['id'])): ?>
-                            <a href="login.php" class="btn-favoritar">Entre para favoritar essa guia<i class="fa-solid fa-arrow-right"></i></a>
+                            <button href="login.php" class="btn-compartilhar">Entre para favoritar essa guia<i class="fa-solid fa-arrow-right"></i></button>
                         <?php else: ?>
                             <form action="favoritar_guia.php" method="POST">
                                 <input type="hidden" name="id_guia" value="<?= (int) $guia['id_guia'] ?>">
@@ -358,7 +358,7 @@ function h($valor): string
                             </form>
                         <?php endif; ?>
                     </div>
-                    <a href="login.php" class="btn-favoritar">Compartilhar<i class="fa-solid fa-share"></i></a>
+                    <button onclick="copiarLink()" href="login.php" class="btn-compartilhar">Compartilhar<i class="fa-solid fa-share"></i></button>
                 </div>
 
                 <div>
@@ -368,10 +368,7 @@ function h($valor): string
         </div>
 
         <div class="voltar-guias">
-            <a href="guias.php">
-                <i class="fa-solid fa-arrow-left"></i>
-                Voltar para todos os guias
-            </a>
+            <a href="guias.php"><i class="fa-solid fa-arrow-left"></i>Voltar para todos os guias</a>
         </div>
     </main>
 
@@ -428,7 +425,19 @@ function h($valor): string
 
     </footer>
     <script src="js/header.js"></script>
-
+    <script src="js/guia.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function copiarLink() {
+            navigator.clipboard.writeText(window.location.href)
+            Swal.fire({
+                title: "Link copiado!",
+                confirmButtonColor: "#263783",
+                padding: '25px',
+                confirmButtonText: "Ok",
+            })
+        }
+    </script>
 </body>
 
 </html>

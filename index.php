@@ -39,7 +39,7 @@ function h($valor): string
                 </a>
             <?php endif; ?>
 
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
 
@@ -61,7 +61,7 @@ function h($valor): string
 
                     <div class="perfil-options" id="perfil-options">
                         <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
-                        
+
 
                         <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
                             <a class="perfil-option" href="admin.php">Painel do administrador</a>
@@ -77,7 +77,7 @@ function h($valor): string
         </nav>
     </header>
 
-    <main>
+    <main class="hero "id="hero">
         <?php if (!isset($_SESSION['id'])) { ?>
             <div class="hero-text">
                 <h1>Um lugar para você criar sua independência.</h1>
@@ -126,78 +126,100 @@ function h($valor): string
 
     <section class="equipe-atlas" id="sobre-atlas">
         <div class="equipe-container">
+            <div>
+                <h1 class="titulo">Sobre o ATLAS</h1>
+                <div class="equipe-introducao" id="equipe-introducao">
+                    <div class="intro-texto">
+                        <p>
+                            O ATLAS nasceu da ideia de tornar o conhecimento mais acessível e incentivar 
+                            o compartilhamento de experiências. Acreditamos que todos têm algo a ensinar 
+                            e muito a aprender, por isso buscamos reunir pessoas, ideias e tutoriais em 
+                            um só lugar, criando um ambiente onde o conhecimento possa ser compartilhado 
+                            de forma simples, prática e colaborativa.
+                            <br><br>
+                            Nosso objetivo é facilitar o aprendizado e incentivar o desenvolvimento de 
+                            novas habilidades, permitindo que qualquer pessoa encontre orientações, 
+                            descubra novas possibilidades e compartilhe aquilo que sabe. Mais do que 
+                            uma plataforma de tutoriais, queremos construir uma comunidade em que a 
+                            troca de experiências seja valorizada e o aprendizado esteja ao alcance 
+                            de todos.
+                            <br><br>
+                            Por trás do ATLAS, existe uma equipe dedicada a transformar essa proposta 
+                            em realidade, trabalhando para desenvolver uma plataforma organizada, 
+                            acessível e útil para quem deseja aprender, ensinar e explorar novos 
+                            conhecimentos.
+                        </p>
+                    </div>
 
-            <h1 class="titulo">Sobre o ATLAS</h1>
-            <div class="equipe-introducao">
-                <div class="intro-texto">
-                    <p>
-                        O projeto tem como objetivo ensinar habilidades 
-                        do dia a dia por meio de guias práticos, claros 
-                        e acessíveis. A plataforma oferece conteúdos 
-                        sobre temas como saúde, culinária, finanças e 
-                        tarefas domésticas, ajudando pessoas que buscam 
-                        aprender ou superar dificuldades cotidianas de 
-                        forma simples e intuitiva.
-                    </p>
-                </div>
-
-                <div class="equipe-foto-grupo">
-                    <img src="imgs/equipe-atlas.jpg" alt="Foto de todos os integrantes da equipe ATLAS">
+                    <div class="equipe-foto-grupo">
+                        <img src="imgs/equipe-atlas.jpg" alt="Foto de todos os integrantes da equipe ATLAS">
+                    </div>
                 </div>
             </div>
 
-            <div class="integrantes-cabecalho">
-                <div>
-                    <h1 class="titulo">Integrantes</h1>
+            <div>
+                <div class="integrantes-cabecalho">
+                    <div>
+                        <h1 class="titulo">Integrantes</h1>
+                    </div>
                 </div>
-            </div>
 
-            <div class="integrantes-grid">
+                <div class="integrantes-grid">
+                    <article class="integrante-card" id="integrante">
+                        <div class="integrante-foto">
+                            <img src="imgs_website/carlos.jpeg" alt="Foto do primeiro integrante">
+                        </div>
 
-                <article class="integrante-card">
-                    <div class="integrante-foto">
-                        <img src="imgs/equipe/integrante2.jpg" alt="Foto do segundo integrante">
-                    </div>
+                        <div class="integrante-texto">
+                            <h4>Carlos Henrique Michalak</h4>
+                            <span class="integrante-funcao">Design e Layout</span>
+                        </div>
+                    </article>
 
-                    <h4>Carlos Henrique Michalak</h4>
-                    <span class="integrante-funcao">Design e Layout</span>
-                </article>
+                    <article class="integrante-card">
+                        <div class="integrante-foto">
+                            <img src="imgs_website/davi.jpg" alt="Foto do segundo integrante">
+                        </div>
 
-                <article class="integrante-card">
-                    <div class="integrante-foto">
-                        <img src="imgs/equipe/integrante1.jpg" alt="Foto do primeiro integrante">
-                    </div>
+                        <div class="integrante-texto">
+                            <h4>Davi Salvador Schubert</h4>
+                            <span class="integrante-funcao">Desenvolvedor Banco de Dados</span>
+                        </div>
+                    </article>
 
-                    <h4>Davi Salvador Schubert</h4>
-                    <span class="integrante-funcao">Desenvolvedor Banco de Dados</span>
-                </article>
+                    <article class="integrante-card">
+                        <div class="integrante-foto">
+                            <img src="imgs_website/felipe.jpeg" alt="Foto do terceiro integrante">
+                        </div>
 
-                <article class="integrante-card">
-                    <div class="integrante-foto">
-                        <img src="imgs/equipe/integrante3.jpg" alt="Foto do terceiro integrante">
-                    </div>
+                        <div class="integrante-texto">
+                            <h4>Felipe de Oliveira Dias</h4>
+                            <span class="integrante-funcao">Líder do Projeto ATLAS</span>
+                        </div>
+                    </article>
 
-                    <h4>Felipe de Oliveira Dias</h4>
-                    <span class="integrante-funcao">Líder Coordenador</span>
-                </article>
+                    <article class="integrante-card">
+                        <div class="integrante-foto">
+                            <img src="imgs_website/luyza.png" alt="Foto do quarto integrante">
+                        </div>
 
-                <article class="integrante-card">
-                    <div class="integrante-foto">
-                        <img src="imgs/equipe/integrante4.jpg" alt="Foto do quarto integrante">
-                    </div>
+                        <div class="integrante-texto">
+                            <h4>Luyza Venâncio Marcelino</h4>
+                            <span class="integrante-funcao">Documentadora Técnica</span>
+                        </div>
+                    </article>
 
-                    <h4>Luyza Venâncio Marcelino</h4>
-                    <span class="integrante-funcao">Documentadora Técnica</span>
-                </article>
+                    <article class="integrante-card">
+                        <div class="integrante-foto">
+                            <img src="imgs_website/victor.jpeg" alt="Foto do quinto integrante">
+                        </div>
 
-                <article class="integrante-card">
-                    <div class="integrante-foto">
-                        <img src="imgs/equipe/integrante5.jpg" alt="Foto do quinto integrante">
-                    </div>
-
-                    <h4>Victor Henrique Souza</h4>
-                    <span class="integrante-funcao">Desenvolvedor Front-End e Back-End</span>
-                </article>
+                        <div class="integrante-texto">
+                            <h4>Victor Henrique Souza</h4>
+                            <span class="integrante-funcao">Desenvolvedor Front-End e Back-End</span>
+                        </div>
+                    </article>
+                </div>
             </div>
         </div>
     </section>

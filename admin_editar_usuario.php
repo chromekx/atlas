@@ -39,7 +39,7 @@ if (isset($_POST['editar'])) {
             $sql = "UPDATE usuario SET foto = '$novaFoto', nome = '$novoNome', email = '$novoEmail', nivel = '$novoNivel' WHERE id_usuario = '$id_editar'";
         }
         $query = $conn->query($sql);
-        
+
         if ($query) {
             header('Location: admin.php#id:' . $id_editar);
             exit();
@@ -49,6 +49,10 @@ if (isset($_POST['editar'])) {
     }
 }
 
+function h($valor): string
+{
+    return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -61,46 +65,62 @@ if (isset($_POST['editar'])) {
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>ATLAS</title>
-    <link rel="stylesheet" href="css/editar_admin.css">
+    <link rel="stylesheet" href="css/admin_editar_usuario.css">
     <link rel="favicon" href="imgs_website/logoatlas.png" type="image/x-icon">
 </head>
 
 <body>
     <header>
-        <a class="logo" href="index.php"><img src="imgs_website/logotipoatlas.png"></a>
+        <a class="logo" href="index.php" aria-label="Página inicial">
+            <img src="imgs_website/logotipoatlas.png" alt="ATLAS">
+        </a>
 
-        <nav class="nav-options">
-            <button onclick="window.location.href='cadastro_guias.php'" class="item"><p>Cadastrar Guia</p></button>
-            <button onclick="window.location.href='item2.php'" class="item"><p>Sobre Nós</p></button>
-            <button onclick="window.location.href='item3.php'" class="item"><p>Item 3</p></button>
-            <button onclick="window.location.href='item4.php'" class="item"><p>Item 4</p></button>
-        </nav>
-
-        <nav class="nav-btns">
-            <a class="icon" onclick="abrirPesquisa()"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <nav class="nav-options" aria-label="Navegação principal">
+            <a class="item" href="guias.php">
+                <p>Explorar Guias</p>
+            </a>
 
             <?php if (isset($_SESSION['id'])): ?>
+                <a class="item" href="cadastro_guias.php">
+                    <p>Cadastrar Guia</p>
+                </a>
+            <?php endif; ?>
+
+            <a class="item" href="index.php#sobre-atlas">
+                <p>Sobre o ATLAS</p>
+            </a>
+
+            <a class="item" href="suporte.php">
+                <p>Suporte</p>
+            </a>
+        </nav>
+
+        <nav class="nav-btns" aria-label="Conta">
+            <?php if (isset($_SESSION['id'])): ?>
+
                 <div class="perfil" id="perfil">
                     <p>
-                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? htmlspecialchars($_SESSION['foto']) : 'foto_padrao.png' ?>">
-                        Olá, <?= $_SESSION['nome'] ?>
+                        <img class="foto" src="imgs_perfil/<?= !empty($_SESSION['foto']) ? h($_SESSION['foto']) : 'foto_padrao.png' ?>">
+                        Olá, <?= h($_SESSION['nome']) ?>
                     </p>
+
                     <i class="fa-solid fa-caret-up" id="seta"></i>
 
                     <div class="perfil-options" id="perfil-options">
-                        <a class="perfil-option meu-perfil" id="perfil-option" href="meu_perfil.php">Meu Perfil</a>
-                        <a class="perfil-option config" id="perfil-option" href="configuracoes.php">Configurações</a>
-                        <a class="perfil-option sair" id="perfil-option" href="sair.php">Sair</a>
-                        <?php if (isset($_SESSION['id']) && $_SESSION['nivel'] == 1): ?>
-                            <a class="perfil-option admin" id="perfil-option" href="admin.php">Painel do Administrador</a>
+                        <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
+
+
+                        <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
+                            <a class="perfil-option" href="admin.php">Painel do administrador</a>
                         <?php endif; ?>
+
+                        <a class="perfil-option" href="sair.php">Sair</a>
                     </div>
                 </div>
-            <?php else: ?>
-                <button class="entrar" onclick="window.location.href='login.php'"></button>
-            <?php endif; ?>
 
-            <a class="icon" onclick="mudarTema()"><i class="fa-solid fa-circle-half-stroke"></i></a>
+            <?php else: ?>
+                <a class="entrar" href="login.php">Entrar</a>
+            <?php endif; ?>
         </nav>
     </header>
 

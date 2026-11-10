@@ -55,19 +55,56 @@ if (!empty($usuario['data_criacao'])) {
     $membroDesde = $data->format('d') . ' de ' . $meses[(int) $data->format('n')] . ' de ' . $data->format('Y');
 }
 
-$sql = "SELECT id_guia, id_usuario, titulo, descricao, categoria, dificuldade, data_criacao FROM guia WHERE id_usuario = '$id_usuario' ORDER BY data_criacao DESC";
+// PAGINAÇÃO
+$porPagina = 6;
+
+$paginaGuias = max(1, (int) ($_GET['pagina_guias'] ?? 1));
+$paginaFavoritos = max(1, (int) ($_GET['pagina_favoritos'] ?? 1));
+$paginaHistorico = max(1, (int) ($_GET['pagina_historico'] ?? 1));
+
+$inicioGuias = ($paginaGuias - 1) * $porPagina;
+$inicioFavoritos = ($paginaFavoritos - 1) * $porPagina;
+$inicioHistorico = ($paginaHistorico - 1) * $porPagina;
+
+
+// guias criados
+$sql = "SELECT COUNT(*) AS total FROM guia WHERE id_usuario = '$id_usuario'";
+$totalGuias = $conn->query($sql)->fetch_assoc()['total'];
+$totalPaginasGuias = ceil($totalGuias / $porPagina);
+
+$sql = "SELECT id_guia, id_usuario, titulo, descricao, categoria, dificuldade, data_criacao
+        FROM guia
+        WHERE id_usuario = '$id_usuario'
+        ORDER BY data_criacao DESC
+        LIMIT $porPagina OFFSET $inicioGuias";
 $resultadoCriadas = $conn->query($sql);
 
-$sql = "SELECT f.id_usuario, g.id_guia, g.id_usuario, g.titulo, g.descricao, g.categoria, g.dificuldade, g.data_criacao, u.nome AS autor 
-        FROM favoritos f 
-        LEFT JOIN guia g ON f.id_guia = g.id_guia 
-        LEFT JOIN usuario u ON g.id_usuario = u.id_usuario WHERE f.id_usuario = '$id_usuario'";
+
+// favoritos
+$sql = "SELECT COUNT(*) AS total FROM favoritos WHERE id_usuario = '$id_usuario'";
+$totalFavoritos = $conn->query($sql)->fetch_assoc()['total'];
+$totalPaginasFavoritos = ceil($totalFavoritos / $porPagina);
+
+$sql = "SELECT f.id_usuario, g.id_guia, g.id_usuario, g.titulo, g.descricao,
+               g.categoria, g.dificuldade, g.data_criacao, u.nome AS autor
+        FROM favoritos f
+        LEFT JOIN guia g ON f.id_guia = g.id_guia
+        LEFT JOIN usuario u ON g.id_usuario = u.id_usuario
+        WHERE f.id_usuario = '$id_usuario'
+        LIMIT $porPagina OFFSET $inicioFavoritos";
 $resultadoFavoritas = $conn->query($sql);
 
-$sql = "SELECT h.data_visualizacao, h.id_usuario, g.id_guia, g.id_usuario, g.titulo, g.descricao, g.categoria, g.dificuldade, g.data_criacao, u.nome AS autor
-         FROM historico_guias h
-        LEFT JOIN guia g ON h.id_guia = g.id_guia 
-        LEFT JOIN usuario u ON g.id_usuario = u.id_usuario ORDER BY h.data_visualizacao DESC LIMIT 12";
+
+// historico
+$sql = "SELECT h.data_visualizacao, h.id_usuario, g.id_guia, g.id_usuario,
+               g.titulo, g.descricao, g.categoria, g.dificuldade,
+               g.data_criacao, u.nome AS autor
+        FROM historico_guias h
+        LEFT JOIN guia g ON h.id_guia = g.id_guia
+        LEFT JOIN usuario u ON g.id_usuario = u.id_usuario
+        WHERE h.id_usuario = '$id_usuario'
+        ORDER BY h.data_visualizacao DESC
+        LIMIT 6";
 $resultadoHistorico = $conn->query($sql);
 
 function h($valor): string
@@ -106,7 +143,7 @@ function h($valor): string
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
             <a class="item" href="suporte.php">
@@ -127,7 +164,7 @@ function h($valor): string
 
                     <div class="perfil-options" id="perfil-options">
                         <a class="perfil-option" href="meu_perfil.php">Meu perfil</a>
-                        
+
 
                         <?php if (($_SESSION['nivel'] ?? '') == 1): ?>
                             <a class="perfil-option" href="admin.php">Painel do administrador</a>
@@ -210,6 +247,27 @@ function h($valor): string
                     <?php } ?>
                 <?php } ?>
             </div>
+
+            <nav class="paginacao">
+                <?php if ($paginaGuias > 1): ?>
+                    <a href="?pagina_guias=<?= $paginaGuias - 1 ?>&pagina_favoritos=<?= $paginaFavoritos ?>&pagina_historico=<?= $paginaHistorico ?>&aba=guias">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                <?php endif; ?>
+
+                <?php for ($p = 1; $p <= $totalPaginasGuias; $p++): ?>
+                    <a href="?pagina_guias=<?= $p ?>&pagina_favoritos=<?= $paginaFavoritos ?>&pagina_historico=<?= $paginaHistorico ?>&aba=guias"
+                        class="<?= $p == $paginaGuias ? 'ativa' : '' ?>">
+                        <?= $p ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($paginaGuias < $totalPaginasGuias): ?>
+                    <a href="?pagina_guias=<?= $paginaGuias + 1 ?>&pagina_favoritos=<?= $paginaFavoritos ?>&pagina_historico=<?= $paginaHistorico ?>&aba=guias">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                <?php endif; ?>
+            </nav>
         </section>
 
         <section class="painel-perfil" id="painel-favoritos" hidden>
@@ -249,6 +307,27 @@ function h($valor): string
                     <?php } ?>
                 <?php } ?>
             </div>
+
+            <nav class="paginacao">
+                <?php if ($paginaFavoritos > 1): ?>
+                    <a href="?pagina_guias=<?= $paginaGuias ?>&pagina_favoritos=<?= $paginaFavoritos - 1 ?>&pagina_historico=<?= $paginaHistorico ?>&aba=favoritos">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                <?php endif; ?>
+
+                <?php for ($p = 1; $p <= $totalPaginasFavoritos; $p++): ?>
+                    <a href="?pagina_guias=<?= $paginaGuias ?>&pagina_favoritos=<?= $p ?>&pagina_historico=<?= $paginaHistorico ?>&aba=favoritos"
+                        class="<?= $p == $paginaFavoritos ? 'ativa' : '' ?>">
+                        <?= $p ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($paginaFavoritos < $totalPaginasFavoritos): ?>
+                    <a href="?pagina_guias=<?= $paginaGuias ?>&pagina_favoritos=<?= $paginaFavoritos + 1 ?>&pagina_historico=<?= $paginaHistorico ?>&aba=favoritos">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                <?php endif; ?>
+            </nav>
         </section>
 
         <section class="painel-perfil" id="painel-historico" hidden>
@@ -289,6 +368,7 @@ function h($valor): string
                 <?php } ?>
             </div>
         </section>
+        <button onclick="deletarPerfil()" class="btn-denunciar">Deletar perfil<i class="fa-solid fa-trash"></i></button>
     </main>
 
     <footer>
@@ -374,8 +454,23 @@ function h($valor): string
                 }
             });
         }
+
+        function deletarPerfil(id) {
+            Swal.fire({
+                title: "Tem certeza que deseja deletar seu perfil?",
+                padding: "25px",
+                color: '#000',
+                showCancelButton: true,
+                cancelButtonColor: "#263783",
+                confirmButtonColor: "#cc2828",
+                confirmButtonText: "Sim, deletar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'deletar_perfil.php?id=' + id;
+                }
+            });
+        }
     </script>
-
 </body>
-
 </html>

@@ -1,20 +1,26 @@
+const hero = document.getElementById('hero')
 const categorias = document.getElementById('categorias')
-const cartao = document.querySelectorAll('.cartao')
+const sobrenos = document.getElementById('equipe-introducao')
+const integrantes = document.querySelectorAll('.integrante-card')
 
-const observador = new IntersectionObserver((entradas) => {
+const observador = new IntersectionObserver((entradas) => { // isso é muito legal
     entradas.forEach((entrada) => {
         if (entrada.isIntersecting) {
             console.log(entrada.target)
             entrada.target.classList.add('entrou')
         } else {
-            entrada.target.classList.remove('entrou')
+            entrada.target.classList.remove('entrou') 
+            console.log(entrada.target + "apareceu")
         }
     })
-}, {}) // isso é muito legal
+}, { threshold: 0.2 }) // só aparece se aparecer pelo menos 20% do elemento, e vice-versa
 
+observador.observe(hero)
 observador.observe(categorias)
-cartao.forEach((card) => {
-    observador.observe(card)
+observador.observe(sobrenos)
+
+integrantes.forEach((integrante) => {
+    observador.observe(integrante)
 })
 
 const setaEsquerda = document.getElementById('setaEsquerda')

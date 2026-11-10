@@ -104,7 +104,7 @@ function linkPagina($pagina, $categoriaValida, $busca): string
                 </a>
             <?php endif; ?>
 
-            <a class="item" href="index.php#aspectos">
+            <a class="item" href="index.php#sobre-atlas">
                 <p>Sobre o ATLAS</p>
             </a>
 
@@ -193,7 +193,7 @@ function linkPagina($pagina, $categoriaValida, $busca): string
             <?php else: ?>
                 <div class="guias">
                     <?php while ($guia = $resultado->fetch_assoc()): ?>
-                        <a class="guia-card" href="guia.php?id=<?= (int) $guia['id_guia'] ?>">
+                        <a class="guia-card" href="guia.php?id=<?= (int) $guia['id_guia'] ?>" id="guia">
                             <div class="guia-capa">
                                 <img
                                     src="exibir_imagem_guia.php?tipo=capa&id=<?= (int) $guia['id_guia'] ?>"
@@ -261,6 +261,7 @@ function linkPagina($pagina, $categoriaValida, $busca): string
     </footer>
 
     <script src="js/header.js"></script>
+    <script src="js/guias.js"></script>
 </body>
 
 </html>

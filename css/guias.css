@@ -225,10 +225,18 @@
     text-decoration: none;
     box-shadow: var(--shadow-card);
     transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    transition: 0.5s ease;
+    translate: 0px 20px;
+    opacity: 0;
+}
+
+.guia-card.entrou {
+    translate: 0px 0px;
+    opacity: 1;
 }
 
 .guia-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     border-color: #cbd2e2;
     box-shadow: var(--shadow-card-hover);
 }
