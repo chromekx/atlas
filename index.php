@@ -152,7 +152,7 @@ function h($valor): string
                     </div>
 
                     <div class="equipe-foto-grupo">
-                        <img src="imgs/equipe-atlas.jpg" alt="Foto de todos os integrantes da equipe ATLAS">
+                        <img src="imgs_website/capaPI.png" alt="Foto de todos os integrantes da equipe ATLAS">
                     </div>
                 </div>
             </div>
