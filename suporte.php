@@ -35,7 +35,7 @@ function h($valor): string
             </a>
 
             <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php">
+                <a class="item" href="cadastrar_guia.php">
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
@@ -92,7 +92,7 @@ function h($valor): string
             <div class="footer-section">
                 <h3>Explorar</h3>
                 <a href="index.php">Início</a>
-                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="cadastrar_guia.php">Cadastrar Guia</a>
                 <a href="suporte.php">Suporte
                 </a>
             </div>

@@ -109,6 +109,7 @@ main {
 .painel-perfil {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     min-width: 0;
     min-height: 240px;
     padding: var(--space-4);
@@ -455,7 +456,6 @@ div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
     color: var(--color-text-inverse);
 }
 
-
 .btn-denunciar {
     display: flex;
     align-items: center;
@@ -480,6 +480,34 @@ div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
     background: var(--color-danger-dark);
     color: var(--color-text-inverse);
     border-color: var(--color-danger-dark);
+    transition: var(--transition-base);
+    cursor: pointer;
+}
+
+.btn-limpar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 200px;
+    margin-top: 30px;
+    padding: 13px 15px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    color: var(--color-primary);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, filter .2s ease;
+    font-family: 'Google Sans';
+}
+
+.btn-limpar:hover {
+    filter: brightness(.96);
+    transform: translateY(-2px);
+    background: var(--color-danger);
+    color: var(--color-text-inverse);
+    border-color: var(--color-danger);
     transition: var(--transition-base);
     cursor: pointer;
 }

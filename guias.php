@@ -42,9 +42,11 @@ $condicoes = [];
 if ($categoriaValor !== null) {
     $condicoes[] = "categoria = '$categoriaValor'";
 }
+
 if ($busca !== '') {
     $condicoes[] = "(titulo LIKE '%$busca%' OR descricao LIKE '%$busca%')";
 }
+
 $whereSql = $condicoes ? 'WHERE ' . implode(' AND ', $condicoes) : '';
 
 $sqlTotal = "SELECT COUNT(*) AS total FROM guia $whereSql";
@@ -99,7 +101,7 @@ function linkPagina($pagina, $categoriaValida, $busca): string
             </a>
 
             <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php">
+                <a class="item" href="cadastrar_guia.php">
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
@@ -165,7 +167,7 @@ function linkPagina($pagina, $categoriaValida, $busca): string
                 </nav>
 
                 <?php if (isset($_SESSION['id'])): ?>
-                    <a class="add-guia" href="cadastro_guias.php"><i class="fa-solid fa-plus"></i> Adicionar Guia</a>
+                    <a class="add-guia" href="cadastrar_guia.php"><i class="fa-solid fa-plus"></i> Adicionar Guia</a>
                 <?php else: ?>
                     <a class="add-guia" href="login.php">Entre para adicionar um guia</a>
                 <?php endif; ?>
@@ -245,7 +247,7 @@ function linkPagina($pagina, $categoriaValida, $busca): string
             <div class="footer-section">
                 <h3>Explorar</h3>
                 <a href="index.php">Início</a>
-                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="cadastrar_guia.php">Cadastrar Guia</a>
                 <a href="suporte.php">Suporte</a>
             </div>
             <div class="footer-section footer-contact">

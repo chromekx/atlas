@@ -90,7 +90,7 @@ if (isset($_POST['entrar'])) {
             <div class="footer-section">
                 <h3>Explorar</h3>
                 <a href="index.php">Início</a>
-                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="cadastrar_guia.php">Cadastrar Guia</a>
                 <a href="suporte.php">Suporte
                 </a>
             </div>

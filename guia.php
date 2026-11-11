@@ -88,7 +88,7 @@ function h($valor): string
                 <p>Explorar Guias</p>
             </a>
             <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php">
+                <a class="item" href="cadastrar_guia.php">
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
@@ -163,11 +163,9 @@ function h($valor): string
                 </span>
 
                 <h1><?= h($guia['titulo']) ?></h1>
-
                 <p><?= h($guia['descricao']) ?></p>
 
                 <div class="guia-capa-meta">
-
                     <span>
                         <i class="fa-solid fa-signal"></i>
                         <?= h($guia['dificuldade']) ?>
@@ -358,7 +356,7 @@ function h($valor): string
                             </form>
                         <?php endif; ?>
                     </div>
-                    <button onclick="copiarLink()" href="login.php" class="btn-compartilhar">Compartilhar<i class="fa-solid fa-share"></i></button>
+                    <button onclick="copiarLink()" href="login.php" class="btn-compartilhar">Compartilhar link<i class="fa-solid fa-share"></i></button>
                 </div>
 
                 <div>

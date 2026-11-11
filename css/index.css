@@ -184,6 +184,7 @@ section {
 .equipe-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     gap: var(--space-7);
     height: fit-content;
     width: 100%;

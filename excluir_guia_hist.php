@@ -16,5 +16,9 @@ if ($id_guia == 0) {
     exit;
 }
 
-$sql = "DELETE FROM historico_guias WHERE id_guia = '$id_guia' AND id_usuario = '$id_usuario'";
+$sql = "DELETE FROM historico_guias WHERE id_usuario = '$id_usuario'";
 $resultado = $conn->query($sql);
+
+
+header("Location: meu_perfil.php");
+exit();

@@ -204,7 +204,7 @@ function h($valor): string
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>ATLAS - Cadastrar Guia</title>
-    <link rel="stylesheet" href="css/cadastro_guias.css">
+    <link rel="stylesheet" href="css/cadastrar_guia.css">
     <link rel="icon" href="imgs_website/logoatlas.png" type="image/png">
 </head>
 
@@ -220,7 +220,7 @@ function h($valor): string
             </a>
 
             <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php">
+                <a class="item" href="cadastrar_guia.php">
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
@@ -439,7 +439,7 @@ function h($valor): string
             <div class="footer-section">
                 <h3>Explorar</h3>
                 <a href="index.php">Início</a>
-                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="cadastrar_guia.php">Cadastrar Guia</a>
                 <a href="suporte.php">Suporte
                 </a>
             </div>
@@ -455,7 +455,7 @@ function h($valor): string
     </footer>
 
     <script src="js/header.js"></script>
-    <script src="js/cadastro_guias.js"></script>
+    <script src="js/cadastrar_guia.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?php if (!empty($erro)): ?>
         <script>

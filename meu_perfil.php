@@ -139,7 +139,7 @@ function h($valor): string
                 <p>Explorar Guias</p>
             </a>
             <?php if (isset($_SESSION['id'])): ?>
-                <a class="item" href="cadastro_guias.php">
+                <a class="item" href="cadastrar_guia.php">
                     <p>Cadastrar Guia</p>
                 </a>
             <?php endif; ?>
@@ -216,7 +216,7 @@ function h($valor): string
                     <div class="estado-vazio">
                         <i class="fa-solid fa-clipboard-list"></i>
                         <p>Você ainda não publicou nenhum guia.</p>
-                        <a class="botao-primario" href="cadastro_guias.php">Cadastrar Guia</a>
+                        <a class="botao-primario" href="cadastrar_guia.php">Cadastrar Guia</a>
                     </div>
                 <?php } else { ?>
                     <?php while ($guia_criada = $resultadoCriadas->fetch_assoc()) { ?>
@@ -358,15 +358,15 @@ function h($valor): string
                                 <div class="guia-meta">
                                     <span><i class="fa-regular fa-user"></i> <?= h($guia_historico['autor'] ?: 'Comunidade ATLAS') ?></span>
                                     <span><i class="fa-regular fa-calendar"></i><?= h(date('d/m/Y', strtotime($guia_historico['data_visualizacao']))) ?></span>
-                                    <div class="acoes-guia">
-                                        <button type="submit" onclick="excluirGuia(<?= $guia_historico['id_guia'] ?>)" class="acao-icone remover" title="Remover do histórico" aria-label="Remover do histórico"><i class="fa-solid fa-xmark"></i></button>
-                                    </div>
                                 </div>
                             </div>
                         </article>
                     <?php } ?>
                 <?php } ?>
             </div>
+            <?php if ($resultadoHistorico->num_rows > 0) { ?>
+                <button onclick="limparHistorico()" class="btn-limpar">Limpar histórico<i class="fa-solid fa-trash"></i></button>
+            <?php } ?>
         </section>
         <button onclick="deletarPerfil()" class="btn-denunciar">Deletar perfil<i class="fa-solid fa-trash"></i></button>
     </main>
@@ -385,7 +385,7 @@ function h($valor): string
             <div class="footer-section">
                 <h3>Explorar</h3>
                 <a href="index.php">Início</a>
-                <a href="cadastro_guias.php">Cadastrar Guia</a>
+                <a href="cadastrar_guia.php">Cadastrar Guia</a>
                 <a href="suporte.php">Suporte
                 </a>
             </div>
@@ -421,23 +421,6 @@ function h($valor): string
             });
         }
 
-        function excluirGuia(id) {
-            Swal.fire({
-                title: "Tem certeza que deseja remover esta guia do histórico?",
-                padding: "25px",
-                color: '#000',
-                showCancelButton: true,
-                confirmButtonColor: "#1bb155",
-                cancelButtonColor: "#cc2828",
-                confirmButtonText: "Sim, remover",
-                cancelButtonText: "Cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = 'excluir_guia_hist.php?id=' + id;
-                }
-            });
-        }
-
         function desfavoritarGuia(id) {
             Swal.fire({
                 title: "Tem certeza que deseja desfavoritar esta guia?",
@@ -451,6 +434,23 @@ function h($valor): string
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = 'desfavoritar_guia.php?id=' + id;
+                }
+            });
+        }
+
+        function limparHistorico(id) {
+            Swal.fire({
+                title: "Tem certeza que deseja limpar seu histórico?",
+                padding: "25px",
+                color: '#000',
+                showCancelButton: true,
+                confirmButtonColor: "#1bb155",
+                cancelButtonColor: "#cc2828",
+                confirmButtonText: "Sim, limpar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'excluir_guia_hist.php?id=' + id;
                 }
             });
         }
@@ -473,4 +473,5 @@ function h($valor): string
         }
     </script>
 </body>
+
 </html>
